@@ -8,7 +8,7 @@ elseif (APPLE)
     add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
 endif()
 
-include_directories( ${SOURCE_DIRECTORY}/FDTD_Engine
+include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
-add_executable (FDTD_1DTest FDTD_1D_Test.cpp)
-target_link_libraries (FDTD_1DTest FDTD gmock_main)# gmock_main)
+add_executable (InputParser_Test InputParser_test.cpp)
+target_link_libraries (InputParser_Test InputParser ${YAMLCPP_LIBRARY} gmock_main)

@@ -23,6 +23,10 @@ case $i in
    VERBOSE=1
 	;;
 	
+	-X|--use-xcode)
+	CMAKE_ARGS="-G Xcode"
+	;;
+	
 	-t|--enable-unit-tests)
 	CMAKE_ARGS="-DENABLE_UNIT_TESTS=ON"
 	;;
@@ -48,6 +52,11 @@ if [ "$CMAKE_ARGS" != "" ]; then
 	echo "Additional CMake Arguments: ${CMAKE_ARGS}"
 fi
 
+if [ -d ${PROJECT_ROOT}/build ]; then
+    echo "Cleaning the build directory"
+	rm -rf ${PROJECT_ROOT}/build
+fi
+
 #create the build directory if it doesn't already exist
 if ! [ -d ${PROJECT_ROOT}/build ]; then
 	mkdir ${PROJECT_ROOT}/build
@@ -59,11 +68,6 @@ cd "${PROJECT_ROOT}/build"
 #set up the build directory and CMake root directory
 BUILD_DIR="${PROJECT_ROOT}/build/gnu/Release"
 CMAKE_ROOT_DIR="${PROJECT_ROOT}/trunk"
-
-#clean the build directory
-if [ -d ${BUILD_DIR} ]; then
-	rm -rf ${BUILD_DIR}
-fi
 
 #run cmake
 echo "Executing CMake command: cmake ${CMAKE_ROOT_DIR} ${CMAKE_ARGS}"

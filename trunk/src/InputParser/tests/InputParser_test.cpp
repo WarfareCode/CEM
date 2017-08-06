@@ -1,4 +1,4 @@
-#include "FDTD_1D.h"
+#include "InputParser_YAML.h"
 
 #include <string>
   using std::string;
@@ -9,40 +9,45 @@
   using ::testing::Test;
 
 
-namespace FDTD_1DTest
+namespace InputParser_Test
 {
 namespace testing
 {
-    class FDTD_1DTest : public Test
+    class Input_Test : public Test
     {
     protected:
-        FDTD_1DTest(){}
-        ~FDTD_1DTest(){}
+        Input_Test(){}
+        ~Input_Test(){}
 
         virtual void SetUp(){}
         virtual void TearDown(){}
 
 
-        FDTD_1D fdtd;
+        InputParserYAML ip;
 
         static const size_t taskCount = 3;
         static const string tasks[taskCount];
     };
 
-    const string FDTD_1DTest::tasks[taskCount] = {"write code",
-                                               "compile",
-                                               "test"};
+    const string Input_Test::tasks[taskCount] = {"write code",
+                                                 "compile",
+                                                 "test"};
 
 
-    TEST_F(FDTD_1DTest, constructor_createsEmptyList)
+    TEST_F(Input_Test, constructor_createsEmptyList)
     {
-    	double *E;
-        fdtd.InitializeEngine(10,0,0);
-        fdtd.SetEFieldSource(0,10);
-       // E = fdtd.getEField();
+    
+    char buffer[256];
+if (NULL == getcwd(buffer, sizeof(buffer))) {
+    perror("can't get current dir");
+    
+}
+    std::cout<<buffer<<std::endl;
+    	std::string fileName = "Input_Data/test.yaml";
+        ip.GetInput("TestToken",fileName);
         
         //EXPECT_THAT(list.size(), Eq(size_t(0)));
     }
 
 } // namespace testing
-} // namespace FDTD_1D_Test
+} // namespace InputParser_Test

@@ -5,11 +5,13 @@
 #include "AbsInputParser.h"
 #include "yaml-cpp/yaml.h"
 #include <fstream>
+using namespace YAML;
 
 class InputParserYAML: public AbsInputParser
 {
 	public:
 	InputParserYAML();
+	~InputParserYAML();
 	
 	virtual void GetInput(std::string token, std::string fileName);
 
