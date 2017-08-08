@@ -33,6 +33,10 @@ namespace testing
 //Constructor - this should result in an empty file name
     TEST_F(InputParser_Test, constructor_emptyFileName)
     {
+        char cwd[1024];
+        getcwd(cwd, sizeof(cwd));
+        std::cout<<"Current Directory: " << cwd << std::endl;
+        
         std::string fname;
         ip.GetFileName(fname);
         

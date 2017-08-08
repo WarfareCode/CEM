@@ -12,3 +12,7 @@ include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (InputParser_Test InputParser_test.cpp)
 target_link_libraries (InputParser_Test InputParser yaml-cpp gmock_main)
+
+add_custom_command(TARGET InputParser_Test POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                      ${CMAKE_SOURCE_DIR}/src/InputParser/tests/Input_Data $<TARGET_FILE_DIR:InputParser_Test>)

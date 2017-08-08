@@ -23,14 +23,10 @@ message( "HDF5 Found: " ${HDF5_FOUND})
 find_package (FFTW)
 message("FFTW Found: " ${FFTW_FOUND})
 
-add_subdirectory(yaml-cpp)
-add_subdirectory(googletest)
-
-set(YAMLCPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/yaml-cpp/include)
-set(GTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include)
-set(GMOCK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include)
-
-message(GTEST_INCLUDE_DIR ${GTEST_INCLUDE_DIR})
+add_subdirectory(External_Libraries)
+message("YAMLCPP_INCLUDE_DIR: " ${YAMLCPP_INCLUDE_DIR})
+message("GTEST_INCLUDE_DIR: " ${GTEST_INCLUDE_DIR})
+message("GMOCK_INCLUDE_DIR: " ${GMOCK_INCLUDE_DIR})
 
 #add the include directories
 include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} {CMAKE_CURRENT_SOURCE_DIR})
