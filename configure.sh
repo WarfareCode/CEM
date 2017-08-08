@@ -10,6 +10,22 @@ TOOLCHAINS_DIR="${PROJECT_ROOT}/CMakeToolChains"
 
 echo "Project Root Directory: ${PROJECT_ROOT}"
 
+#-------------------------------------------
+printHelp() {
+
+    cat<<EOF
+
+    Usage: generate build files, provides the following options:
+
+    -X|--use-xcode: builds XCode project files (default is Unix Makefiles)
+    -c|--clean-build-directory: deletes the current build directory before generating new files (this option must be selected in order to switch generators)
+    -h|--help: print this menu
+
+EOF
+    }
+
+#-------------------------------------------
+
 #initialize flags
 VERBOSE=0
 BUILD_MODE=Release
@@ -20,8 +36,13 @@ CMAKE_ARGS=
 for i in "$@"
 do
 case $i in
-   -v|--verbose)
-   VERBOSE=1
+        -v|--verbose)
+        VERBOSE=1
+	;;
+
+	-h|--help)
+	    printHelp
+	    exit -1
 	;;
 	
 	-X|--use-xcode)
@@ -35,12 +56,18 @@ case $i in
 	-t|--enable-unit-tests)
 	CMAKE_ARGS="-DENABLE_UNIT_TESTS=ON"
 	;;
+
+	-?*)
+	echo "ERROR: Unknown Option $1"
+	printHelp
+	exit -1
+	;;
 	
-    --)
-    shift
-    while [ "$1" != ""];do
-    	CMAKE_ARGS = "{CMAKE_ARGS} $1"
-    	shift
+        --)
+        shift
+        while [ "$1" != ""];do
+    	    CMAKE_ARGS = "{CMAKE_ARGS} $1"
+    	    shift
     	done
     	;;  	
 esac
