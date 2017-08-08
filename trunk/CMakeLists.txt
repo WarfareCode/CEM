@@ -16,6 +16,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 find_package (HDF5 COMPONENTS CXX)
 message( "HDF5 Found: " ${HDF5_FOUND})
 
+#Doxygen - used to generate code documentation
+find_package(Doxygen)
+message("Doxygen found: " ${DOXYGEN_FOUND})
+
 #FFTW - placeholder, not currently used
 #find_package (FFTW)
 #message("FFTW Found: " ${FFTW_FOUND})
@@ -36,3 +40,13 @@ add_subdirectory(${SOURCE_DIRECTORY})
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
 target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser)
+
+# add a target to generate API documentation with Doxygen
+if(DOXYGEN_FOUND)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+add_custom_target(doc ALL
+${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+COMMENT "Generating API documentation with Doxygen" VERBATIM
+)
+endif(DOXYGEN_FOUND)
