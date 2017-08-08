@@ -11,4 +11,4 @@ endif()
 include_directories( ${SOURCE_DIRECTORY}/FDTD_Engine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (FDTD_1DTest FDTD_1D_Test.cpp)
-target_link_libraries (FDTD_1DTest FDTD gmock_main)# gmock_main)
+target_link_libraries (FDTD_1DTest FDTD gmock_main)

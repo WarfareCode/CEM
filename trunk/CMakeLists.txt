@@ -27,9 +27,13 @@ add_subdirectory(yaml-cpp)
 add_subdirectory(googletest)
 
 set(YAMLCPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/yaml-cpp/include)
+set(GTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googletest/include)
+set(GMOCK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/googletest/googlemock/include)
+
+message(GTEST_INCLUDE_DIR ${GTEST_INCLUDE_DIR})
 
 #add the include directories
-include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} {CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} {CMAKE_CURRENT_SOURCE_DIR})
 
 #add the subdirectories
 add_subdirectory(${SOURCE_DIRECTORY})
