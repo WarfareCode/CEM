@@ -13,41 +13,50 @@ namespace InputParser_Test
 {
 namespace testing
 {
-    class Input_Test : public Test
+    class InputParser_Test : public Test
     {
     protected:
-        Input_Test(){}
-        ~Input_Test(){}
+        InputParser_Test(){}
+        ~InputParser_Test(){}
 
-        virtual void SetUp(){}
+        virtual void SetUp()
+        {
+        	testFileName = "test.yaml";
+        }
         virtual void TearDown(){}
 
+	   std::string testFileName;
+       InputParserYAML ip;
 
-        InputParserYAML ip;
-
-        static const size_t taskCount = 3;
-        static const string tasks[taskCount];
     };
 
-    const string Input_Test::tasks[taskCount] = {"write code",
-                                                 "compile",
-                                                 "test"};
-
-
-    TEST_F(Input_Test, constructor_createsEmptyList)
+//Constructor - this should result in an empty file name
+    TEST_F(InputParser_Test, constructor_emptyFileName)
     {
-    
-    char buffer[256];
-if (NULL == getcwd(buffer, sizeof(buffer))) {
-    perror("can't get current dir");
-    
-}
-    std::cout<<buffer<<std::endl;
-    	std::string fileName = "Input_Data/test.yaml";
-        ip.GetInput("TestToken",fileName);
+        std::string fname;
+        ip.GetFileName(fname);
         
-        //EXPECT_THAT(list.size(), Eq(size_t(0)));
+        EXPECT_THAT(fname, Eq(""));   
     }
+   
+//Initialize with a test input - verify the file name 
+    TEST_F(InputParser_Test, initialize_getFileName)
+    {
+    	std::string fname;
+    	
+    	ip.Initialize(testFileName);
+    	ip.GetFileName(fname);
+    	
+    	EXPECT_THAT(fname,Eq(testFileName));
+    }
+    
+    TEST_F(InputParser_Test, readField)
+    {
+    	ip.Initialize(testFileName);
+    	
+    	
+    }
+    
 
 } // namespace testing
 } // namespace InputParser_Test

@@ -13,6 +13,7 @@ echo "Project Root Directory: ${PROJECT_ROOT}"
 #initialize flags
 VERBOSE=0
 BUILD_MODE=Release
+CLEAN_BUILD_DIRECTORY=0
 CMAKE_ARGS=
 
 #loop over input to set flags
@@ -27,6 +28,10 @@ case $i in
 	CMAKE_ARGS="-G Xcode"
 	;;
 	
+	-c|--clean-build-directory)
+	CLEAN_BUILD_DIRECTORY=1
+	;;
+		
 	-t|--enable-unit-tests)
 	CMAKE_ARGS="-DENABLE_UNIT_TESTS=ON"
 	;;
@@ -52,9 +57,13 @@ if [ "$CMAKE_ARGS" != "" ]; then
 	echo "Additional CMake Arguments: ${CMAKE_ARGS}"
 fi
 
-if [ -d ${PROJECT_ROOT}/build ]; then
-    echo "Cleaning the build directory"
-	rm -rf ${PROJECT_ROOT}/build
+if [ $CLEAN_BUILD_DIRECTORY -eq 1 ]
+	then
+		echo "Cleaning the build directory"
+	if [ -d ${PROJECT_ROOT}/build ]; then
+    	echo "Executing"
+		rm -rf ${PROJECT_ROOT}/build
+	fi
 fi
 
 #create the build directory if it doesn't already exist

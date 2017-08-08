@@ -11,4 +11,4 @@ endif()
 include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (InputParser_Test InputParser_test.cpp)
-target_link_libraries (InputParser_Test InputParser ${YAMLCPP_LIBRARY} gmock_main)
+target_link_libraries (InputParser_Test InputParser yaml-cpp gmock_main)

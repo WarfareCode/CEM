@@ -9,7 +9,6 @@ class AbsDataLogger
 	virtual void WriteDataArray(double *data, int s) = 0;
 	virtual void CreateFile(std::string fileName) = 0;
 	
-	
 };
 
 #endif

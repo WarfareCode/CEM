@@ -11,10 +11,18 @@ class InputParserYAML: public AbsInputParser
 {
 	public:
 	InputParserYAML();
+	InputParserYAML(std::string fileName);
 	~InputParserYAML();
 	
-	virtual void GetInput(std::string token, std::string fileName);
-
+	virtual InputParserError GetInput(std::string token);
+	virtual InputParserError Initialize(std::string fileName);
+	virtual InputParserError GetFileName(std::string &fileName);
+	
+	private:
+	YAML::Node basenode_;
+	
+	std::string fileName_;
+	bool fileLoaded_;
 
 };
 
