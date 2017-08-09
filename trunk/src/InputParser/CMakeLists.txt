@@ -1,4 +1,4 @@
-add_library(InputParser AbsInputParser.h InputParser_YAML.h InputParser_YAML.cpp )
+add_library(InputParser AbsInputParser.h InputStruct.h InputParser_YAML.h InputParser_YAML.cpp )
 
 add_subdirectory(tests)
 add_test(TestInputParser tests/InputParser_Test)

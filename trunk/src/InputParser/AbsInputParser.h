@@ -2,6 +2,8 @@
 #define ABS_INPUTPARSER_H
 #include <iostream>
 
+//struct InputStruct;
+
 enum InputParserError
 {
 	INPUT_PARSER_SUCCESS = 0,
@@ -12,9 +14,11 @@ enum InputParserError
 class AbsInputParser
 {
 	public:
-	virtual InputParserError GetInput(std::string token) = 0;
 	virtual InputParserError Initialize(std::string fileName) = 0;
 	virtual InputParserError GetFileName(std::string &fileName) = 0;
+	//virtual InputStruct GetInput() = 0;
+	virtual InputParserError ReadInputFile() = 0;
+	virtual InputParserError ReadInputFile(std::string fileName) = 0;
 
 };
 
