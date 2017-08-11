@@ -21,7 +21,7 @@ namespace testing
 
         virtual void SetUp()
         {
-        	testFileName = "test.yaml";
+        	testFileName = "Input_Data/test.yaml";
         }
         virtual void TearDown(){}
 
@@ -54,11 +54,13 @@ namespace testing
     	EXPECT_THAT(fname,Eq(testFileName));
     }
     
-    TEST_F(InputParser_Test, readField)
+    TEST_F(InputParser_Test, readTestFile)
     {
       ip.ReadInputFile(testFileName);
-    	
-    	
+
+      EXPECT_THAT(ip.getComputationType(), Eq("FDTD_1D"));
+      EXPECT_THAT(ip.getStartTime(),Eq(0));
+      EXPECT_THAT(ip.getStopTime(),Eq(10));	
     }
     
 

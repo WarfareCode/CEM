@@ -35,31 +35,57 @@ using std::endl;
 
 #include "DataLogger/DataLogger_HDF5.h"
 #include "FDTD_Engine/FDTD_1D.h"
-
+#include "InputParser/InputParser_YAML.h"
 
 #define SIZE 200
  
-int main (void)
+int main (int argc, char *argv[])
 {
     /*
      * Try block to detect exceptions raised by any of the calls inside it
      */
     try
     {
+       std::string inputFileName;
+       std::string outputFileName;
+       InputParserYAML ip;
+
+       //check the inputs
+       if (argc == 3)
+	 {
+	   inputFileName = argv[1];
+	   outputFileName = argv[2];
+	 }
+       else if (argc == 2)
+	 {
+	   inputFileName = argv[1];
+	   outputFileName = "CEMOutput.h5";
+	 }
+       else if (argc == 1)
+	 {
+	   inputFileName = "CEMInput.yaml";
+	   outputFileName = "CEMOutput.h5";
+	 }
+       else
+	 {
+	   std::cout<< "ERROR: " << argc - 1 << " arguments, expecting 0, 1, or 2" << std::endl;
+	   exit(1);
+	 }
+
+
+       std::cout << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
+       DataLoggerHDF5 dLogger;
+       dLogger.CreateFile(outputFileName);
         
-        DataLoggerHDF5 dLogger;
-        dLogger.CreateFile("MyTest.h5");
+       FDTD_1D fdtd;
+       fdtd.InitializeEngine(SIZE,0,0);
         
-        FDTD_1D fdtd;
-        fdtd.InitializeEngine(SIZE,0,0);
-        
-        for(int time = 0; time < 250; time++)
-        {
-          fdtd.UpdateFields(time);
-          fdtd.SetEFieldSource(0,time);
-          dLogger.WriteDataArray(fdtd.getEField(), SIZE);
-          
-        }
+       for(int time = 0; time < 250; time++)
+       {
+         fdtd.UpdateFields(time);
+         fdtd.SetEFieldSource(0,time);
+         dLogger.WriteDataArray(fdtd.getEField(), SIZE);   
+       }
   
         
     }  // end of try block

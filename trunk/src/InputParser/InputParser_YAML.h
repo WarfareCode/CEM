@@ -22,7 +22,12 @@ class InputParserYAML: public AbsInputParser
 
 	InputParserError ReadInputFile();
 	InputParserError ReadInputFile(std::string fileName);
-	
+
+	//Get functions
+	std::string getComputationType(){return input_.computationType_;};
+	double getStartTime(){return input_.startTime_;};
+	double getStopTime(){return input_.stopTime_;};
+
 	private:
 	YAML::Node basenode_;
 	

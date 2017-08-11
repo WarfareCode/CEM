@@ -12,3 +12,7 @@ include_directories( ${SOURCE_DIRECTORY}/FDTD_Engine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (FDTD_1DTest FDTD_1D_Test.cpp)
 target_link_libraries (FDTD_1DTest FDTD gmock_main)
+
+#copy binary to bin directory
+add_custom_command(TARGET FDTD_1DTest POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:FDTD_1DTest> ${BINARY_TEST_DIRECTORY})
