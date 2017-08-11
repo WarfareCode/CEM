@@ -56,7 +56,7 @@ namespace testing
     
     TEST_F(InputParser_Test, readField)
     {
-    	ip.Initialize(testFileName);
+      ip.ReadInputFile(testFileName);
     	
     	
     }
