@@ -19,6 +19,9 @@ printHelp() {
 
     -X|--use-xcode: builds XCode project files (default is Unix Makefiles)
     -c|--clean-build-directory: deletes the current build directory before generating new files (this option must be selected in order to switch generators)
+    -m|--mode: Selects the mode to build (can be Debug or Release, defaults to Release)
+    -p|--enable-profiling:
+    -vg|--run-valgrind: Runs Valgrind in the Unit tests
     -h|--help: print this menu
 
 EOF
@@ -43,6 +46,19 @@ case $i in
 	-h|--help)
 	    printHelp
 	    exit -1
+	;;
+	
+	-m|--mode)
+	shift
+	BUILD_MODE=$1
+	;;
+	
+	-p|--enable-profiling)
+	ENABLE_PROFILING=1
+	;;
+	
+	-vg|--run-valgrind)
+	RUN_VALGRIND=1
 	;;
 	
 	-X|--use-xcode)
@@ -73,6 +89,13 @@ case $i in
 esac
 done
 
+#check the arguments
+if [[ "${BUILD_MODE}" != "Debug" && "${BUILD_MODE}" != "Release" ]]; then
+	echo "ERROR: Unknown Build Mode: ${BUILD_MODE}"
+	printHelp
+	exit -1
+fi
+
 if [ $VERBOSE -eq 1 ]
   then
     echo "verbose mode"
@@ -84,12 +107,21 @@ if [ "$CMAKE_ARGS" != "" ]; then
 	echo "Additional CMake Arguments: ${CMAKE_ARGS}"
 fi
 
-if [ $CLEAN_BUILD_DIRECTORY -eq 1 ]
-	then
-		echo "Cleaning the build directory"
+if [ $CLEAN_BUILD_DIRECTORY -eq 1 ]; then
+		echo "Cleaning up the directories"
 	if [ -d ${PROJECT_ROOT}/build ]; then
-    	echo "Executing"
+    	echo "Cleaning the build directory"
 		rm -rf ${PROJECT_ROOT}/build
+	fi
+	
+	if [ -d ${PROJECT_ROOT}/bin ]; then
+    	echo "Cleaning the bin directory"
+		rm -rf ${PROJECT_ROOT}/bin
+	fi
+	
+	if [ -d ${PROJECT_ROOT}/docs ]; then
+    	echo "Cleaning the docs directory"
+		rm -rf ${PROJECT_ROOT}/docs
 	fi
 fi
 
@@ -102,7 +134,7 @@ echo "cd to ${PROJECT_ROOT}/build"
 cd "${PROJECT_ROOT}/build"
 
 #set up the build directory and CMake root directory
-BUILD_DIR="${PROJECT_ROOT}/build/gnu/Release"
+BUILD_DIR="${PROJECT_ROOT}/build/gnu/${BUILD_MODE}"
 CMAKE_ROOT_DIR="${PROJECT_ROOT}/trunk"
 
 #run cmake
