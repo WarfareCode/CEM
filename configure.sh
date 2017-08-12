@@ -30,7 +30,6 @@ EOF
 #-------------------------------------------
 
 #initialize flags
-VERBOSE=0
 BUILD_MODE=Release
 CLEAN_BUILD_DIRECTORY=0
 CMAKE_ARGS=
@@ -39,9 +38,6 @@ CMAKE_ARGS=
 for i in "$@"
 do
 case $i in
-        -v|--verbose)
-        VERBOSE=1
-	;;
 
 	-h|--help)
 	    printHelp
@@ -54,25 +50,21 @@ case $i in
 	;;
 	
 	-p|--enable-profiling)
-	ENABLE_PROFILING=1
+	CMAKE_ARGS="${CMAKE_ARGS} -C${TOOLCHAINS_DIR}/profiler.cmake"
 	;;
 	
 	-vg|--run-valgrind)
-	CMAKE_ARGS="-DRUN_VALGRIND=ON"
+	CMAKE_ARGS="${CMAKE_ARGS} -DRUN_VALGRIND=ON"
 	;;
 	
 	-X|--use-xcode)
-	CMAKE_ARGS="-G Xcode"
+	CMAKE_ARGS="${CMAKE_ARGS} -G Xcode"
 	;;
 	
 	-c|--clean-build-directory)
 	CLEAN_BUILD_DIRECTORY=1
 	;;
 		
-	-t|--enable-unit-tests)
-	CMAKE_ARGS="-DENABLE_UNIT_TESTS=ON"
-	;;
-
 	-?*)
 	echo "ERROR: Unknown Option $1"
 	printHelp
@@ -95,12 +87,7 @@ if [[ "${BUILD_MODE}" != "Debug" && "${BUILD_MODE}" != "Release" ]]; then
 	printHelp
 	exit -1
 fi
-
-if [ $VERBOSE -eq 1 ]
-  then
-    echo "verbose mode"
-fi
-
+   
 #output the toolchain info
 echo "Configuring ${BUILD_MODE} mode"
 if [ "$CMAKE_ARGS" != "" ]; then
@@ -136,6 +123,9 @@ cd "${PROJECT_ROOT}/build"
 #set up the build directory and CMake root directory
 BUILD_DIR="${PROJECT_ROOT}/build/gnu/${BUILD_MODE}"
 CMAKE_ROOT_DIR="${PROJECT_ROOT}/trunk"
+
+#add the mode
+CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=${BUILD_MODE}"
 
 #run cmake
 echo "Executing CMake command: cmake ${CMAKE_ROOT_DIR} ${CMAKE_ARGS}"
