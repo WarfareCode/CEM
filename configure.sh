@@ -58,7 +58,7 @@ case $i in
 	;;
 	
 	-vg|--run-valgrind)
-	RUN_VALGRIND=1
+	CMAKE_ARGS="-DRUN_VALGRIND=ON"
 	;;
 	
 	-X|--use-xcode)
@@ -79,13 +79,13 @@ case $i in
 	exit -1
 	;;
 	
-        --)
-        shift
-        while [ "$1" != ""];do
-    	    CMAKE_ARGS = "{CMAKE_ARGS} $1"
-    	    shift
-    	done
-    	;;  	
+    --)
+    shift
+    while [ "$1" != ""];do
+    	CMAKE_ARGS = "{CMAKE_ARGS} $1"
+    	shift
+    done
+    ;;  	
 esac
 done
 

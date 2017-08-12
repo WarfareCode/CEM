@@ -46,19 +46,25 @@ include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_D
 #add the src subdirectory
 add_subdirectory(${SOURCE_DIRECTORY})
 
+#redirect the runtime output directory to the desired location - this should occur after adding the src subdirectory so that the test binaries are not generated in the same folder
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
+
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
 target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser)
 
+#make sure to include math defines for Windows Visual Studio
+target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
+
 # add a target to generate API documentation with Doxygen
 if(DOXYGEN_FOUND)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-  add_custom_target(doc ALL
+  add_custom_target(doc EXCLUDE_FROM_ALL
                     ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating API documentation with Doxygen" VERBATIM
                   )
-   add_custom_target(pdfdoc ALL
+   add_custom_target(pdfdoc EXCLUDE_FROM_ALL
                      make
 		     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/latex
 		     COMMENT "Generating PDF documentation" VERBATIM
@@ -69,7 +75,7 @@ if(DOXYGEN_FOUND)
    add_custom_target(build-time-make-docs-directory ALL
     		   COMMAND ${CMAKE_COMMAND} -E make_directory ${DOCS_DIRECTORY})
 
-  #copy docs to bin directory
+  #copy docs to docs directory
   add_custom_command(
         TARGET pdfdoc POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
@@ -82,8 +88,3 @@ if(DOXYGEN_FOUND)
 		   ${DOCS_DIRECTORY}/html)
 		    
 endif(DOXYGEN_FOUND)
-
-#copy binary to bin directory
-add_custom_command(TARGET cem POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cem> ${BINARY_DIRECTORY}
-)
