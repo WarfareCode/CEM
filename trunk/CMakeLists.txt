@@ -94,7 +94,7 @@ if(DOXYGEN_FOUND)
                 ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
                 ${DOCS_DIRECTORY})
 
-  add_custom_command(TARGET pdfdoc POST_BUILD
+  add_custom_command(TARGET doc POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                    ${CMAKE_CURRENT_BINARY_DIR}/html
 		   ${DOCS_DIRECTORY}/html)
