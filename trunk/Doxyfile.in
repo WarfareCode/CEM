@@ -782,6 +782,7 @@ INPUT_ENCODING         = UTF-8
 
 FILE_PATTERNS          = *.h \
                          *.cxx \
+			 *.cpp \
                          *.C \
                          *.md \
                          README*.txt

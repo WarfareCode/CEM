@@ -84,7 +84,7 @@ int main (int argc, char *argv[])
        {
          fdtd.UpdateFields(time);
          fdtd.SetEFieldSource(0,time);
-         dLogger.WriteDataArray(fdtd.getEField(), SIZE);   
+         dLogger.WriteDataArray(fdtd.getEField());   
        }
   
         
