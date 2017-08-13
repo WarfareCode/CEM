@@ -16,7 +16,7 @@ include_directories( ${SOURCE_DIRECTORY}/FDTD_Engine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable (${EXE_NAME} FDTD_1D_Test.cpp)
-target_link_libraries (${EXE_NAME} FDTD gmock_main)
+target_link_libraries (${EXE_NAME} FDTD gmock_main ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
@@ -31,6 +31,35 @@ add_test(NAME Build_FDTD_1DTest
 add_test(NAME Run_FDTD_1D_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+#Next is the Memory Test if gperftools were found
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_FDTD_1D_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+set_property(
+             TEST
+	      MemCheck_FDTD_1D_Test
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_fdtd_1d_test)
+set_property(
+             TEST
+	      MemCheck_FDTD_1D_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_FDTD_1D_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_fdtd_1d_test)
+set_property(
+             TEST
+	      MemCheck_FDTD_1D_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+
+endif()
 
 #Finally we have the Valgrind test (if enabled)
 if(RUN_VALGRIND)

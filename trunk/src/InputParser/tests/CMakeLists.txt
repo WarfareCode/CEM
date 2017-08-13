@@ -15,7 +15,7 @@ set(EXE_NAME InputParser_Test)
 include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} InputParser_test.cpp)
-target_link_libraries (${EXE_NAME} InputParser yaml-cpp gmock_main)
+target_link_libraries (${EXE_NAME} InputParser yaml-cpp gmock_main  ${GPERFTOOLS_LIBRARIES})
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
 
@@ -35,6 +35,35 @@ add_test(NAME Run_InputParserTest
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
+#Next is the Memory Test if gperftools were found
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_InputParserTest 
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+set_property(
+             TEST
+	      MemCheck_InputParserTest
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_input_parser_test)
+set_property(
+             TEST
+	      MemCheck_InputParserTest
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_InputParserTest
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_input_parser_test)
+set_property(
+             TEST
+	      MemCheck_InputParserTest
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+endif()
+
+		   
 #Finally we have the Valgrind test (if enabled)
 if(RUN_VALGRIND)
 	add_test(NAME Valgrind_InputParserTest 

@@ -32,6 +32,14 @@ message("Doxygen found: " ${DOXYGEN_FOUND})
 #Gperftools
 find_package(Gperftools)
 message("GPerftools found: " ${GPERFTOOLS_FOUND})
+if(${GPERFTOOLS_FOUND})
+#set the tmp  directory and set a command to create it during the build process
+set(GPERF_TMP_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin/tests/tmp)
+add_custom_target(build-time-make-gperf-directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${GPERF_TMP_DIRECTORY})   
+else()
+  set(GPERFTOOLS_LIBRARIES "")
+endif()
 
 #FFTW - placeholder, not currently used
 #find_package (FFTW)
