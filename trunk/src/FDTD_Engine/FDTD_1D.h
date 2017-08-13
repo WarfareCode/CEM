@@ -29,6 +29,8 @@ class FDTD_1D: public AbsFDTD
 	double imp;
 	int dataSize;
 
+	bool initialized;
+
 };
 
 #endif

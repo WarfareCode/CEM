@@ -1,7 +1,7 @@
 #include "FDTD_1D.h"
 #include <math.h>
 
-FDTD_1D::FDTD_1D()
+FDTD_1D::FDTD_1D():initialized(false)
 {
   imp = 377.0;
   dataSize = 0;
@@ -9,8 +9,11 @@ FDTD_1D::FDTD_1D()
 
 FDTD_1D::~FDTD_1D()
 {
- //delete [] H;
- //delete [] E;
+  if(initialized)
+    {
+     delete []  H;
+     delete [] E;
+    }
 }
 
 void FDTD_1D::InitializeEngine(int x, int y, int z)
@@ -18,6 +21,8 @@ void FDTD_1D::InitializeEngine(int x, int y, int z)
   dataSize = x;
   H = new double[dataSize];
   E = new double[dataSize];
+
+  initialized = true;
 }
 
 void FDTD_1D::UpdateFields(double time)

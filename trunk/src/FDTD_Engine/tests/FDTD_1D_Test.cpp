@@ -50,12 +50,6 @@ namespace testing
     double E;
     fdtd.InitializeEngine(10,0,0);
     fdtd.SetEFieldSource(0,10);
-    /*E = fdtd.getEField(10);
-    EXPECT_THAT(E,Eq(0));
-
-    fdtd.SetEFieldSource(117.53,10);
-    E = fdtd.getEField(10);
-    EXPECT_THAT(E,Eq(117.53));*/
      
   }
 

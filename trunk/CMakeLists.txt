@@ -63,7 +63,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser)
+target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser  ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
@@ -100,3 +100,32 @@ if(DOXYGEN_FOUND)
 		   ${DOCS_DIRECTORY}/html)
 		    
 endif(DOXYGEN_FOUND)
+
+
+#Add the Memory Test if gperftools were found
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_cem 
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+
+set_property(
+             TEST
+	      MemCheck_cem
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_cem_test)
+set_property(
+             TEST
+	      MemCheck_cem
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_cem
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_cem_test)
+set_property(
+             TEST
+	      MemCheck_cem
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+endif()
