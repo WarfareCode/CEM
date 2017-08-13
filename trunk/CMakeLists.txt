@@ -59,12 +59,12 @@ target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
 # add a target to generate API documentation with Doxygen
 if(DOXYGEN_FOUND)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-  add_custom_target(doc EXCLUDE_FROM_ALL
+  add_custom_target(doc
                     ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating API documentation with Doxygen" VERBATIM
                   )
-   add_custom_target(pdfdoc EXCLUDE_FROM_ALL
+   add_custom_target(pdfdoc
                      make
 		     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/latex
 		     COMMENT "Generating PDF documentation" VERBATIM
