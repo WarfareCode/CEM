@@ -29,6 +29,10 @@ message( "HDF5 Found: " ${HDF5_FOUND})
 find_package(Doxygen)
 message("Doxygen found: " ${DOXYGEN_FOUND})
 
+#Gperftools
+find_package(Gperftools)
+message("GPerftools found: " ${GPERFTOOLS_FOUND})
+
 #FFTW - placeholder, not currently used
 #find_package (FFTW)
 #message("FFTW Found: " ${FFTW_FOUND})
