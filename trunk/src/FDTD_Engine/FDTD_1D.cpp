@@ -18,8 +18,6 @@ void FDTD_1D::InitializeEngine(int x, int y, int z)
   dataSize = x;
   H = new double[dataSize];
   E = new double[dataSize];
-  //H.resize(dataSize);
-  //E.resize(dataSize);
 }
 
 void FDTD_1D::UpdateFields(double time)
@@ -39,7 +37,18 @@ void FDTD_1D::SetEFieldSource(int index, double time)
   E[index] = exp(-(time - 30.) * (time - 30.) / 100.);
 }
 
-double * FDTD_1D::getEField()
+double FDTD_1D::getEField(int index)
 {
-	return E;
+  if (index < dataSize)
+     return E[index];
+  else
+    return 0;
+}
+
+double FDTD_1D::getHField(int index)
+{
+  if (index < dataSize)
+     return H[index];
+  else
+    return 0;
 }

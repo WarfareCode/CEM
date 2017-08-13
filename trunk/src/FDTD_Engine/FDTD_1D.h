@@ -14,7 +14,13 @@ class FDTD_1D: public AbsFDTD
 	virtual void UpdateFields(double time);
 	void SetEFieldSource(int index, double time);
 
-	double * getEField();
+	virtual double * getEField(){return E;};
+	virtual double getEField(int index);
+	virtual double * getHField(){return H;};
+	virtual double getHField(int index);
+
+	virtual int getDataSize(){return dataSize;};
+	virtual double getImpedance(){return imp;};
 
 	private:
 	char HDirection, EDirection;

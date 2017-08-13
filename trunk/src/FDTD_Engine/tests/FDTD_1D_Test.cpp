@@ -25,24 +25,51 @@ namespace testing
 
         FDTD_1D fdtd;
 
-        static const size_t taskCount = 3;
-        static const string tasks[taskCount];
     };
 
-    const string FDTD_1DTest::tasks[taskCount] = {"write code",
-                                               "compile",
-                                               "test"};
-
-
-    TEST_F(FDTD_1DTest, constructor_createsEmptyList)
+    TEST_F(FDTD_1DTest, constructor)
     {
-    	double *E;
-        fdtd.InitializeEngine(10,0,0);
-        fdtd.SetEFieldSource(0,10);
-       // E = fdtd.getEField();
-        
-        //EXPECT_THAT(list.size(), Eq(size_t(0)));
+
+      int s = fdtd.getDataSize();
+      double imp = fdtd.getImpedance();
+
+      EXPECT_THAT(s, Eq(0));
+      EXPECT_THAT(imp, Eq(377.0));
     }
+
+  TEST_F(FDTD_1DTest, initialization)
+  {
+      fdtd.InitializeEngine(10,0,0);
+      int s = fdtd.getDataSize();
+      EXPECT_THAT(s, Eq(10));
+
+  }
+
+  TEST_F(FDTD_1DTest, setField)
+  {
+    double E;
+    fdtd.InitializeEngine(10,0,0);
+    fdtd.SetEFieldSource(0,10);
+    /*E = fdtd.getEField(10);
+    EXPECT_THAT(E,Eq(0));
+
+    fdtd.SetEFieldSource(117.53,10);
+    E = fdtd.getEField(10);
+    EXPECT_THAT(E,Eq(117.53));*/
+     
+  }
+
+  TEST_F(FDTD_1DTest, run)
+  {
+   int SIZE = 200;
+   fdtd.InitializeEngine(SIZE,0,0);
+        
+    for(int time = 0; time < 250; time++)
+       {
+         fdtd.UpdateFields(time);
+         fdtd.SetEFieldSource(0,time);
+       }
+  }
 
 } // namespace testing
 } // namespace FDTD_1D_Test
