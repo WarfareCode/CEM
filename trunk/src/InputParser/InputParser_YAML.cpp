@@ -1,5 +1,5 @@
 #include "InputParser_YAML.h"
-//
+
 InputParserYAML::InputParserYAML():
 fileLoaded_(false)
 {
@@ -28,12 +28,6 @@ InputParserError InputParserYAML::Initialize(std::string fileName)
 	return INPUT_PARSER_SUCCESS;
 }
 
-InputParserError InputParserYAML::GetInput(std::string token)
-{
-	
-	return INPUT_PARSER_SUCCESS;
-}
-
 InputParserError InputParserYAML::GetFileName(std::string &fileName)
 {
 	fileName = input_.fileName_;
@@ -47,11 +41,9 @@ InputParserError InputParserYAML::ReadInputFile()
 	input_.computationType_ = basenode_["Computation_Type"].as<std::string>();
 	input_.startTime_ = basenode_["Start_Time"].as<double>();
 	input_.stopTime_ = basenode_["Stop_Time"].as<double>();
-	
-	std::cout<<"Computation Type: " << input_.computationType_ << std::endl;
-	std::cout<<"Start Time: " << input_.startTime_ << std::endl;
-	std::cout<<"Stop Time: " << input_.stopTime_ << std::endl;
-	
+	input_.absorbingBoundaryCondition_ = basenode_["Absorbing_Boundary_Condition"].as<std::string>();
+	input_.vectorLength_ = basenode_["Vector_Length"].as<int>();
+       	
 	return error;
 }
 

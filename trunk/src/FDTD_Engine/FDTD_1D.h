@@ -11,12 +11,14 @@
 #include <vector>
 #include "AbsFDTD.h"
 
+struct InputStruct;
+
 class FDTD_1D: public AbsFDTD
 {
 	public:
 	FDTD_1D();
 
-	virtual void InitializeEngine(int x, int y, int z);
+	virtual void InitializeEngine(InputStruct input);
 	virtual void UpdateFields(double time);
 	void SetEFieldSource(int index, double time);
 
@@ -29,6 +31,8 @@ class FDTD_1D: public AbsFDTD
 	virtual int getDataSize(){return dataSize;};
 	virtual double getImpedance(){return imp;};
 
+	AbsorbingBoundaryCondition getABC(){return ABC;};
+
 	private:
 	char HDirection, EDirection;
 
@@ -38,6 +42,15 @@ class FDTD_1D: public AbsFDTD
 	int dataSize;
 
 	bool initialized;
+	AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
+
+	void simpleABC_E();
+	void simpleABC_H();
+
+	void applyBC_E();
+	void applyBC_H();
+
+        void InitializeEngine();
 
 };
 

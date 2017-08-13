@@ -1,33 +1,15 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
- * All rights reserved.                                                      *
- *                                                                           *
- * This file is part of HDF5.  The full HDF5 copyright notice, including     *
- * terms governing use, modification, and redistribution, is contained in    *
- * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
- * If you do not have access to either file, you may request a copy from     *
- * help@hdfgroup.org.                                                        *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*
- *   This example shows how to work with extendible dataset.
- *   In the current version of the library dataset MUST be
- *   chunked.
- *
- */
 
-#ifdef OLD_HEADER_FILENAME
-#include <iostream.h>
-#else
+
 #include <iostream>
-#endif
 #include <string>
 #include <vector>
 
-using std::cout;
-using std::endl;
+#include <stdlib.h>
+
+#ifdef PRINT_WORKING_DIRECTORY
+#include <unistd.h>
+#endif
 
 #include <string>
 #include <math.h>
@@ -63,7 +45,7 @@ int main (int argc, char *argv[])
 	 }
        else if (argc == 1)
 	 {
-	   inputFileName = "CEMInput.yaml";
+	   inputFileName = "../Input_Data/CEMInputFile.yaml";
 	   outputFileName = "CEMOutput.h5";
 	 }
        else
@@ -71,16 +53,22 @@ int main (int argc, char *argv[])
 	   std::cout<< "ERROR: " << argc - 1 << " arguments, expecting 0, 1, or 2" << std::endl;
 	   exit(1);
 	 }
-
-
+#ifdef PRINT_WORKING_DIRECTORY
+        char cwd[1024];
+        getcwd(cwd, sizeof(cwd));
+        std::cout<<"Current Directory: " << cwd << std::endl;
+#endif
+	
        std::cout << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
        DataLoggerHDF5 dLogger;
        dLogger.CreateFile(outputFileName);
+
+       ip.ReadInputFile(inputFileName);
         
        FDTD_1D fdtd;
-       fdtd.InitializeEngine(SIZE,0,0);
+       fdtd.InitializeEngine(ip.GetInput());
         
-       for(int time = 0; time < 250; time++)
+       for(int time = ip.getStartTime(); time < ip.getStopTime(); time++)
        {
          fdtd.UpdateFields(time);
          fdtd.SetEFieldSource(0,time);

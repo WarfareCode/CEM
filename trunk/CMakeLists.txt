@@ -16,9 +16,15 @@ set(BINARY_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 add_custom_target(build-time-make-bin-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${BINARY_DIRECTORY})
 
+#set the test directory and create it during the build process
 set(BINARY_TEST_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin/tests)
 add_custom_target(build-time-make-bin-test-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${BINARY_TEST_DIRECTORY})
+
+#set the input data directory and set a command to create it during the build process
+set(INPUT_DATA_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../Input_Data)
+add_custom_target(build-time-make-input-data-directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
     
 #find the additional libraries needed
 #HDF5 - used for data logging
@@ -52,8 +58,10 @@ message("YAMLCPP_INCLUDE_DIR: " ${YAMLCPP_INCLUDE_DIR})
 message("GTEST_INCLUDE_DIR: " ${GTEST_INCLUDE_DIR})
 message("GMOCK_INCLUDE_DIR: " ${GMOCK_INCLUDE_DIR})
 
+set(COMMON_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/Common)
+
 #add the additional include directories
-include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} {CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} ${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
 
 #add the src subdirectory
 add_subdirectory(${SOURCE_DIRECTORY})
@@ -67,6 +75,12 @@ target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
+
+#now copy the needed input data files to the appropriate directory for running stand alone		      
+add_custom_command(TARGET cem POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+		   ${CMAKE_SOURCE_DIR}/src/Input_Data
+                   ${INPUT_DATA_DIRECTORY})
 
 # add a target to generate API documentation with Doxygen
 if(DOXYGEN_FOUND)
@@ -138,3 +152,8 @@ if(RUN_VALGRIND)
 	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
 endif()
 
+
+#add the run test
+add_test(NAME Run_cem 
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)

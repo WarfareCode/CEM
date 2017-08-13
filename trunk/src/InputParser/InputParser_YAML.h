@@ -4,7 +4,7 @@
 
 #include "AbsInputParser.h"
 #include "yaml-cpp/yaml.h"
-#include "InputStruct.h"
+#include "src/Common/InputStruct.h"
 
 #include <fstream>
 using namespace YAML;
@@ -16,17 +16,19 @@ class InputParserYAML: public AbsInputParser
 	InputParserYAML(std::string fileName);
 	~InputParserYAML();
 	
-	virtual InputParserError GetInput(std::string token);
+
 	virtual InputParserError Initialize(std::string fileName);
 	virtual InputParserError GetFileName(std::string &fileName);
-
-	InputParserError ReadInputFile();
-	InputParserError ReadInputFile(std::string fileName);
+	virtual InputParserError ReadInputFile();
+	virtual InputParserError ReadInputFile(std::string fileName);
+	virtual InputStruct GetInput(){return input_;};
+	
 
 	//Get functions
 	std::string getComputationType(){return input_.computationType_;};
 	double getStartTime(){return input_.startTime_;};
 	double getStopTime(){return input_.stopTime_;};
+	std::string getABC(){return input_.absorbingBoundaryCondition_;};
 
 	private:
 	YAML::Node basenode_;

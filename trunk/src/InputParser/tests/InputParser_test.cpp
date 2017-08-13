@@ -60,7 +60,8 @@ namespace testing
 
       EXPECT_THAT(ip.getComputationType(), Eq("FDTD_1D"));
       EXPECT_THAT(ip.getStartTime(),Eq(0));
-      EXPECT_THAT(ip.getStopTime(),Eq(10));	
+      EXPECT_THAT(ip.getStopTime(),Eq(250));
+      EXPECT_THAT(ip.getABC(),Eq("None"));	
     }
     
 

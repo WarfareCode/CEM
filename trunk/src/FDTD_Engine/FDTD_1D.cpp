@@ -5,34 +5,47 @@
 * @date 08/12/2017 */
 
 #include "FDTD_1D.h"
+#include "src/Common/InputStruct.h"
 #include <math.h>
 
 /** \brief FDTD_1D Constructor
  *
  *  Standard Constructor
  */
-FDTD_1D::FDTD_1D():initialized(false)
+FDTD_1D::FDTD_1D():
+  initialized(false),
+  ABC(SimpleABC),
+  imp(377.0),
+  dataSize(0)
 {
-  imp = 377.0;
-  dataSize = 0;
+
 }
 
+/**
+* \brief Initialize the FDTD_1D engine
+*
+* This function sets the size of the E and H vectors */
+
+void FDTD_1D::InitializeEngine()
+{
+  H.resize(dataSize);
+  E.resize(dataSize);
+
+  initialized = true;
+}
 
 /**
 * \brief Initialize the FDTD_1D engine
 *
 * This function sets the size of the E and H vectors
-* @param x The size along the X-dimension
-* @param y The size along the Y-dimension
-* @param z The size along the Z-dimension */
-
-void FDTD_1D::InitializeEngine(int x, int y, int z)
+* @param input The input structure read in from the input file*/
+void FDTD_1D::InitializeEngine(InputStruct input)
 {
-  dataSize = x;
-  H.resize(dataSize);
-  E.resize(dataSize);
+  dataSize = input.vectorLength_;
 
-  initialized = true;
+  ABC = SimpleABC;
+
+  InitializeEngine();
 }
 
 /**
@@ -42,10 +55,13 @@ void FDTD_1D::InitializeEngine(int x, int y, int z)
 * @param time The next time step to update*/
 void FDTD_1D::UpdateFields(double time)
 {
-
+ applyBC_H();
+  
 //update the H Field
  for (int mm = 0; mm < dataSize - 1; mm++)
    H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp;
+
+ applyBC_E();
    
    //Now update the E Field
 for (int mm = 1; mm < dataSize; mm++)
@@ -83,4 +99,51 @@ double FDTD_1D::getHField(int index)
      return H[index];
   else
     return 0;
+}
+
+void FDTD_1D::simpleABC_E()
+{
+  E[0] = E[1];
+}
+
+void FDTD_1D::simpleABC_H()
+{
+  H[dataSize-1] = H[dataSize-2];
+}
+
+
+void FDTD_1D::applyBC_E()
+{
+  switch (ABC)
+    {
+    case NoABC:
+      break;
+      
+    case SimpleABC:
+      simpleABC_E();
+      break;
+      
+    case TFSF_ABC:
+      break;
+    default:
+      break;
+    }
+}
+
+void FDTD_1D::applyBC_H()
+{
+    switch (ABC)
+    {
+    case NoABC:
+      break;
+      
+    case SimpleABC:
+      simpleABC_H();
+      break;
+      
+    case TFSF_ABC:
+      break;
+    default:
+      break;
+    }
 }

@@ -1,7 +1,7 @@
 info = h5info('CEMOutput.h5','/Ex');
 figure;
 
-for counter = 1:250
+for counter = 1:350
     offset = 1 + (counter-1)*info.ChunkSize;
     data = h5read('CEMOutput.h5','/Ex',offset,info.ChunkSize);
     plot(data);

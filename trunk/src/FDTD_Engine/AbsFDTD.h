@@ -1,10 +1,20 @@
+/**
+* @file AbsFDTD.h
+* @brief Virtual class definition for FDTD *
+* @author Ben Frazier*
+* @date 08/12/2017 */
+
 #ifndef ABS_FDTD_H
 #define ABS_FDTD_H
+
+enum AbsorbingBoundaryCondition {NoABC = 0, SimpleABC, TFSF_ABC};
+
+struct InputStruct;
 
 class AbsFDTD
 {
 	public:
-	virtual void InitializeEngine(int x, int y, int z) = 0;
+	virtual void InitializeEngine(InputStruct input)=0;
 	virtual void UpdateFields(double time) = 0;
 
 	virtual std::vector<double> getEField()=0;
