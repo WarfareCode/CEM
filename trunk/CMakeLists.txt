@@ -129,3 +129,12 @@ set_property(
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
 endif()
+
+#add the Valgrind test (if enabled)
+if(RUN_VALGRIND)
+	add_test(NAME Valgrind_cem
+	         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+	         COMMAND valgrind --leak-check=full  --show-leak-kinds=all --track-origins=yes
+	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+endif()
+
