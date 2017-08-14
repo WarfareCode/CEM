@@ -9,12 +9,15 @@
 #include <iostream>
 #include <vector>
 
+struct InputStruct;
+
 class DataLoggerInterface
 {
 	public:
 	virtual void WriteDataArray(std::vector<double>data) = 0;
 	virtual void WriteDataArray(double *data, int s) = 0;
 	virtual void CreateFile(std::string fileName) = 0;
+	virtual void WriteDataHeader(InputStruct input) = 0;
 	
 };
 

@@ -75,6 +75,7 @@ void DataLoggerHDF5::WriteDataArray(double *data, int s)
 * @param filename The name of the file to create*/
 void DataLoggerHDF5::CreateFile(std::string filename)
 {
+  fileName_ = filename;
 	    hsize_t      dims = 200;  // dataset dimensions at creation
         hsize_t      maxdims = H5S_UNLIMITED;
         DataSpace mspace( 1, &dims, &maxdims);
@@ -89,4 +90,48 @@ void DataLoggerHDF5::CreateFile(std::string filename)
         cparms.setFillValue( PredType::NATIVE_DOUBLE, &fill_val);
         
         dataset_ = file.createDataSet( "Ex", PredType::NATIVE_DOUBLE, mspace, cparms);
+}
+
+/**
+* \brief write the header of the data file
+*
+* This function writes the input struct to the data file so that the inputs are captured
+* @param input The InputStruct to write out*/
+void DataLoggerHDF5:: WriteDataHeader(InputStruct input)
+{
+
+  H5File file( fileName_, H5F_ACC_RDWR);
+
+  CompType mtype (sizeof (input));
+
+  hsize_t dim[] = {1};
+  DataSpace space (1,dim);
+
+  const H5std_string MEMBER1( "Start Time" );
+  const H5std_string MEMBER2( "Stop Time" );
+  const H5std_string MEMBER3( "Vector Length" );
+  const H5std_string MEMBER4( "File Name" );
+  const H5std_string MEMBER5( "Computation Type" );
+  const H5std_string MEMBER6( "Absorbing Boundary Condition" );
+
+  // write required size char array
+  hid_t strtype = H5Tcopy (H5T_C_S1);
+  H5Tset_size (strtype, H5T_VARIABLE);
+
+  mtype.insertMember( MEMBER1, HOFFSET(InputStruct, startTime_), PredType::NATIVE_DOUBLE);
+  mtype.insertMember( MEMBER2, HOFFSET(InputStruct, stopTime_), PredType::NATIVE_DOUBLE);
+  mtype.insertMember( MEMBER3, HOFFSET(InputStruct, vectorLength_), PredType::NATIVE_INT);
+ 
+  DataSet headerDataSet =file.createDataSet("Header",mtype,space);
+  // headerDataSet.write(, mtype);
+
+    /*
+   std::string fileName_;
+ std::string computationType_;
+ double startTime_;
+ double stopTime_;
+ std::string absorbingBoundaryCondition_;
+  int vectorLength_;
+  */
+  
 }

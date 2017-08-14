@@ -26,6 +26,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
    fdtd_.InitializeEngine(input_);
    
    dLogger_.CreateFile(outputFileName);
+   dLogger_.WriteDataHeader(input_);
 }
 
 /**
