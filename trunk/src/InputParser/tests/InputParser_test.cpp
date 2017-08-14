@@ -37,8 +37,7 @@ namespace testing
         getcwd(cwd, sizeof(cwd));
         std::cout<<"Current Directory: " << cwd << std::endl;
         
-        std::string fname;
-        ip.GetFileName(fname);
+        std::string fname = ip.GetFileName();
         
         EXPECT_THAT(fname, Eq(""));   
     }
@@ -49,7 +48,7 @@ namespace testing
     	std::string fname;
     	
     	ip.Initialize(testFileName);
-    	ip.GetFileName(fname);
+    	fname = ip.GetFileName();
     	
     	EXPECT_THAT(fname,Eq(testFileName));
     }

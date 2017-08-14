@@ -1,3 +1,9 @@
+/**
+* @file InputParser.h
+* @brief Header File for the InputParserYAML class *
+* @author Ben Frazier*
+* @date 08/14/2017 */
+
 #ifndef InputParser_YAML_H
 #define InputParser_YAML_H
 
@@ -14,14 +20,12 @@ class InputParserYAML: public AbsInputParser
 	public:
 	InputParserYAML();
 	InputParserYAML(std::string fileName);
-	~InputParserYAML();
 	
-
 	virtual InputParserError Initialize(std::string fileName);
-	virtual InputParserError GetFileName(std::string &fileName);
-	virtual InputParserError ReadInputFile();
 	virtual InputParserError ReadInputFile(std::string fileName);
-	virtual InputStruct GetInput(){return input_;};
+	virtual InputParserError ReadInputFile();
+        std::string GetFileName(){return input_.fileName_;};
+        InputStruct GetInput(){return input_;};
 	
 
 	//Get functions
@@ -31,10 +35,10 @@ class InputParserYAML: public AbsInputParser
 	std::string getABC(){return input_.absorbingBoundaryCondition_;};
 
 	private:
-	YAML::Node basenode_;
+	YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
 	
 	bool fileLoaded_;
-	InputStruct input_;
+	InputStruct input_; /*!< Input structure that the contents of the file will be loaded to */
 
 };
 

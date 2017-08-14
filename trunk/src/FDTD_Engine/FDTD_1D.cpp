@@ -25,7 +25,6 @@ FDTD_1D::FDTD_1D():
 * \brief Initialize the FDTD_1D engine
 *
 * This function sets the size of the E and H vectors */
-
 void FDTD_1D::InitializeEngine()
 {
   H.resize(dataSize);

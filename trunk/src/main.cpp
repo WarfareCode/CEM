@@ -1,5 +1,8 @@
-
-
+/**
+* @file main.cpp
+* @brief main executable *
+* @author Ben Frazier*
+* @date 08/14/2017 */
 
 #include <iostream>
 #include <string>
