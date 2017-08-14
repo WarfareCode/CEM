@@ -8,6 +8,7 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
+#include "InputStruct.h"
 
 namespace InputParser_Test
 {
@@ -16,17 +17,19 @@ namespace testing
     class InputParser_Test : public Test
     {
     protected:
-        InputParser_Test(){}
-        ~InputParser_Test(){}
+       InputParser_Test(){}
+       ~InputParser_Test(){}
 
-        virtual void SetUp()
-        {
-        	testFileName = "Input_Data/test.yaml";
-        }
-        virtual void TearDown(){}
+      virtual void SetUp()
+       {
+         testFileName = "Input_Data/test.yaml";
+       }
+      virtual void TearDown(){}
 
-	   std::string testFileName;
-       InputParserYAML ip;
+      std::string testFileName;
+      InputParserYAML ip;
+      InputStruct input;
+      InputParserError ipError;
 
     };
 
@@ -42,27 +45,20 @@ namespace testing
         EXPECT_THAT(fname, Eq(""));   
     }
    
-//Initialize with a test input - verify the file name 
-    TEST_F(InputParser_Test, initialize_getFileName)
-    {
-    	std::string fname;
-    	
-    	ip.Initialize(testFileName);
-    	fname = ip.GetFileName();
-    	
-    	EXPECT_THAT(fname,Eq(testFileName));
-    }
-    
     TEST_F(InputParser_Test, readTestFile)
     {
-      ip.ReadInputFile(testFileName);
+      ipError = ip.ReadInputFile(testFileName);
 
-      EXPECT_THAT(ip.getComputationType(), Eq("FDTD_1D"));
-      EXPECT_THAT(ip.getStartTime(),Eq(0));
-      EXPECT_THAT(ip.getStopTime(),Eq(250));
-      EXPECT_THAT(ip.getABC(),Eq("None"));	
+      ipError = ip.GetInputStruct(input);
+
+      EXPECT_THAT(input.fileName_,Eq(testFileName));
+      EXPECT_THAT(input.computationType_, Eq("FDTD_1D"));
+      EXPECT_THAT(input.startTime_,Eq(0));
+      EXPECT_THAT(input.stopTime_,Eq(250));
+      EXPECT_THAT(input.absorbingBoundaryCondition_,Eq("None"));
+      EXPECT_THAT(input.vectorLength_,Eq(200));
+      EXPECT_THAT(ipError,Eq(INPUT_PARSER_SUCCESS));
     }
-    
 
 } // namespace testing
 } // namespace InputParser_Test

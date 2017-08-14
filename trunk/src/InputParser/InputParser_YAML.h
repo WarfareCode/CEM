@@ -7,7 +7,6 @@
 #ifndef InputParser_YAML_H
 #define InputParser_YAML_H
 
-
 #include "InputParserInterface.h"
 #include "yaml-cpp/yaml.h"
 #include "InputStruct.h"
@@ -19,11 +18,12 @@ class InputParserYAML: public InputParserInterface
 {
 	public:
 	InputParserYAML();
-	InputParserYAML(std::string fileName);
 	
-	virtual InputParserError Initialize(std::string fileName);
 	virtual InputParserError ReadInputFile(std::string fileName);
-	virtual InputParserError ReadInputFile();
+	virtual InputParserError GetInputStruct(InputStruct &input);
+
+        InputParserError ReadInputFile();
+	
         std::string GetFileName(){return input_.fileName_;};
         InputStruct GetInput(){return input_;};
 	
@@ -39,6 +39,7 @@ class InputParserYAML: public InputParserInterface
 	
 	bool fileLoaded_;
 	InputStruct input_; /*!< Input structure that the contents of the file will be loaded to */
+	InputParserError error_; /*!< Variable for internal error handling */
 
 };
 

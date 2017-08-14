@@ -10,12 +10,13 @@
 #include "CEMTypes.h"
 #include <iostream>
 
+struct InputStruct;
+
 class InputParserInterface
 {
 	public:
-	virtual InputParserError Initialize(std::string fileName) = 0;
-	virtual InputParserError ReadInputFile() = 0;
 	virtual InputParserError ReadInputFile(std::string fileName) = 0;
+	virtual InputParserError GetInputStruct(InputStruct &input) = 0;
 
 };
 

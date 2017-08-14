@@ -1,3 +1,12 @@
+/**
+* @file InputStruct.h
+* @brief Header File for the InputStructure *
+* @author Ben Frazier*
+* @date 08/14/2017 */
+
+#ifndef INPUTSTRUCT_H
+#define INPUTSTRUCT_H
+
 struct InputStruct
 {
  std::string fileName_;
@@ -7,3 +16,5 @@ struct InputStruct
  std::string absorbingBoundaryCondition_;
   int vectorLength_;
 };
+
+#endif
