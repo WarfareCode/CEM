@@ -4,11 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <array>
-#include "AbsDataLogger.h"
+#include "DataLoggerInterface.h"
 #include "H5Cpp.h"
 using namespace H5;
 
-class DataLoggerHDF5: public AbsDataLogger
+class DataLoggerHDF5: public DataLoggerInterface
 {
 	public:
 	DataLoggerHDF5();

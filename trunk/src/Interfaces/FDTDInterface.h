@@ -1,17 +1,16 @@
 /**
-* @file AbsFDTD.h
-* @brief Virtual class definition for FDTD *
+* @file FDTDInterface.h
+* @brief Virtual class definition for FDTD, defines the interface *
 * @author Ben Frazier*
 * @date 08/12/2017 */
 
-#ifndef ABS_FDTD_H
-#define ABS_FDTD_H
-
-enum AbsorbingBoundaryCondition {NoABC = 0, SimpleABC, TFSF_ABC};
+#ifndef FDTD_INTERFACE_H
+#define FDTD_INTERFACE_H
+#include "CEMTypes.h"
 
 struct InputStruct;
 
-class AbsFDTD
+class FDTDInterface
 {
 	public:
 	virtual void InitializeEngine(InputStruct input)=0;

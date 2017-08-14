@@ -9,11 +9,11 @@
 
 #include <iostream>
 #include <vector>
-#include "AbsFDTD.h"
+#include "FDTDInterface.h"
 
 struct InputStruct;
 
-class FDTD_1D: public AbsFDTD
+class FDTD_1D: public FDTDInterface
 {
 	public:
 	FDTD_1D();

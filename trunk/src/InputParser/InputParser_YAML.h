@@ -8,14 +8,14 @@
 #define InputParser_YAML_H
 
 
-#include "AbsInputParser.h"
+#include "InputParserInterface.h"
 #include "yaml-cpp/yaml.h"
 #include "InputStruct.h"
 
 #include <fstream>
 using namespace YAML;
 
-class InputParserYAML: public AbsInputParser
+class InputParserYAML: public InputParserInterface
 {
 	public:
 	InputParserYAML();

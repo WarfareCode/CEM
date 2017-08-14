@@ -1,23 +1,16 @@
 /**
-* @file AbsInputParser.h
-* @brief Abstract virtual class for the Input Parser*
+* @file InputParserInterface.h
+* @brief Abstract virtual class for the Input Parser, defines the interface*
 * @author Ben Frazier*
 * @date 08/14/2017 */
 
 
-#ifndef ABS_INPUTPARSER_H
-#define ABS_INPUTPARSER_H
+#ifndef INPUTPARSER_INTERFACE_H
+#define INPUTPARSER_INTERFACE_H
+#include "CEMTypes.h"
 #include <iostream>
 
-enum InputParserError
-{
-	INPUT_PARSER_SUCCESS = 0,
-	BAD_FILE = -1,
-	FILE_ALREADY_LOADED = -2,
-	FILE_NOT_LOADED = -3
-};
-
-class AbsInputParser
+class InputParserInterface
 {
 	public:
 	virtual InputParserError Initialize(std::string fileName) = 0;
