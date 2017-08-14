@@ -7,6 +7,7 @@
 #ifndef DATALOGGER_INTERFACE_H
 #define DATALOGGER_INTERFACE_H
 #include <iostream>
+#include <vector>
 
 class DataLoggerInterface
 {

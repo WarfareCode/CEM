@@ -18,9 +18,7 @@
 #include <math.h>
 #include <algorithm>
 
-#include "DataLogger/DataLogger_HDF5.h"
-#include "FDTD_Engine/FDTD_1D.h"
-#include "InputParser/InputParser_YAML.h"
+#include "SimManager/SimManager.h"
 
 #define SIZE 200
  
@@ -33,7 +31,6 @@ int main (int argc, char *argv[])
     {
        std::string inputFileName;
        std::string outputFileName;
-       InputParserYAML ip;
 
        //check the inputs
        if (argc == 3)
@@ -61,25 +58,10 @@ int main (int argc, char *argv[])
         getcwd(cwd, sizeof(cwd));
         std::cout<<"Current Directory: " << cwd << std::endl;
 #endif
-	
+        
        std::cout << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
-       DataLoggerHDF5 dLogger;
-       dLogger.CreateFile(outputFileName);
-
-       ip.ReadInputFile(inputFileName);
-       InputStruct input;
-       ip.GetInputStruct(input);
-        
-       FDTD_1D fdtd;
-       fdtd.InitializeEngine(input);
-        
-       for(int time = input.startTime_; time < input.stopTime_; time++)
-       {
-         fdtd.UpdateFields(time);
-         fdtd.SetEFieldSource(0,time);
-         dLogger.WriteDataArray(fdtd.getEField());   
-       }
-  
+       SimManager Sim(inputFileName, outputFileName);
+       Sim.Run();
         
     }  // end of try block
     

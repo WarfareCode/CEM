@@ -6,7 +6,9 @@
 
 #ifndef FDTD_INTERFACE_H
 #define FDTD_INTERFACE_H
+
 #include "CEMTypes.h"
+#include <vector>
 
 struct InputStruct;
 class InputParserInterface;

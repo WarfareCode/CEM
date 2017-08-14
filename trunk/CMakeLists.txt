@@ -27,7 +27,7 @@ add_custom_target(build-time-make-input-data-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
 
 #add the common and interface headers to the include path
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces)
     
 #find the additional libraries needed
 #HDF5 - used for data logging
@@ -61,10 +61,8 @@ message("YAMLCPP_INCLUDE_DIR: " ${YAMLCPP_INCLUDE_DIR})
 message("GTEST_INCLUDE_DIR: " ${GTEST_INCLUDE_DIR})
 message("GMOCK_INCLUDE_DIR: " ${GMOCK_INCLUDE_DIR})
 
-set(COMMON_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/Common)
-
 #add the additional include directories
-include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} ${COMMON_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 #add the src subdirectory
 add_subdirectory(${SOURCE_DIRECTORY})
@@ -74,7 +72,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(cem ${HDF5_LIBRARIES} yaml-cpp DataLogger FDTD InputParser  ${GPERFTOOLS_LIBRARIES})
+target_link_libraries(cem ${HDF5_LIBRARIES} SimManager )#yaml-cpp DataLogger FDTD InputParser  ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
