@@ -10,7 +10,7 @@
 
 #include "AbsInputParser.h"
 #include "yaml-cpp/yaml.h"
-#include "src/Common/InputStruct.h"
+#include "InputStruct.h"
 
 #include <fstream>
 using namespace YAML;

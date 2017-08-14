@@ -5,7 +5,7 @@
 * @date 08/12/2017 */
 
 #include "FDTD_1D.h"
-#include "src/Common/InputStruct.h"
+#include "InputStruct.h"
 #include <math.h>
 
 /** \brief FDTD_1D Constructor

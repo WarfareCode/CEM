@@ -1,1 +1,1 @@
-add_library(DataLogger AbsDataLogger.h DataLogger_HDF5.h DataLogger_HDF5.cpp)
+add_library(DataLogger DataLogger_HDF5.h DataLogger_HDF5.cpp)
