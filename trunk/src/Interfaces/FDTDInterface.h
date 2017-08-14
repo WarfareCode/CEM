@@ -9,6 +9,7 @@
 #include "CEMTypes.h"
 
 struct InputStruct;
+class InputParserInterface;
 
 class FDTDInterface
 {

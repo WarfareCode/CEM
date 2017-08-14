@@ -33,16 +33,26 @@ namespace testing
 
     };
 
-//Constructor - this should result in an empty file name
-    TEST_F(InputParser_Test, constructor_emptyFileName)
+    TEST_F(InputParser_Test, constructor_fileNotLoaded)
     {
-        char cwd[1024];
+      /*char cwd[1024];
         getcwd(cwd, sizeof(cwd));
-        std::cout<<"Current Directory: " << cwd << std::endl;
+        std::cout<<"Current Directory: " << cwd << std::endl;*/
         
-        std::string fname = ip.GetFileName();
-        
-        EXPECT_THAT(fname, Eq(""));   
+        InputStruct input;
+	ipError = ip.GetInputStruct(input);
+
+	EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_NOT_LOADED));
+    
+    }
+
+      TEST_F(InputParser_Test, constructor_tryLoadingMultipleFiles)
+    {
+	ipError = ip.ReadInputFile(testFileName);
+        EXPECT_THAT(ipError,Eq(INPUT_PARSER_SUCCESS));
+	
+	ipError = ip.ReadInputFile(testFileName);
+	EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_ALREADY_LOADED));
     }
    
     TEST_F(InputParser_Test, readTestFile)

@@ -67,11 +67,13 @@ int main (int argc, char *argv[])
        dLogger.CreateFile(outputFileName);
 
        ip.ReadInputFile(inputFileName);
+       InputStruct input;
+       ip.GetInputStruct(input);
         
        FDTD_1D fdtd;
-       fdtd.InitializeEngine(ip.GetInput());
+       fdtd.InitializeEngine(input);
         
-       for(int time = ip.getStartTime(); time < ip.getStopTime(); time++)
+       for(int time = input.startTime_; time < input.stopTime_; time++)
        {
          fdtd.UpdateFields(time);
          fdtd.SetEFieldSource(0,time);

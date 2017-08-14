@@ -11,8 +11,7 @@
 *
 */
 InputParserYAML::InputParserYAML():
-  fileLoaded_(false),
-  error_(INPUT_PARSER_SUCCESS)
+  fileLoaded_(false) 
 {
  
 }
@@ -30,7 +29,7 @@ InputParserError InputParserYAML::ReadInputFile()
 	input_.vectorLength_ = basenode_["Vector_Length"].as<int>();
 
 	fileLoaded_ = true;
-	return error_;
+	return INPUT_PARSER_SUCCESS;
 }
 
 /**
@@ -40,11 +39,19 @@ InputParserError InputParserYAML::ReadInputFile()
 * @param fileName Name of the file to read*/
 InputParserError InputParserYAML::ReadInputFile(std::string fileName)
 {
-	InputParserError error = INPUT_PARSER_SUCCESS;
+  InputParserError error = INPUT_PARSER_SUCCESS;
+  if (fileLoaded_ == true)
+    {
+      error = INPUT_PARSER_FILE_ALREADY_LOADED;
+      return error;
+    }
+  else
+    {
 	input_.fileName_ = fileName;
 	basenode_ = YAML::LoadFile(input_.fileName_);
-	error_ = ReadInputFile();
-	return error_;
+	error = ReadInputFile();
+	return error;
+    }
 }
 
 /**
@@ -54,16 +61,12 @@ InputParserError InputParserYAML::ReadInputFile(std::string fileName)
 * @param input Reference to the InputStruct*/
 InputParserError InputParserYAML::GetInputStruct(InputStruct &input)
 {
-  if(error_ == INPUT_PARSER_SUCCESS)
-    {
      if (fileLoaded_ == true)
        {
 	 input = input_;
-	 return error_;
+	 return INPUT_PARSER_SUCCESS;
        }
      else
-       return FILE_NOT_LOADED;
-    }
-    else
-      return error_;
+       return INPUT_PARSER_FILE_NOT_LOADED;
+
 }

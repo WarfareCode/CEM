@@ -18,28 +18,19 @@ class InputParserYAML: public InputParserInterface
 {
 	public:
 	InputParserYAML();
-	
+
+	//define the virtual functions
 	virtual InputParserError ReadInputFile(std::string fileName);
 	virtual InputParserError GetInputStruct(InputStruct &input);
 
+	//now define additional support functions
         InputParserError ReadInputFile();
 	
-        std::string GetFileName(){return input_.fileName_;};
-        InputStruct GetInput(){return input_;};
-	
-
-	//Get functions
-	std::string getComputationType(){return input_.computationType_;};
-	double getStartTime(){return input_.startTime_;};
-	double getStopTime(){return input_.stopTime_;};
-	std::string getABC(){return input_.absorbingBoundaryCondition_;};
-
 	private:
 	YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
 	
 	bool fileLoaded_;
 	InputStruct input_; /*!< Input structure that the contents of the file will be loaded to */
-	InputParserError error_; /*!< Variable for internal error handling */
 
 };
 
