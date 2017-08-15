@@ -1,7 +1,8 @@
 /**
 * @file FDTD_1D.h
-* @brief Header File for the FDTD_1D class *
-* @author Ben Frazier*
+* @brief Header File for the FDTD_1D class
+* @author Ben Frazier
+* @todo add various options for absorbing boundary conditions and interfaces
 * @date 08/12/2017 */
 
 #ifndef FDTD_1D_H

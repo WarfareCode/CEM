@@ -1,7 +1,7 @@
 /**
 * @file FDTD_1D.cpp
-* @brief Implementation of the FDTD_1D class *
-* @author Ben Frazier*
+* @brief Implementation of the FDTD_1D class
+* @author Ben Frazier
 * @date 08/12/2017 */
 
 #include "FDTD_1D.h"

@@ -1,7 +1,7 @@
 /**
 * @file CEMdefs.h
-* @brief Header File with standard definitions *
-* @author Ben Frazier*
+* @brief Header File with standard definitions 
+* @author Ben Frazier
 * @date 08/14/2017 */
 
 namespace CEM

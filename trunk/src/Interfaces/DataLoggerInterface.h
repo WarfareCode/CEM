@@ -1,7 +1,14 @@
 /**
 * @file DataLoggerInterface.h
-* @brief Virtual class definition for DataLogger, defines the interface *
-* @author Ben Frazier*
+* @brief Virtual class definition for DataLogger, defines the interface
+* @details Required Interface functions:
+* <pre>
+*    WriteDataArray (overloaded to take either a std::vector or an array)
+*    CreateFile
+*    WriteDataHeader
+* </pre>
+* @todo Add ReadDataInputArray
+* @author Ben Frazier
 * @date 08/12/2017 */
 
 #ifndef DATALOGGER_INTERFACE_H

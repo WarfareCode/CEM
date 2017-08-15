@@ -1,7 +1,7 @@
 /**
 * @file SimManager.cpp
-* @brief Implementation of the Simulation Manager class *
-* @author Ben Frazier*
+* @brief Implementation of the Simulation Manager class
+* @author Ben Frazier
 * @date 08/14/2017 */
 #include "SimManager.h"
 

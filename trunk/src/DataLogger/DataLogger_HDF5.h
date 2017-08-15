@@ -1,9 +1,15 @@
+/**
+* @file DataLogger_HDF5.h
+* @brief Header File for the DataLogger_HDF5 class
+* @author Ben Frazier
+* @todo Add ReadDataInputArray
+* @date 08/12/2017 */
+
 #ifndef DATALOGGER_HDF5_H
 #define DATALOGGER_HDF5_H
 
-#include <iostream>
 #include <vector>
-#include <array>
+#include <string>
 #include "DataLoggerInterface.h"
 #include "H5Cpp.h"
 #include "InputStruct.h"

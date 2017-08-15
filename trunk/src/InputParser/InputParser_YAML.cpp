@@ -1,7 +1,7 @@
 /**
 * @file InputParser_YAML.cpp
-* @brief Implementation of the InputParserYAML class *
-* @author Ben Frazier*
+* @brief Implementation of the InputParserYAML class
+* @author Ben Frazier
 * @date 08/14/2017 */
 
 #include "InputParser_YAML.h"
