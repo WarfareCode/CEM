@@ -18,29 +18,53 @@ SimManager::SimManager()
 *
 * @param fileName Name of the file to read as input
 **/
-SimManager::SimManager(std::string inputFileName, std::string outputFileName)
+SimManager::SimManager(std::string inputFileName, std::string outputFileName):
+  engine_(inputFileName,outputFileName)
 {
-   ipError_ = ip_.ReadInputFile(inputFileName);
-   ipError_ = ip_.GetInputStruct(input_);
 
-   fdtd_.InitializeEngine(input_);
-   
-   dLogger_.CreateFile(outputFileName);
-   dLogger_.WriteDataHeader(input_);
 }
 
 /**
 * @brief Run the simulation
 *
 **/
-void SimManager::Run()
+int SimManager::Run()
 {
+  try
+    {
+      engine_.Run();
+       
+    }  // end of try block
+    
+    // catch failure caused by the H5File operations
+    catch( FileIException error )
+    {
+        error.printError();
+        return -1;
+    }
+    
+    // catch failure caused by the DataSet operations
+    catch( DataSetIException error )
+    {
+        error.printError();
+        return -1;
+    }
+    
+    // catch failure caused by the DataSpace operations
+    catch( DataSpaceIException error )
+    {
+        error.printError();
+        return -1;
+    }
+    
+    // catch failure caused by the DataSpace operations
+    catch( DataTypeIException error )
+    {
+        error.printError();
+        return -1;
+    }
 
-for(int time = input_.startTime_; time < input_.stopTime_; time++)
-  {
-    fdtd_.UpdateFields(time);
-    fdtd_.SetEFieldSource(0,time);
-    dLogger_.WriteDataArray(fdtd_.getEField());   
-  }
+  return 0;
+
 }
 
