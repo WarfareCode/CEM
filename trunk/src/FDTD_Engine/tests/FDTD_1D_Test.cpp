@@ -9,6 +9,7 @@
   using ::testing::Test;
 
 #include "src/Common/InputStruct.h"
+#include "src/Common/CEMdefs.h"
 
 namespace FDTD
 {
@@ -46,7 +47,7 @@ namespace testing
       double imp = fdtd.getImpedance();
 
       EXPECT_THAT(s, Eq(0));
-      EXPECT_THAT(imp, Eq(377.0));
+      EXPECT_THAT(imp, Eq(CEM::imp0));
     }
 
   TEST_F(FDTD_1DTest, initialization)
