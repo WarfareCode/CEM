@@ -21,22 +21,24 @@
 #include <vector>
 
 struct InputStruct;
-class InputParserInterface;
 
-class FDTDInterface
+namespace FDTD
 {
-	public:
-	virtual void InitializeEngine(InputStruct input)=0;
-	virtual void UpdateFields(double time) = 0;
+  class FDTDInterface
+  {
+  public:
+    virtual void InitializeEngine(InputStruct input)=0;
+    virtual void UpdateFields(double time) = 0;
 
-	virtual std::vector<double> getEField()=0;
-	virtual double getEField(int index)=0;
+    virtual std::vector<double> getEField()=0;
+    virtual double getEField(int index)=0;
 	
-        virtual std::vector<double> getHField()=0;
-	virtual double getHField(int index)=0;
+    virtual std::vector<double> getHField()=0;
+    virtual double getHField(int index)=0;
 	
-	virtual int getDataSize()=0;
-	virtual double getImpedance()=0;
-};
+    virtual int getDataSize()=0;
+    virtual double getImpedance()=0;
+  };
+}
 
 #endif

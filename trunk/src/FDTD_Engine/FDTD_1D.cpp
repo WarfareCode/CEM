@@ -8,141 +8,145 @@
 #include "InputStruct.h"
 #include <math.h>
 
-/** \brief FDTD_1D Constructor
+namespace FDTD
+{
+ /** \brief FDTD_1D Constructor
  *
  *  Standard Constructor
  */
-FDTD_1D::FDTD_1D():
-  initialized(false),
-  ABC(SimpleABC),
-  imp(377.0),
-  dataSize(0)
-{
+  FDTD_1D::FDTD_1D():
+    initialized(false),
+    ABC(SimpleABC),
+    imp(377.0),
+    dataSize(0)
+  {
 
-}
+  }
 
-/**
-* \brief Initialize the FDTD_1D engine
-*
-* This function sets the size of the E and H vectors */
-void FDTD_1D::InitializeEngine()
-{
-  H.resize(dataSize);
-  E.resize(dataSize);
+  /**
+   * \brief Initialize the FDTD_1D engine
+   *
+   * This function sets the size of the E and H vectors */
+  void FDTD_1D::InitializeEngine()
+  {
+    H.resize(dataSize);
+    E.resize(dataSize);
 
-  initialized = true;
-}
+    initialized = true;
+  }
 
-/**
-* \brief Initialize the FDTD_1D engine
-*
-* This function sets the size of the E and H vectors
-* @param input The input structure read in from the input file*/
-void FDTD_1D::InitializeEngine(InputStruct input)
-{
-  dataSize = input.vectorLength_;
+  /**
+   * \brief Initialize the FDTD_1D engine
+   *
+   * This function sets the size of the E and H vectors
+   * @param input The input structure read in from the input file*/
+  void FDTD_1D::InitializeEngine(InputStruct input)
+  {
+    dataSize = input.vectorLength_;
 
-  ABC = SimpleABC;
+    ABC = SimpleABC;
 
-  InitializeEngine();
-}
+    InitializeEngine();
+  }
 
-/**
-* \brief Update the E and H fields
-*
-* This function updates the E and H fields by stepping to the specified time index
-* @param time The next time step to update*/
-void FDTD_1D::UpdateFields(double time)
-{
- applyBC_H();
+  /**
+   * \brief Update the E and H fields
+   *
+   * This function updates the E and H fields by stepping to the specified time index
+   * @param time The next time step to update*/
+  void FDTD_1D::UpdateFields(double time)
+  {
+    applyBC_H();
   
-//update the H Field
- for (int mm = 0; mm < dataSize - 1; mm++)
-   H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp;
+    //update the H Field
+    for (int mm = 0; mm < dataSize - 1; mm++)
+      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp;
 
- applyBC_E();
+    applyBC_E();
    
-   //Now update the E Field
-for (int mm = 1; mm < dataSize; mm++)
-	E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp;
-}
+    //Now update the E Field
+    for (int mm = 1; mm < dataSize; mm++)
+      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp;
+  }
 
-void FDTD_1D::SetEFieldSource(int index, double time)
-{
-  E[index] = exp(-(time - 30.) * (time - 30.) / 100.);
-}
+  void FDTD_1D::SetEFieldSource(int index, double time)
+  {
+    E[index] = exp(-(time - 30.) * (time - 30.) / 100.);
+  }
 
-/**
-* \brief Return the E field at a specified index
-*
-* This function gets the E field at a given index and returns 0 if the requested
-* index exceeds the size of the array
-* @param index The index of the E field to retrieve*/
-double FDTD_1D::getEField(int index)
-{
-  if (index < dataSize)
-     return E[index];
-  else
-    return 0;
-}
+  /**
+   * \brief Return the E field at a specified index
+   *
+   * This function gets the E field at a given index and returns 0 if the requested
+   * index exceeds the size of the array
+   * @param index The index of the E field to retrieve*/
+  double FDTD_1D::getEField(int index)
+  {
+    if (index < dataSize)
+      return E[index];
+    else
+      return 0;
+  }
 
-/**
-* \brief Return the H field at a specified index
-*
-* This function gets the H field at a given index and returns 0 if the requested
-* index exceeds the size of the array
-* @param index The index of the H field to retrieve*/
-double FDTD_1D::getHField(int index)
-{
-  if (index < dataSize)
-     return H[index];
-  else
-    return 0;
-}
+  /**
+   * \brief Return the H field at a specified index
+   *
+   * This function gets the H field at a given index and returns 0 if the requested
+   * index exceeds the size of the array
+   * @param index The index of the H field to retrieve*/
+  double FDTD_1D::getHField(int index)
+  {
+    if (index < dataSize)
+      return H[index];
+    else
+      return 0;
+  }
 
-void FDTD_1D::simpleABC_E()
-{
-  E[0] = E[1];
-}
+  void FDTD_1D::simpleABC_E()
+  {
+    E[0] = E[1];
+  }
 
-void FDTD_1D::simpleABC_H()
-{
-  H[dataSize-1] = H[dataSize-2];
-}
+  void FDTD_1D::simpleABC_H()
+  {
+    H[dataSize-1] = H[dataSize-2];
+  }
 
 
-void FDTD_1D::applyBC_E()
-{
-  switch (ABC)
-    {
-    case NoABC:
-      break;
-      
-    case SimpleABC:
-      simpleABC_E();
-      break;
-      
-    case TFSF_ABC:
-      break;
-    default:
-      break;
-    }
-}
-
-void FDTD_1D::applyBC_H()
-{
+  void FDTD_1D::applyBC_E()
+  {
     switch (ABC)
-    {
-    case NoABC:
-      break;
+      {
+      case NoABC:
+	break;
       
-    case SimpleABC:
-      simpleABC_H();
-      break;
+      case SimpleABC:
+	simpleABC_E();
+	break;
       
-    case TFSF_ABC:
-      break;
-    default:
-      break;
-    }
-}
+      case TFSF_ABC:
+	break;
+      default:
+	break;
+      }
+  }
+
+  void FDTD_1D::applyBC_H()
+  {
+    switch (ABC)
+      {
+      case NoABC:
+	break;
+      
+      case SimpleABC:
+	simpleABC_H();
+	break;
+      
+      case TFSF_ABC:
+	break;
+      default:
+	break;
+      }
+  }
+
+}//end of namespace

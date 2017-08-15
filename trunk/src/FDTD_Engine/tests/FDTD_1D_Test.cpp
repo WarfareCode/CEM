@@ -10,7 +10,8 @@
 
 #include "src/Common/InputStruct.h"
 
-
+namespace FDTD
+{
 namespace FDTD_1DTest
 {
 namespace testing
@@ -78,3 +79,4 @@ namespace testing
 
 } // namespace testing
 } // namespace FDTD_1D_Test
+} //namespace FDTD

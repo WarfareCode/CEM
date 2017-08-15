@@ -14,45 +14,48 @@
 
 struct InputStruct;
 
-class FDTD_1D: public FDTDInterface
+namespace FDTD
 {
-	public:
-	FDTD_1D();
+  class FDTD_1D: public FDTDInterface
+  {
+  public:
+    FDTD_1D();
 
-	virtual void InitializeEngine(InputStruct input);
-	virtual void UpdateFields(double time);
-	void SetEFieldSource(int index, double time);
+    virtual void InitializeEngine(InputStruct input);
+    virtual void UpdateFields(double time);
+    void SetEFieldSource(int index, double time);
 
-        virtual std::vector<double> getEField(){return E;};
-	virtual double getEField(int index);
-	virtual std::vector<double> getHField(){return H;};
+    virtual std::vector<double> getEField(){return E;};
+    virtual double getEField(int index);
+    virtual std::vector<double> getHField(){return H;};
 
-	virtual double getHField(int index);
+    virtual double getHField(int index);
 
-	virtual int getDataSize(){return dataSize;};
-	virtual double getImpedance(){return imp;};
+    virtual int getDataSize(){return dataSize;};
+    virtual double getImpedance(){return imp;};
 
-	AbsorbingBoundaryCondition getABC(){return ABC;};
+    AbsorbingBoundaryCondition getABC(){return ABC;};
 
-	private:
-	char HDirection, EDirection;
+  private:
+    char HDirection, EDirection;
 
-	std::vector<double> E; /*!< Electric Field Vector */
-	std::vector<double> H; /*!< Magnetic Field Vector */
-	double imp; /*!< Impedance Vector */
-	int dataSize;
+    std::vector<double> E; /*!< Electric Field Vector */
+    std::vector<double> H; /*!< Magnetic Field Vector */
+    double imp; /*!< Impedance Vector */
+    int dataSize;
 
-	bool initialized;
-	AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
+    bool initialized;
+    AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
 
-	void simpleABC_E();
-	void simpleABC_H();
+    void simpleABC_E();
+    void simpleABC_H();
 
-	void applyBC_E();
-	void applyBC_H();
+    void applyBC_E();
+    void applyBC_H();
 
-        void InitializeEngine();
+    void InitializeEngine();
 
-};
+  };
+}
 
 #endif
