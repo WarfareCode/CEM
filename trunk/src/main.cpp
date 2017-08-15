@@ -15,9 +15,6 @@
 #endif
 
 #include <string>
-#include <math.h>
-#include <algorithm>
-
 #include "SimManager/SimManager.h"
 
 #define SIZE 200

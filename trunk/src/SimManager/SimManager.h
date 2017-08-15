@@ -1,8 +1,11 @@
 /**
 * @file SimManager.h
 * @brief Header File for the Simulation Manager class *
+*
+* The SimManager provides the top most interface to the underlying simulation. It controls the SimEngine and covers exception handling *
 * @author Ben Frazier*
-* @date 08/14/2017 */
+* @date 08/14/2017 * 
+**/
 
 #ifndef SIM_MANAGER_H
 #define SIM_MANAGER_H
@@ -22,7 +25,7 @@ class SimManager
 	//member functions
 
 	//member variables
-	SimEngine engine_;
+	SimEngine engine_;  /*!< Simulation engine member variable for running the simulation */
 };
 
 #endif
