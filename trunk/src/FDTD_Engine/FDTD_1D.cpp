@@ -22,7 +22,20 @@ namespace FDTD
   {
 
   }
-
+  
+ /** \brief FDTD_1D Overloaded Constructor
+ *
+ *  Standard Constructor
+ */
+  FDTD_1D::FDTD_1D(const InputStruct & input):
+    initialized(false),
+    ABC(SimpleABC),
+    imp(377.0),
+    dataSize(0)
+  {
+    InitializeEngine(input);
+  }
+  
   /**
    * \brief Initialize the FDTD_1D engine
    *

@@ -8,6 +8,14 @@
 #ifndef CEM_TYPES_H
 #define CEM_TYPES_H
 
+#include <exception>
+
+struct CEMException : public std::exception {
+   const char * what () const throw () {
+      return "C++ Exception";
+   }
+};
+
 /**
 * @brief enumeration for the Input Parser error
 */

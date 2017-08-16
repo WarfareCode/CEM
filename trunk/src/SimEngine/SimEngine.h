@@ -29,7 +29,7 @@ class SimEngine
 	std::unique_ptr<FDTD::FDTDInterface> fdtd_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
 	std::unique_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
-	//theinput parser type is known at compile time - only YAML is handled
+	//the input parser type is known at compile time - only YAML is handled
 	InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
 	InputStruct input_;  /*!< InputStruct  used to retrieve the input from the InputParserYAML class. */
 	InputParserError ipError_;  /*!< InputParserError member variable for handling errors from the InputParserYAML class */

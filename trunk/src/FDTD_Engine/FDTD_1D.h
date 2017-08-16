@@ -20,6 +20,7 @@ namespace FDTD
   {
   public:
     FDTD_1D();
+    FDTD_1D(const InputStruct & input);
 
     virtual void InitializeEngine(const InputStruct & input);
     virtual void UpdateFields(double time);
