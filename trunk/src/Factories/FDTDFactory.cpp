@@ -20,5 +20,11 @@ namespace FDTD
     return fdtd;
   }
 
+   std::unique_ptr<FDTDInterface> FDTDFactory::createComputationalEngine(InputStruct input)
+   {
+     std::unique_ptr<FDTDInterface> fdtd (new FDTD_1D);
+     return fdtd;
+   }
+
 }
 

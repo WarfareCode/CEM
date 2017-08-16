@@ -21,10 +21,10 @@ SimEngine::SimEngine()
 **/
 SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
 {
-   fdtd_ptr_ = fdtdFactory_.createFDTDEngine();
    ipError_ = ip_.ReadInputFile(inputFileName);
    ipError_ = ip_.GetInputStruct(input_);
-
+   
+   fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);//createFDTDEngine();
    fdtd_ptr_->InitializeEngine(input_);
 
    

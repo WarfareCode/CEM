@@ -1,6 +1,7 @@
 /**
 * @file FDTDFactory.h
 * @brief Header File for the FDTD Factory class
+* @todo Add support for 2D and 3D cases, extend to other computational engines
 * @author Ben Frazier
 * @date 08/15/2017 */
 
@@ -10,6 +11,8 @@
 #include "FDTD_Engine/FDTD_1D.h"
 #include "Interfaces/FDTDInterface.h"
 
+#include "InputStruct.h"
+
 namespace FDTD
 {
   class FDTDFactory
@@ -18,6 +21,8 @@ namespace FDTD
     FDTDFactory();
 
     FDTDInterface* createFDTDEngine();
+
+    std::unique_ptr<FDTDInterface> createComputationalEngine(InputStruct input);
 
   };
 }

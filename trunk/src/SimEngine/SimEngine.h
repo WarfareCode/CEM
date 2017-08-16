@@ -28,8 +28,8 @@ class SimEngine
 	//member functions
 
 	//member variables
-	//pointer to engine interface 
-	FDTD::FDTDInterface* fdtd_ptr_;/*!< FDTD_1D member variable pointer for handling FDTD computations. @todo Add Factory to generate the appropriate computational engine */
+	//pointer to engine interface FDTD::FDTDInterface* 
+	std::unique_ptr<FDTD::FDTDInterface> fdtd_ptr_;/*!< FDTD_1D member variable pointer for handling FDTD computations. @todo Add Factory to generate the appropriate computational engine */
 
 	//the data logger and input parser types are known at compile time
         DataLoggerHDF5 dLogger_; /*!< DataLoggerHDF5 member variable for writing output to an HDF5 file */
