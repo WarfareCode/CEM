@@ -42,7 +42,9 @@ namespace FDTD
    * @param input The input structure read in from the input file*/
   void FDTD_1D::InitializeEngine(InputStruct input)
   {
+
     dataSize = input.vectorLength_;
+    sourceIndex = input.sourceIndex_;
 
     ABC = SimpleABC;
 
@@ -67,6 +69,14 @@ namespace FDTD
     //Now update the E Field
     for (int mm = 1; mm < dataSize; mm++)
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp;
+
+    //set the source
+    SetEFieldSource(time);
+  }
+
+  void FDTD_1D::SetEFieldSource(double time)
+  {
+     E[sourceIndex] = exp(-(time - 30.) * (time - 30.) / 100.);
   }
 
   void FDTD_1D::SetEFieldSource(int index, double time)

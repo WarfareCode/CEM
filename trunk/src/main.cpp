@@ -9,7 +9,7 @@
 #include <vector>
 
 #include <stdlib.h>
-
+#define PRINT_WORKING_DIRECTORY
 #ifdef PRINT_WORKING_DIRECTORY
 #include <unistd.h>
 #endif

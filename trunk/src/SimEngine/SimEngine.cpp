@@ -11,6 +11,7 @@
 **/
 SimEngine::SimEngine()
 {
+
 }
 
 /**
@@ -20,10 +21,12 @@ SimEngine::SimEngine()
 **/
 SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
 {
+   fdtd_ptr_ = fdtdFactory_.createFDTDEngine();
    ipError_ = ip_.ReadInputFile(inputFileName);
    ipError_ = ip_.GetInputStruct(input_);
 
-   fdtd_.InitializeEngine(input_);
+   fdtd_ptr_->InitializeEngine(input_);
+
    
    dLogger_.CreateFile(outputFileName);
    dLogger_.WriteDataHeader(input_);
@@ -38,9 +41,8 @@ void SimEngine::Run()
 
 for(int time = input_.startTime_; time < input_.stopTime_; time++)
   {
-    fdtd_.UpdateFields(time);
-    fdtd_.SetEFieldSource(0,time);
-    dLogger_.WriteDataArray(fdtd_.getEField());   
+    fdtd_ptr_->UpdateFields(time);
+    dLogger_.WriteDataArray(fdtd_ptr_->getEField());   
   }
 }
 

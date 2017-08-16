@@ -15,6 +15,7 @@ struct InputStruct
  double stopTime_;                         /*!< Stop time for the simulation*/
  std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
  int vectorLength_;                        /*!< Variable for the length (number of points) for each spatial vector*/
+ int sourceIndex_;                        /*!< Index at which to apply the E-field source*/
 };
 
 #endif

@@ -27,6 +27,7 @@ InputParserError InputParserYAML::ReadInputFile()
 	input_.stopTime_ = basenode_["Stop_Time"].as<double>();
 	input_.absorbingBoundaryCondition_ = basenode_["Absorbing_Boundary_Condition"].as<std::string>();
 	input_.vectorLength_ = basenode_["Vector_Length"].as<int>();
+	input_.sourceIndex_ = basenode_["Source_Index"].as<int>();
 
 	fileLoaded_ = true;
 	return INPUT_PARSER_SUCCESS;

@@ -24,6 +24,7 @@ namespace FDTD
     virtual void InitializeEngine(InputStruct input);
     virtual void UpdateFields(double time);
     void SetEFieldSource(int index, double time);
+    void SetEFieldSource(double time);
 
     virtual std::vector<double> getEField(){return E;};
     virtual double getEField(int index);
@@ -43,6 +44,7 @@ namespace FDTD
     std::vector<double> H; /*!< Magnetic Field Vector */
     double imp; /*!< Impedance Vector */
     int dataSize;
+    int sourceIndex;
 
     bool initialized;
     AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
