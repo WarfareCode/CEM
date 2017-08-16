@@ -24,10 +24,9 @@ SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
    ipError_ = ip_.ReadInputFile(inputFileName);
    ipError_ = ip_.GetInputStruct(input_);
    
-   fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);//createFDTDEngine();
+   fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
    fdtd_ptr_->InitializeEngine(input_);
 
-   
    dLogger_.CreateFile(outputFileName);
    dLogger_.WriteDataHeader(input_);
 }
