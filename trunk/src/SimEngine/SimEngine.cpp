@@ -25,7 +25,6 @@ SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
    ipError_ = ip_.GetInputStruct(input_);
    
    fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
-   fdtd_ptr_->InitializeEngine(input_);
 
    dLogger_ptr_ = dlFactory_.createDataLogger(input_);
    dLogger_ptr_->CreateFile(outputFileName);

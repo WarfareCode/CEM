@@ -22,19 +22,16 @@ namespace FDTD
     FDTD_1D();
     FDTD_1D(const InputStruct & input);
 
-    virtual void InitializeEngine(const InputStruct & input);
-    virtual void UpdateFields(double time);
-    void SetEFieldSource(int index, double time);
-    void SetEFieldSource(double time);
 
+    virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
     virtual double getEField(int index);
     virtual std::vector<double> getHField(){return H;};
-
     virtual double getHField(int index);
-
     virtual int getDataSize(){return dataSize;};
     virtual double getImpedance(){return imp;};
+    
+   
 
     AbsorbingBoundaryCondition getABC(){return ABC;};
 
@@ -56,7 +53,10 @@ namespace FDTD
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine();
+    void InitializeEngine(const InputStruct & input);
+    
+    void SetEFieldSource(int index, double time);
+    void SetEFieldSource(double time);
 
   };
 }

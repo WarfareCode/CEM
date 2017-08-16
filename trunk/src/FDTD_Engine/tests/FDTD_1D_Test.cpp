@@ -31,50 +31,36 @@ namespace testing
         input.stopTime_ = 250;
         input.absorbingBoundaryCondition_ = "Simple";
         input.vectorLength_ = 200;
+
+	fdtd = new FDTD_1D(input);
       }
-        virtual void TearDown(){}
+      virtual void TearDown(){ delete fdtd;}
 
 
-        FDTD_1D fdtd;
+        FDTD_1D* fdtd;
         InputStruct input;
 
     };
 
-    TEST_F(FDTD_1DTest, constructor)
+    TEST_F(FDTD_1DTest, constructor_initialization)
     {
 
-      int s = fdtd.getDataSize();
-      double imp = fdtd.getImpedance();
+      int s = fdtd->getDataSize();
+      double imp = fdtd->getImpedance();
 
-      EXPECT_THAT(s, Eq(0));
+      EXPECT_THAT(s, Eq(200));
       EXPECT_THAT(imp, Eq(CEM::imp0));
+
     }
 
-  TEST_F(FDTD_1DTest, initialization)
-  {
-      fdtd.InitializeEngine(input);
-      int s = fdtd.getDataSize();
-      EXPECT_THAT(s, Eq(200));
-
-  }
-
-  TEST_F(FDTD_1DTest, setField)
-  {
-    double E;
-    fdtd.InitializeEngine(input);
-    fdtd.SetEFieldSource(0,10);
-     
-  }
 
   TEST_F(FDTD_1DTest, run)
   {
    int SIZE = 200;
-   fdtd.InitializeEngine(input);
         
    for(int time = input.startTime_; time < input.stopTime_; time++)
        {
-         fdtd.UpdateFields(time);
-         fdtd.SetEFieldSource(0,time);
+         fdtd->UpdateFields(time);
        }
   }
 

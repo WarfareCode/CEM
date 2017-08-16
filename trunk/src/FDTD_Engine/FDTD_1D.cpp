@@ -35,18 +35,6 @@ namespace FDTD
   {
     InitializeEngine(input);
   }
-  
-  /**
-   * \brief Initialize the FDTD_1D engine
-   *
-   * This function sets the size of the E and H vectors */
-  void FDTD_1D::InitializeEngine()
-  {
-    H.resize(dataSize);
-    E.resize(dataSize);
-
-    initialized = true;
-  }
 
   /**
    * \brief Initialize the FDTD_1D engine
@@ -61,7 +49,11 @@ namespace FDTD
 
     ABC = SimpleABC;
 
-    InitializeEngine();
+    H.resize(dataSize);
+    E.resize(dataSize);
+
+    initialized = true;
+   
   }
 
   /**
