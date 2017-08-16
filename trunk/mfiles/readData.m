@@ -1,11 +1,29 @@
-info = h5info('CEMOutput.h5','/Ex');
-figure;
+function data = readData(timeIndex,varargin)
 
-for counter = 1:350
-    offset = 1 + (counter-1)*info.ChunkSize;
+if nargin == 1
+    fileName = 'CEMOutput.h5';
+    group = '/Ex';
+elseif nargin == 2
+    fileName = varargin{1};
+    group = '/Ex';
+elseif nargin == 3
+    fileName = varargin{1};
+    group = varargin{2};
+end
+
+info = h5info(fileName,group);
+data =[];
+
+timeLength = info.Dataspace.Size/info.ChunkSize;
+
+if (timeIndex > timeLength)
+    error('Requested Index exceeds data file length, Requested = %s, Recorded = %s',timeIndex,timeLength);
+else
+    offset = 1 + (timeIndex-1)*info.ChunkSize;
     data = h5read('CEMOutput.h5','/Ex',offset,info.ChunkSize);
     plot(data);
-    tstring = sprintf('Index: %d',counter);
+    tstring = sprintf('Index: %d',timeIndex);
     title(tstring);
-    pause(0.1);
+    xlabel('Spatial Index (m)');
+    ylabel('E Field');
 end
