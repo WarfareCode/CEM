@@ -97,7 +97,7 @@ void DataLoggerHDF5::CreateFile(std::string filename)
 *
 * This function writes the input struct to the data file so that the inputs are captured
 * @param input The InputStruct to write out*/
-void DataLoggerHDF5:: WriteDataHeader(InputStruct input)
+void DataLoggerHDF5:: WriteDataHeader(const InputStruct & input)
 {
 
   H5File file( fileName_, H5F_ACC_RDWR);

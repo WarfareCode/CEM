@@ -20,7 +20,7 @@ class DataLoggerHDF5: public DataLoggerInterface
 {
 	public:
 	DataLoggerHDF5();
-	virtual void WriteDataHeader(InputStruct input);
+	virtual void WriteDataHeader(const InputStruct &input);
 	virtual void WriteDataArray(std::vector<double>data);
 	virtual void WriteDataArray(double *data, int s);
 	virtual void CreateFile(std::string fileName);

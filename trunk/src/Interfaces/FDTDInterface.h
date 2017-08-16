@@ -27,7 +27,7 @@ namespace FDTD
   class FDTDInterface
   {
   public:
-    virtual void InitializeEngine(InputStruct input)=0;
+    virtual void InitializeEngine(const InputStruct & input)=0;
     virtual void UpdateFields(double time) = 0;
 
     virtual std::vector<double> getEField()=0;

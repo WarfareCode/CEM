@@ -21,7 +21,7 @@ namespace FDTD
   public:
     FDTD_1D();
 
-    virtual void InitializeEngine(InputStruct input);
+    virtual void InitializeEngine(const InputStruct & input);
     virtual void UpdateFields(double time);
     void SetEFieldSource(int index, double time);
     void SetEFieldSource(double time);

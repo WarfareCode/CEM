@@ -40,7 +40,7 @@ namespace FDTD
    *
    * This function sets the size of the E and H vectors
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeEngine(InputStruct input)
+  void FDTD_1D::InitializeEngine(const InputStruct & input)
   {
 
     dataSize = input.vectorLength_;
