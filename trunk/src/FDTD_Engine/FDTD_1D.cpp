@@ -10,19 +10,7 @@
 
 namespace FDTD
 {
- /** \brief FDTD_1D Constructor
- *
- *  Standard Constructor
- */
-  FDTD_1D::FDTD_1D():
-    initialized(false),
-    ABC(SimpleABC),
-    imp(377.0),
-    dataSize(0)
-  {
 
-  }
-  
  /** \brief FDTD_1D Overloaded Constructor
  *
  *  Standard Constructor

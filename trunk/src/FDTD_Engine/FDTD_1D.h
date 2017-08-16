@@ -19,9 +19,7 @@ namespace FDTD
   class FDTD_1D: public FDTDInterface
   {
   public:
-    FDTD_1D();
     FDTD_1D(const InputStruct & input);
-
 
     virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
@@ -31,8 +29,7 @@ namespace FDTD
     virtual int getDataSize(){return dataSize;};
     virtual double getImpedance(){return imp;};
     
-   
-
+    //get functions
     AbsorbingBoundaryCondition getABC(){return ABC;};
 
   private:
