@@ -110,9 +110,10 @@ void DataLoggerHDF5:: WriteDataHeader(const InputStruct & input)
   const H5std_string MEMBER1( "Start Time" );
   const H5std_string MEMBER2( "Stop Time" );
   const H5std_string MEMBER3( "Vector Length" );
-  const H5std_string MEMBER4( "File Name" );
-  const H5std_string MEMBER5( "Computation Type" );
-  const H5std_string MEMBER6( "Absorbing Boundary Condition" );
+  const H5std_string MEMBER4( "Source Index" );
+  const H5std_string MEMBER5( "File Name" );
+  const H5std_string MEMBER6( "Computation Type" );
+  const H5std_string MEMBER7( "Absorbing Boundary Condition" );
 
   // write required size char array
   hid_t strtype = H5Tcopy (H5T_C_S1);
@@ -121,9 +122,10 @@ void DataLoggerHDF5:: WriteDataHeader(const InputStruct & input)
   mtype.insertMember( MEMBER1, HOFFSET(InputStruct, startTime_), PredType::NATIVE_DOUBLE);
   mtype.insertMember( MEMBER2, HOFFSET(InputStruct, stopTime_), PredType::NATIVE_DOUBLE);
   mtype.insertMember( MEMBER3, HOFFSET(InputStruct, vectorLength_), PredType::NATIVE_INT);
+  mtype.insertMember( MEMBER4, HOFFSET(InputStruct, sourceIndex_), PredType::NATIVE_INT);
  
   DataSet headerDataSet =file.createDataSet("Header",mtype,space);
-  // headerDataSet.write(, mtype);
+  //headerDataSet.write(, mtype);
 
     /*
    std::string fileName_;

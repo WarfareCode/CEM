@@ -22,7 +22,7 @@ namespace FDTD
 
     FDTDInterface* createFDTDEngine();
 
-    std::unique_ptr<FDTDInterface> createComputationalEngine(InputStruct input);
+    std::unique_ptr<FDTDInterface> createComputationalEngine(const InputStruct & input);
 
   };
 }
