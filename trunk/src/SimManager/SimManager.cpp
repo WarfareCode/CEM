@@ -6,14 +6,6 @@
 #include "SimManager.h"
 
 /**
-* @brief Default Constructor
-*
-**/
-SimManager::SimManager()
-{
-}
-
-/**
 * @brief Constructor with a file name
 *
 * @param fileName Name of the file to read as input

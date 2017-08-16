@@ -15,7 +15,7 @@ DataLoggerFactory::DataLoggerFactory()
 std::unique_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(const InputStruct & input)
 {
   std::unique_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5);
- return dataLogger;
+  return dataLogger;
 }
 
 

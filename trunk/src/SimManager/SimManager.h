@@ -16,7 +16,6 @@
 class SimManager
 {
  public:
-	SimManager();
 	SimManager(std::string inputFileName, std::string outputFileName);
 	int Run();
 

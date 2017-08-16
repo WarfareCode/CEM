@@ -8,8 +8,8 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "src/Common/InputStruct.h"
-#include "src/Common/CEMdefs.h"
+#include "InputStruct.h"
+#include "CEMdefs.h"
 
 namespace FDTD
 {

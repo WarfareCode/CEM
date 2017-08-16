@@ -6,18 +6,10 @@
 #include "SimEngine.h"
 
 /**
-* @brief Default Constructor
+* @brief Constructor with file names
 *
-**/
-SimEngine::SimEngine()
-{
-
-}
-
-/**
-* @brief Constructor with a file name
-*
-* @param fileName Name of the file to read as input
+* @param inputFileName Name of the file to read as input
+* @param outputFileName Name of the file to be created as output
 **/
 SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
 {

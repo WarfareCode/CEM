@@ -17,7 +17,6 @@
 class SimEngine
 {
  public:
-	SimEngine();
 	SimEngine(std::string inputFileName, std::string outputFileName);
 	void Run();
 
