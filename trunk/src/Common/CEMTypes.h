@@ -10,31 +10,35 @@
 
 #include <exception>
 
-struct CEMException : public std::exception {
-   const char * what () const throw () {
+namespace CEM
+{
+  struct CEMException : public std::exception {
+    const char * what () const throw () {
       return "C++ Exception";
-   }
-};
+    }
+  };
 
-/**
-* @brief enumeration for the Input Parser error
-*/
-enum InputParserError
-{
-  INPUT_PARSER_SUCCESS = 0,
-  INPUT_PARSER_BAD_FILE = -1,
-  INPUT_PARSER_FILE_ALREADY_LOADED = -2,
-  INPUT_PARSER_FILE_NOT_LOADED = -3
-};
+  /**
+   * @brief enumeration for the Input Parser error
+   */
+  enum InputParserError
+  {
+    INPUT_PARSER_SUCCESS = 0,
+    INPUT_PARSER_BAD_FILE = -1,
+    INPUT_PARSER_FILE_ALREADY_LOADED = -2,
+    INPUT_PARSER_FILE_NOT_LOADED = -3
+  };
 
-/**
-* @brief enumeration for the Absorbing Boundary Condition (ABC)
-*/
-enum AbsorbingBoundaryCondition
-{
-   NoABC = 0,
-   SimpleABC,
-   TFSF_ABC
-};
+  /**
+   * @brief enumeration for the Absorbing Boundary Condition (ABC)
+   */
+  enum AbsorbingBoundaryCondition
+  {
+    NoABC = 0,
+    SimpleABC,
+    TFSF_ABC
+  };
+
+}// end namespace CEM
 
 #endif

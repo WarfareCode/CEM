@@ -7,6 +7,7 @@
 
 #ifndef INPUT_DATA_H
 #define INPUT_DATA_H
+#include <iostream>
 
 namespace CEM
 {
@@ -59,6 +60,7 @@ namespace CEM
 
   return os;  
   }
-}
+
+}//end namespace CEM
 
 #endif

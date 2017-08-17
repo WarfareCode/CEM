@@ -25,9 +25,30 @@ namespace CEM
    * @param data The data to write*/
   void DataLoggerHDF5::WriteDataArray(std::vector<double>data)
   {
+
+    hsize_t currentSize = dataset_.getStorageSize()/8; //Assume 64-bit double values
+    //now get the memory size, the new dataset size, and the offset
+    hsize_t msize = data.size();
+    hsize_t offset = currentSize; 
+    hsize_t dsize = offset + data.size();
+
+    //create the memory space
+    DataSpace mspace( 1, &msize);
+    
+    //extend the data set
+    dataset_.extend( &dsize );
+	
+    //get the file space
+    DataSpace fspace = dataset_.getSpace();
+    //select the hyperslab
+    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
+    
+    dataset_.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+    
+    
     //the data array is an N x 1 vector of doubles
     //get the size and copy over to a temporary pointer array
-    int s = data.size();
+    /* int s = data.size();
     double *tempData = new double[s];
     
     for(int i = 0; i < s; i++)
@@ -35,9 +56,9 @@ namespace CEM
         tempData[i] = data[i];
       }
 
-    WriteDataArray(tempData,s);
+      WriteDataArray(tempData,s);
 
-    delete[] tempData;
+    delete[] tempData;*/
     
   }
 
@@ -101,6 +122,8 @@ namespace CEM
    * @param input The InputStruct to write out*/
   void DataLoggerHDF5:: WriteDataHeader(InputData & input)
   {
+
+
     /*
     H5File file( fileName_, H5F_ACC_RDWR);
 
