@@ -16,8 +16,6 @@ namespace CEM
   {
     ipError_ = ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
-
-    std::cout<<&input_ << std::endl;
    
     fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
 

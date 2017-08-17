@@ -45,7 +45,7 @@ namespace CEM
     
     dataset_.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
     
-    
+    //Old way by converting to an array of pointers - keep if needed for 2D
     //the data array is an N x 1 vector of doubles
     //get the size and copy over to a temporary pointer array
     /* int s = data.size();
@@ -123,43 +123,23 @@ namespace CEM
   void DataLoggerHDF5:: WriteDataHeader(InputDataInterface * input)
   {
 
+    std::string inputString = InputData2String(input);
 
-    /*
+    std::cout<<"inputString: " << inputString << std::endl;
+    
     H5File file( fileName_, H5F_ACC_RDWR);
 
-    CompType mtype (sizeof (input));
-
-    hsize_t dim[] = {1};
-    DataSpace space (1,dim);
-
-    const H5std_string MEMBER1( "Start Time" );
-    const H5std_string MEMBER2( "Stop Time" );
-    const H5std_string MEMBER3( "Vector Length" );
-    const H5std_string MEMBER4( "Source Index" );
-    const H5std_string MEMBER5( "File Name" );
-    const H5std_string MEMBER6( "Computation Type" );
-    const H5std_string MEMBER7( "Absorbing Boundary Condition" );
+    hsize_t msize = inputString.length();
+    DataSpace space (1,&msize);
+    
 
     // write required size char array
     hid_t strtype = H5Tcopy (H5T_C_S1);
-    H5Tset_size (strtype, H5T_VARIABLE);*/
-
-    /* mtype.insertMember( MEMBER1, HOFFSET(InputStruct, startTime_), PredType::NATIVE_DOUBLE);
-    mtype.insertMember( MEMBER2, HOFFSET(InputStruct, stopTime_), PredType::NATIVE_DOUBLE);
-    mtype.insertMember( MEMBER3, HOFFSET(InputStruct, vectorLength_), PredType::NATIVE_INT);
-    mtype.insertMember( MEMBER4, HOFFSET(InputStruct, sourceIndex_), PredType::NATIVE_INT);*/
+    H5Tset_size (strtype, H5T_VARIABLE);
  
-    // DataSet headerDataSet =file.createDataSet("Header",mtype,space);
-    //headerDataSet.write(, mtype);
-
-    /*
-      std::string fileName_;
-      std::string computationType_;
-      double startTime_;
-      double stopTime_;
-      std::string absorbingBoundaryCondition_;
-      int vectorLength_;
-    */
+    DataSet headerDataSet = file.createDataSet( "Header", PredType::NATIVE_CHAR, space);
+    headerDataSet.write( inputString.c_str(),PredType::NATIVE_CHAR, space);
+ 
   
   }
 

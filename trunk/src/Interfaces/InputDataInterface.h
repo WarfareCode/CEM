@@ -39,7 +39,6 @@ namespace CEM
   //Overloaded << Operator
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
-
    os << "FileName: " << input.getFileName() << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
    os << "Start Time: " << input.getStartTime() << std::endl;
@@ -51,6 +50,20 @@ namespace CEM
   return os;  
   }
 
+ inline std::string InputData2String(InputDataInterface *input)
+ {
+   std::string dataString;
+   dataString = "FileName: " + input->getFileName() + "\n";
+   dataString += "Computation Type: " + input->getComputationType() + "\n";
+   dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
+   dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
+   dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
+   dataString += "Vector Length: " + std::to_string(input->getVectorLength()) + "\n";
+   dataString += "Source Index: " + std::to_string(input->getSourceIndex()) + "\n";
+
+   return dataString;
+ }
+ 
 }//end namespace CEM
 
 #endif
