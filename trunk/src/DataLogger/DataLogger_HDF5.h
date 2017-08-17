@@ -12,7 +12,7 @@
 #include <string>
 #include "DataLoggerInterface.h"
 #include "H5Cpp.h"
-#include "InputData.h"
+#include "InputDataInterface.h"
 
 using namespace H5;
 
@@ -22,7 +22,7 @@ namespace CEM
   {
   public:
     DataLoggerHDF5();
-    virtual void WriteDataHeader(InputData &input);
+    virtual void WriteDataHeader(InputDataInterface *input);
     virtual void WriteDataArray(std::vector<double>data);
     virtual void WriteDataArray(double *data, int s);
     virtual void CreateFile(std::string fileName);

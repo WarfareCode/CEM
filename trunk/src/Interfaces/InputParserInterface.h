@@ -24,7 +24,6 @@ namespace CEM
   {
   public:
     virtual InputParserError ReadInputFile(std::string fileName) = 0;
-    virtual InputData getInputData() = 0;
   };
 
 }

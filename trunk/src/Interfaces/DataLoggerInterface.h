@@ -18,7 +18,7 @@
 
 namespace CEM
 {
-  class InputData;
+  class InputDataInterface;
   
   class DataLoggerInterface
   {
@@ -26,7 +26,7 @@ namespace CEM
     virtual void WriteDataArray(std::vector<double>data) = 0;
     virtual void WriteDataArray(double *data, int s) = 0;
     virtual void CreateFile(std::string fileName) = 0;
-    virtual void WriteDataHeader(InputData & input) = 0;
+    virtual void WriteDataHeader(InputDataInterface * input) = 0;
 	
   };
 }

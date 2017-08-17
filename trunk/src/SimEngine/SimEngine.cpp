@@ -17,7 +17,7 @@ namespace CEM
     ipError_ = ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
 
-    std::cout<<input_ << std::endl;
+    std::cout<<&input_ << std::endl;
    
     fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
 
@@ -33,7 +33,7 @@ namespace CEM
   void SimEngine::Run()
   {
 
-    for(int time = input_.getStartTime(); time < input_.getStopTime(); time++)
+    for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
 	fdtd_ptr_->UpdateFields(time);
 	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField());   

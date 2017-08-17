@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include "FDTDInterface.h"
+#include "InputDataInterface.h"
 
 namespace CEM
 {
@@ -19,7 +20,7 @@ namespace CEM
   class FDTD_1D: public FDTDInterface
   {
   public:
-    FDTD_1D(InputData & input);
+    FDTD_1D(InputDataInterface* input);
 
     virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
@@ -50,7 +51,7 @@ namespace CEM
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(InputData & input);
+    void InitializeEngine(InputDataInterface * input);
     
     void SetEFieldSource(int index, double time);
     void SetEFieldSource(double time);

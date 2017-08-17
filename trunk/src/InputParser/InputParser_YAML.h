@@ -1,5 +1,5 @@
 /**
-* @file InputParser.h
+* @file InputParser_YAML.h
 * @brief Header File for the InputParserYAML class
 * @todo  Consider adding interfaces for the various options from the InputStruct. This may require generating specific InputParsers through a factor for the various types.
 * @author Ben Frazier
@@ -9,21 +9,30 @@
 #define InputParser_YAML_H
 
 #include "InputParserInterface.h"
+#include "InputDataInterface.h"
 #include "yaml-cpp/yaml.h"
-#include "InputData.h"
 
 #include <fstream>
 using namespace YAML;
 namespace CEM
 {
-  class InputParserYAML: public InputParserInterface
+  class InputParserYAML: public InputParserInterface, public InputDataInterface
   {
   public:
     InputParserYAML();
 
     //define the virtual functions
     virtual InputParserError ReadInputFile(std::string fileName);
-    virtual InputData getInputData();
+
+    //Input Data get functions
+    virtual std::string getFileName(){return fileName_;};
+    virtual std::string getComputationType(){return computationType_;};
+    virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;};
+    virtual double getStopTime(){return stopTime_;};
+    virtual double getStartTime(){return startTime_;};
+    virtual int getVectorLength(){return vectorLength_;};
+    virtual int getSourceIndex(){return sourceIndex_;};
+    virtual InputDataInterface* getInputData();
 	
     //now define additional support functions
     InputParserError ReadInputFile();
@@ -32,7 +41,14 @@ namespace CEM
     YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
 	
     bool fileLoaded_;
-    InputData input_; /*!< Input structure that the contents of the file will be loaded to */
+
+    std::string fileName_;                    /*!< Input file name that was read from*/
+    std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
+    double startTime_;                        /*!< Start time for the simulation*/
+    double stopTime_;                         /*!< Stop time for the simulation*/
+    std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
+    int vectorLength_;                        /*!< Variable for the length (number of points) for each spatial vector*/
+    int sourceIndex_;   
 
   };
 }

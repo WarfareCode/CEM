@@ -8,15 +8,30 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "InputData.h"
+#include "InputDataInterface.h"
 #include "CEMdefs.h"
 
 namespace CEM
 {
+
+
 namespace FDTD_1DTest
 {
 namespace testing
 {
+  class MockInputData : public InputDataInterface
+  {
+  public:
+    MOCK_METHOD0(getFileName, std::string());
+    MOCK_METHOD0(getComputationType, std::string());
+    MOCK_METHOD0(getAbsorbingBoundaryCondition, std::string());
+    MOCK_METHOD0(getStopTime, double());
+    MOCK_METHOD0(getStartTime, double());
+    MOCK_METHOD0(getVectorLength, int());
+    MOCK_METHOD0(getSourceIndex, int());
+    MOCK_METHOD0(getInputData, InputDataInterface *());
+  };
+  
     class FDTD_1DTest : public Test
     {
     protected:
@@ -25,26 +40,23 @@ namespace testing
 
         virtual void SetUp()
       {
-	input.setFileName("");
-        input.setComputationType("");
-	input.setStartTime(0);
-        input.setStopTime(250);
-        input.setAbsorbingBoundaryCondition("Simple");
-        input.setVectorLength(200);
-
+       
+	input = new MockInputData;
+	EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(200));
+	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
+	
 	fdtd = new FDTD_1D(input);
       }
-      virtual void TearDown(){ delete fdtd;}
+      virtual void TearDown(){ delete fdtd; delete input;}
 
 
         FDTD_1D* fdtd;
-        InputData input;
+        MockInputData* input;
 
     };
 
     TEST_F(FDTD_1DTest, constructor_initialization)
     {
-
       int s = fdtd->getDataSize();
       double imp = fdtd->getImpedance();
 
@@ -56,9 +68,8 @@ namespace testing
 
   TEST_F(FDTD_1DTest, run)
   {
-   int SIZE = 200;
         
-   for(int time = input.getStartTime(); time < input.getStopTime(); time++)
+   for(int time = input->getStartTime(); time < input->getStopTime(); time++)
        {
          fdtd->UpdateFields(time);
        }

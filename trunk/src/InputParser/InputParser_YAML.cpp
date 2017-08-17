@@ -17,13 +17,16 @@ namespace CEM
  
   }
 
-  InputData InputParserYAML::getInputData()
-  {
-    if (fileLoaded_)
-      return input_;
-    else
-      throw std::runtime_error("InputParserYAML::getInputData()....Input File Not Loaded.");
-  }
+  /**
+   * \brief Get the Input Data Itnerface
+   *
+   */
+ InputDataInterface* InputParserYAML::getInputData()
+   {
+     if (fileLoaded_)
+       return this;
+     else throw std::runtime_error("InputParserYAML::getInputData()....Input File Not Loaded.");
+   }
   
   /**
    * \brief read the input file
@@ -31,12 +34,12 @@ namespace CEM
    * This function reads the configuration into the input structure */
   InputParserError InputParserYAML::ReadInputFile()
   {	
-    input_.setComputationType(basenode_["Computation_Type"].as<std::string>());
-    input_.setStartTime(basenode_["Start_Time"].as<double>());
-    input_.setStopTime(basenode_["Stop_Time"].as<double>());
-    input_.setAbsorbingBoundaryCondition(basenode_["Absorbing_Boundary_Condition"].as<std::string>());
-    input_.setVectorLength(basenode_["Vector_Length"].as<int>());
-    input_.setSourceIndex(basenode_["Source_Index"].as<int>());
+    computationType_ = basenode_["Computation_Type"].as<std::string>();
+    startTime_ = basenode_["Start_Time"].as<double>();
+    stopTime_ = basenode_["Stop_Time"].as<double>();
+    absorbingBoundaryCondition_ = basenode_["Absorbing_Boundary_Condition"].as<std::string>();
+    vectorLength_ = basenode_["Vector_Length"].as<int>();
+    sourceIndex_ = basenode_["Source_Index"].as<int>();
 
     fileLoaded_ = true;
     return INPUT_PARSER_SUCCESS;
@@ -50,17 +53,11 @@ namespace CEM
   InputParserError InputParserYAML::ReadInputFile(std::string fileName)
   {
     InputParserError error = INPUT_PARSER_SUCCESS;
-    if (fileLoaded_ == true)
-      {
-	error = INPUT_PARSER_FILE_ALREADY_LOADED;
-	return error;
-      }
-    else
-      {
-	input_.setFileName(fileName);
-	basenode_ = YAML::LoadFile(input_.getFileName());
-	error = ReadInputFile();
-	return error;
-      }
+    fileName_ = fileName;
+    basenode_ = YAML::LoadFile(fileName_);
+    error = ReadInputFile();
+    return error;
+
   }
-}
+}//end namespace CEM
+

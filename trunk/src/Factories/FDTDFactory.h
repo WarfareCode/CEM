@@ -11,10 +11,10 @@
 #include "FDTD_Engine/FDTD_1D.h"
 #include "Interfaces/FDTDInterface.h"
 
-#include "InputData.h"
-
 namespace CEM
 {
+  class InputDataInterface;
+  
   class FDTDFactory
   {
   public:
@@ -22,7 +22,7 @@ namespace CEM
 
     FDTDInterface* createFDTDEngine();
 
-    std::unique_ptr<FDTDInterface> createComputationalEngine(InputData & input);
+    std::unique_ptr<FDTDInterface> createComputationalEngine(InputDataInterface * input);
 
   };
 }

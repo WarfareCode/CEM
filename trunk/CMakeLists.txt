@@ -27,7 +27,7 @@ add_custom_target(build-time-make-input-data-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
 
 #add the common and interface headers to the include path
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces ${CMAKE_CURRENT_SOURCE_DIR}/src/InputData)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces)
     
 #find the additional libraries needed
 #HDF5 - used for data logging

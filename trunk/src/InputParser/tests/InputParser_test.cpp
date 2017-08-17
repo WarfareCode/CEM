@@ -8,8 +8,6 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "InputData.h"
-
 namespace CEM
 {
 namespace InputParser_Test
@@ -30,7 +28,7 @@ namespace testing
 
       std::string testFileName;
       InputParserYAML ip;
-      InputData input;
+      InputDataInterface * input;
       InputParserError ipError;
 
     };
@@ -51,27 +49,20 @@ namespace testing
     
     }
 
-      TEST_F(InputParser_Test, constructor_tryLoadingMultipleFiles)
-    {
-	ipError = ip.ReadInputFile(testFileName);
-        EXPECT_THAT(ipError,Eq(INPUT_PARSER_SUCCESS));
-	
-	ipError = ip.ReadInputFile(testFileName);
-	EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_ALREADY_LOADED));
-    }
-   
     TEST_F(InputParser_Test, readTestFile)
     {
       ipError = ip.ReadInputFile(testFileName);
 
       input = ip.getInputData();
 
-      EXPECT_THAT(input.getFileName(),Eq(testFileName));
-      EXPECT_THAT(input.getComputationType(), Eq("FDTD_1D"));
-      EXPECT_THAT(input.getStartTime(),Eq(0));
-      EXPECT_THAT(input.getStopTime(),Eq(250));
-      EXPECT_THAT(input.getAbsorbingBoundaryCondition(),Eq("None"));
-      EXPECT_THAT(input.getVectorLength(),Eq(200));
+      std::cout<<*input<<std::endl;
+
+      EXPECT_THAT(input->getFileName(),Eq(testFileName));
+      EXPECT_THAT(input->getComputationType(), Eq("FDTD_1D"));
+      EXPECT_THAT(input->getStartTime(),Eq(0));
+      EXPECT_THAT(input->getStopTime(),Eq(250));
+      EXPECT_THAT(input->getAbsorbingBoundaryCondition(),Eq("None"));
+      EXPECT_THAT(input->getVectorLength(),Eq(200));
       EXPECT_THAT(ipError,Eq(INPUT_PARSER_SUCCESS));
     }
 

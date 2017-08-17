@@ -120,7 +120,7 @@ namespace CEM
    *
    * This function writes the input struct to the data file so that the inputs are captured
    * @param input The InputStruct to write out*/
-  void DataLoggerHDF5:: WriteDataHeader(InputData & input)
+  void DataLoggerHDF5:: WriteDataHeader(InputDataInterface * input)
   {
 
 
