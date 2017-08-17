@@ -10,29 +10,31 @@
 
 #include "InputParserInterface.h"
 #include "yaml-cpp/yaml.h"
-#include "InputStruct.h"
+#include "InputData.h"
 
 #include <fstream>
 using namespace YAML;
-
-class InputParserYAML: public InputParserInterface
+namespace CEM
 {
-	public:
-	InputParserYAML();
+  class InputParserYAML: public InputParserInterface
+  {
+  public:
+    InputParserYAML();
 
-	//define the virtual functions
-	virtual InputParserError ReadInputFile(std::string fileName);
-	virtual InputParserError GetInputStruct(InputStruct &input);
-
-	//now define additional support functions
-        InputParserError ReadInputFile();
+    //define the virtual functions
+    virtual InputParserError ReadInputFile(std::string fileName);
+    virtual InputData getInputData(){return input_;};
 	
-	private:
-	YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
+    //now define additional support functions
+    InputParserError ReadInputFile();
 	
-	bool fileLoaded_;
-	InputStruct input_; /*!< Input structure that the contents of the file will be loaded to */
+  private:
+    YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
+	
+    bool fileLoaded_;
+    InputData input_; /*!< Input structure that the contents of the file will be loaded to */
 
-};
+  };
+}
 
 #endif

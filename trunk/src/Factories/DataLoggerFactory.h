@@ -11,14 +11,18 @@
 #include "DataLogger/DataLogger_HDF5.h"
 #include "Interfaces/DataLoggerInterface.h"
 
-#include "InputStruct.h"
-class DataLoggerFactory
+#include "InputData.h"
+
+namespace CEM
 {
- public:
-  DataLoggerFactory();
+  class DataLoggerFactory
+  {
+  public:
+    DataLoggerFactory();
 
-  std::unique_ptr<DataLoggerInterface> createDataLogger(const InputStruct &input);
+    std::unique_ptr<DataLoggerInterface> createDataLogger(InputData &input);
 
-};
+  };
+}
 
 #endif

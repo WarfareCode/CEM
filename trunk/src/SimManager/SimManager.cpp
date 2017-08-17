@@ -4,7 +4,8 @@
 * @author Ben Frazier
 * @date 08/14/2017 */
 #include "SimManager.h"
-
+namespace CEM
+{
 /**
 * @brief Constructor with a file name
 *
@@ -60,3 +61,4 @@ int SimManager::Run()
 
 }
 
+}//end namespace CEM

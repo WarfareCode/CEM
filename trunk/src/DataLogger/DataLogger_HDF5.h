@@ -12,24 +12,27 @@
 #include <string>
 #include "DataLoggerInterface.h"
 #include "H5Cpp.h"
-#include "InputStruct.h"
+#include "InputData.h"
 
 using namespace H5;
 
-class DataLoggerHDF5: public DataLoggerInterface
+namespace CEM
 {
-	public:
-	DataLoggerHDF5();
-	virtual void WriteDataHeader(const InputStruct &input);
-	virtual void WriteDataArray(std::vector<double>data);
-	virtual void WriteDataArray(double *data, int s);
-	virtual void CreateFile(std::string fileName);
+  class DataLoggerHDF5: public DataLoggerInterface
+  {
+  public:
+    DataLoggerHDF5();
+    virtual void WriteDataHeader(InputData &input);
+    virtual void WriteDataArray(std::vector<double>data);
+    virtual void WriteDataArray(double *data, int s);
+    virtual void CreateFile(std::string fileName);
 	
-	private:
-	DataSet dataset_;
-	H5File H5file_;
-	std::string fileName_;
+  private:
+    DataSet dataset_;
+    H5File H5file_;
+    std::string fileName_;
 
-};
+  };
+}
 
 #endif

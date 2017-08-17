@@ -27,7 +27,7 @@ add_custom_target(build-time-make-input-data-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
 
 #add the common and interface headers to the include path
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces ${CMAKE_CURRENT_SOURCE_DIR}/src/InputData)
     
 #find the additional libraries needed
 #HDF5 - used for data logging
@@ -72,7 +72,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(cem ${HDF5_LIBRARIES} SimManager )#yaml-cpp DataLogger FDTD InputParser  ${GPERFTOOLS_LIBRARIES})
+target_link_libraries(cem ${HDF5_LIBRARIES} SimManager )
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")

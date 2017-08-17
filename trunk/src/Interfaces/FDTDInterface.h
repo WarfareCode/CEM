@@ -22,7 +22,7 @@
 
 struct InputStruct;
 
-namespace FDTD
+namespace CEM
 {
   class FDTDInterface
   {

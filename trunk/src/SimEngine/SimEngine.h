@@ -14,27 +14,30 @@
 
 #include <string>
 
-class SimEngine
+namespace CEM
 {
- public:
-	SimEngine(std::string inputFileName, std::string outputFileName);
-	void Run();
+  class SimEngine
+  {
+  public:
+    SimEngine(std::string inputFileName, std::string outputFileName);
+    void Run();
 
- private:
-	//member functions
+  private:
+    //member functions
 
-	//member variables
-	//pointer to engine interface FDTD::FDTDInterface* 
-	std::unique_ptr<FDTD::FDTDInterface> fdtd_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
-	std::unique_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
+    //member variables
+    //pointer to engine interface FDTD::FDTDInterface* 
+    std::unique_ptr<FDTDInterface> fdtd_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
+    std::unique_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
-	//the input parser type is known at compile time - only YAML is handled
-	InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
-	InputStruct input_;  /*!< InputStruct  used to retrieve the input from the InputParserYAML class. */
-	InputParserError ipError_;  /*!< InputParserError member variable for handling errors from the InputParserYAML class */
-	FDTD::FDTDFactory fdtdFactory_;  /*!< Factory to generate the FDTD type */
-	DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
+    //the input parser type is known at compile time - only YAML is handled
+    InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
+    InputData input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
+    InputParserError ipError_;  /*!< InputParserError member variable for handling errors from the InputParserYAML class */
+    FDTDFactory fdtdFactory_;  /*!< Factory to generate the FDTD type */
+    DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
 
-};
+  };
+}
 
 #endif

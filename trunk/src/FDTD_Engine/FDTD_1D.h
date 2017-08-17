@@ -12,14 +12,14 @@
 #include <vector>
 #include "FDTDInterface.h"
 
-struct InputStruct;
-
-namespace FDTD
+namespace CEM
 {
+  class InputData;
+  
   class FDTD_1D: public FDTDInterface
   {
   public:
-    FDTD_1D(const InputStruct & input);
+    FDTD_1D(InputData & input);
 
     virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
@@ -50,7 +50,7 @@ namespace FDTD
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(const InputStruct & input);
+    void InitializeEngine(InputData & input);
     
     void SetEFieldSource(int index, double time);
     void SetEFieldSource(double time);

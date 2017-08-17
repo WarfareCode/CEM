@@ -16,14 +16,16 @@
 #include "CEMTypes.h"
 #include <iostream>
 
-struct InputStruct;
-
-class InputParserInterface
+namespace CEM
 {
-	public:
-	virtual InputParserError ReadInputFile(std::string fileName) = 0;
-	virtual InputParserError GetInputStruct(InputStruct &input) = 0;
-};
+  class InputData;
 
+  class InputParserInterface
+  {
+  public:
+    virtual InputParserError ReadInputFile(std::string fileName) = 0;
+    virtual InputData getInputData() = 0;
+  };
 
+}
 #endif

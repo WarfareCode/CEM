@@ -13,17 +13,20 @@
 
 #include <string>
 
-class SimManager
+namespace CEM
 {
- public:
-	SimManager(std::string inputFileName, std::string outputFileName);
-	int Run();
+  class SimManager
+  {
+  public:
+    SimManager(std::string inputFileName, std::string outputFileName);
+    int Run();
 
- private:
-	//member functions
+  private:
+    //member functions
 
-	//member variables
-	SimEngine engine_;  /*!< Simulation engine member variable for running the simulation */
-};
+    //member variables
+    SimEngine engine_;  /*!< Simulation engine member variable for running the simulation */
+  };
+}
 
 #endif

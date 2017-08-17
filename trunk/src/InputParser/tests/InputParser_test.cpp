@@ -8,8 +8,10 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "InputStruct.h"
+#include "InputData.h"
 
+namespace CEM
+{
 namespace InputParser_Test
 {
 namespace testing
@@ -28,17 +30,16 @@ namespace testing
 
       std::string testFileName;
       InputParserYAML ip;
-      InputStruct input;
+      InputData input;
       InputParserError ipError;
 
     };
 
     TEST_F(InputParser_Test, constructor_fileNotLoaded)
     {
-        InputStruct input;
-	ipError = ip.GetInputStruct(input);
+      input =  ip.getInputData();
 
-	EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_NOT_LOADED));
+      //EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_NOT_LOADED));
     
     }
 
@@ -55,16 +56,17 @@ namespace testing
     {
       ipError = ip.ReadInputFile(testFileName);
 
-      ipError = ip.GetInputStruct(input);
+      input = ip.getInputData();
 
-      EXPECT_THAT(input.fileName_,Eq(testFileName));
-      EXPECT_THAT(input.computationType_, Eq("FDTD_1D"));
-      EXPECT_THAT(input.startTime_,Eq(0));
-      EXPECT_THAT(input.stopTime_,Eq(250));
-      EXPECT_THAT(input.absorbingBoundaryCondition_,Eq("None"));
-      EXPECT_THAT(input.vectorLength_,Eq(200));
+      EXPECT_THAT(input.getFileName(),Eq(testFileName));
+      EXPECT_THAT(input.getComputationType(), Eq("FDTD_1D"));
+      EXPECT_THAT(input.getStartTime(),Eq(0));
+      EXPECT_THAT(input.getStopTime(),Eq(250));
+      EXPECT_THAT(input.getAbsorbingBoundaryCondition(),Eq("None"));
+      EXPECT_THAT(input.getVectorLength(),Eq(200));
       EXPECT_THAT(ipError,Eq(INPUT_PARSER_SUCCESS));
     }
 
 } // namespace testing
 } // namespace InputParser_Test
+} // namespace CEM

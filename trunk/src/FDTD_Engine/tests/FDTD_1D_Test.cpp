@@ -8,10 +8,10 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "InputStruct.h"
+#include "InputData.h"
 #include "CEMdefs.h"
 
-namespace FDTD
+namespace CEM
 {
 namespace FDTD_1DTest
 {
@@ -25,12 +25,12 @@ namespace testing
 
         virtual void SetUp()
       {
-	input.fileName_ = "";
-        input.computationType_ = "";
-	input.startTime_ = 0;
-        input.stopTime_ = 250;
-        input.absorbingBoundaryCondition_ = "Simple";
-        input.vectorLength_ = 200;
+	input.setFileName("");
+        input.setComputationType("");
+	input.setStartTime(0);
+        input.setStopTime(250);
+        input.setAbsorbingBoundaryCondition("Simple");
+        input.setVectorLength(200);
 
 	fdtd = new FDTD_1D(input);
       }
@@ -38,7 +38,7 @@ namespace testing
 
 
         FDTD_1D* fdtd;
-        InputStruct input;
+        InputData input;
 
     };
 
@@ -58,7 +58,7 @@ namespace testing
   {
    int SIZE = 200;
         
-   for(int time = input.startTime_; time < input.stopTime_; time++)
+   for(int time = input.getStartTime(); time < input.getStopTime(); time++)
        {
          fdtd->UpdateFields(time);
        }
@@ -66,4 +66,4 @@ namespace testing
 
 } // namespace testing
 } // namespace FDTD_1D_Test
-} //namespace FDTD
+} //namespace CEM

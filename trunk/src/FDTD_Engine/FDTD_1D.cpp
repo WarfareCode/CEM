@@ -5,17 +5,17 @@
 * @date 08/12/2017 */
 
 #include "FDTD_1D.h"
-#include "InputStruct.h"
+#include "InputData.h"
 #include <math.h>
 
-namespace FDTD
+namespace CEM
 {
 
  /** \brief FDTD_1D Overloaded Constructor
  *
  *  Standard Constructor
  */
-  FDTD_1D::FDTD_1D(const InputStruct & input):
+  FDTD_1D::FDTD_1D(InputData & input):
     initialized(false),
     ABC(SimpleABC),
     imp(377.0),
@@ -29,11 +29,11 @@ namespace FDTD
    *
    * This function sets the size of the E and H vectors
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeEngine(const InputStruct & input)
+  void FDTD_1D::InitializeEngine(InputData & input)
   {
 
-    dataSize = input.vectorLength_;
-    sourceIndex = input.sourceIndex_;
+    dataSize = input.getVectorLength();
+    sourceIndex = input.getSourceIndex();
 
     ABC = SimpleABC;
 
