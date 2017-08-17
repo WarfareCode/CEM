@@ -26,6 +26,7 @@ namespace CEM
     virtual void WriteDataArray(std::vector<double>data);
     virtual void WriteDataArray(double *data, int s);
     virtual void CreateFile(std::string fileName);
+    virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName);
 	
   private:
     DataSet dataset_;

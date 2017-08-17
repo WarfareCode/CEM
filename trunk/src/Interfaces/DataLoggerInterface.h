@@ -27,6 +27,7 @@ namespace CEM
     virtual void WriteDataArray(double *data, int s) = 0;
     virtual void CreateFile(std::string fileName) = 0;
     virtual void WriteDataHeader(InputDataInterface * input) = 0;
+    virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName) = 0;
 	
   };
 }

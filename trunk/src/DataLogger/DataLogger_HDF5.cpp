@@ -120,7 +120,7 @@ namespace CEM
    *
    * This function writes the input struct to the data file so that the inputs are captured
    * @param input The InputStruct to write out*/
-  void DataLoggerHDF5:: WriteDataHeader(InputDataInterface * input)
+  void DataLoggerHDF5::WriteDataHeader(InputDataInterface * input)
   {
 
     std::string inputString = InputData2String(input);
@@ -141,6 +141,35 @@ namespace CEM
     headerDataSet.write( inputString.c_str(),PredType::NATIVE_CHAR, space);
  
   
+  }
+
+    /**
+   * \brief Read a Data array from a file
+   *
+   * @param fileName The fileName to read from
+   * @param datasetName The name of the dataset to read*/
+  
+  std::vector<double>  DataLoggerHDF5::ReadDataArray(std::string fileName, std::string datasetName)
+  {
+     H5File file( fileName, H5F_ACC_RDONLY);
+     DataSet dataset = file.openDataSet( datasetName);
+     DataSpace filespace = dataset.getSpace();
+    int rank = filespace.getSimpleExtentNdims();
+
+    hsize_t dims[2];    // dataset dimensions
+    rank = filespace.getSimpleExtentDims( dims );
+    std::cout << "dataset rank = " << rank << ", dimensions "
+         << (unsigned long)(dims[0]) << " x "
+	      << (unsigned long)(dims[1]) << std::endl;
+ 
+    DataSpace mspace(1, dims);
+
+    std::vector<double> data_out;
+    data_out.resize(dims[0]);
+     
+     dataset.read( &data_out[0], PredType::NATIVE_INT, mspace, filespace );
+
+    return data_out;
   }
 
 }//end namespace CEM
