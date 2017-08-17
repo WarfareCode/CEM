@@ -56,6 +56,7 @@ set_property(
 	      MemCheck_InputDataTest
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
+
 endif()
 
 		   

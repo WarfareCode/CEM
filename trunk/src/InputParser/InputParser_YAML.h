@@ -23,7 +23,7 @@ namespace CEM
 
     //define the virtual functions
     virtual InputParserError ReadInputFile(std::string fileName);
-    virtual InputData getInputData(){return input_;};
+    virtual InputData getInputData();
 	
     //now define additional support functions
     InputParserError ReadInputFile();

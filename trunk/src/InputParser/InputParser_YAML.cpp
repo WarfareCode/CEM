@@ -17,6 +17,14 @@ namespace CEM
  
   }
 
+  InputData InputParserYAML::getInputData()
+  {
+    if (fileLoaded_)
+      return input_;
+    else
+      throw std::runtime_error("InputParserYAML::getInputData()....Input File Not Loaded.");
+  }
+  
   /**
    * \brief read the input file
    *

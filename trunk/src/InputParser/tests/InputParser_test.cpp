@@ -37,9 +37,17 @@ namespace testing
 
     TEST_F(InputParser_Test, constructor_fileNotLoaded)
     {
-      input =  ip.getInputData();
+      std::string eString = "";
+      try
+	{
+	  input =  ip.getInputData();
+	}
+      catch(std::runtime_error &e)
+	{
+	  eString = e.what();
+	}
 
-      //EXPECT_THAT(ipError,Eq(INPUT_PARSER_FILE_NOT_LOADED));
+      EXPECT_THAT(eString,Eq("InputParserYAML::getInputData()....Input File Not Loaded."));
     
     }
 
