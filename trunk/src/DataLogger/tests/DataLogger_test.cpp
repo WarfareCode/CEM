@@ -86,7 +86,7 @@ namespace testing
     std::cout<<size <<std::endl;
   }
 
-  INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7));//,10,30,50));
+  INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7,10,30,50,100,250,500));
 
 } // namespace testing
 } // namespace DataLogger_Test
