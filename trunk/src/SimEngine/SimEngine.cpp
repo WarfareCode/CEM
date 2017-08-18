@@ -14,11 +14,12 @@ namespace CEM
    **/
   SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
   {
+    //Read the input file and get the Input Data interface
     ipError_ = ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
-   
-    fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
 
+    //create the pointers to the FDTD engine and the data logger
+    fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
     dLogger_ptr_ = dlFactory_.createDataLogger(input_);
   }
 
@@ -32,7 +33,7 @@ namespace CEM
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
 	fdtd_ptr_->UpdateFields(time);
-	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField());
+	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),"/Ex");
       }
   }
 }//end namespace CEM

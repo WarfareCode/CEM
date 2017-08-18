@@ -3,13 +3,15 @@
 * @brief Abstract virtual class for the InputData class, defines the interface
 * @details Required Interface functions:
 * <pre>
-*    getFileName
+*    getInputFileName
+*    getOutputFileName
 *    getComputationType
 *    getAbsorbingBoundaryCondition
 *    getStartTime
 *    getStopTime
 *    getVectorLength
 *    getSourceIndex
+*    getInputData
 * </pre>
 * @author Ben Frazier
 * @date 08/17/2017 */
@@ -37,7 +39,10 @@ namespace CEM
   };
 
 
-  //Overloaded << Operator
+ /** \brief Overloaded << Operator
+ *
+ * @param input Reference to the InputDataInterface to make available to the ostream
+ */ 
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
    os << "InputFileName: " << input.getInputFileName() << std::endl;
@@ -51,7 +56,12 @@ namespace CEM
 
   return os;  
   }
-
+ 
+ /** \brief Converstion to std::string
+ *
+ * Converts an InputDataInterface to a std::string
+ * @param input Reference to the InputDataInterface to convert
+ */
  inline std::string InputData2String(InputDataInterface *input)
  {
    std::string dataString;

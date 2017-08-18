@@ -30,7 +30,7 @@ namespace CEM
   void DataLoggerHDF5::WriteDataArray(std::vector<double>data)
   {
 
-    hsize_t currentSize = dataset_.getStorageSize()/8; //Assume 64-bit double values
+    hsize_t currentSize = datasetE_.getStorageSize()/8; //Assume 64-bit double values
     //now get the memory size, the new dataset size, and the offset
     hsize_t msize = data.size();
     hsize_t offset = currentSize; 
@@ -40,14 +40,14 @@ namespace CEM
     DataSpace mspace( 1, &msize);
     
     //extend the data set
-    dataset_.extend( &dsize );
+    datasetE_.extend( &dsize );
 	
     //get the file space
-    DataSpace fspace = dataset_.getSpace();
+    DataSpace fspace = datasetE_.getSpace();
     //select the hyperslab
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
     
-    dataset_.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+    datasetE_.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
     
     //Old way by converting to an array of pointers - keep if needed for 2D
     //the data array is an N x 1 vector of doubles
@@ -66,6 +66,40 @@ namespace CEM
     
   }
 
+  void  DataLoggerHDF5::WriteDataArray(std::vector<double>data, std::string datasetName)
+  {
+    DataSet dataset;
+    if (datasetName.compare("EField"))
+      {
+	dataset = datasetE_;
+      }
+    else if (datasetName.compare("HField"))
+      {
+        dataset = datasetH_;
+      }
+    else
+      throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
+		 
+     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
+    //now get the memory size, the new dataset size, and the offset
+    hsize_t msize = data.size();
+    hsize_t offset = currentSize; 
+    hsize_t dsize = offset + data.size();
+
+    //create the memory space
+    DataSpace mspace( 1, &msize);
+    
+    //extend the data set
+    dataset.extend( &dsize );
+	
+    //get the file space
+    DataSpace fspace = dataset.getSpace();
+    //select the hyperslab
+    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
+    
+    dataset.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+  }
+
   /**
    * \brief Write an array to the File
    *
@@ -75,7 +109,7 @@ namespace CEM
   void DataLoggerHDF5::WriteDataArray(double *data, int s)
   {
 
-    hsize_t currentSize = dataset_.getStorageSize()/8; //Assume 64-bit double values
+    hsize_t currentSize = datasetE_.getStorageSize()/8; //Assume 64-bit double values
     //now get the memory size, the new dataset size, and the offset
     hsize_t msize = s;
     hsize_t offset = currentSize; 
@@ -85,14 +119,14 @@ namespace CEM
     DataSpace mspace( 1, &msize);
     
     //extend the data set
-    dataset_.extend( &dsize );
+    datasetE_.extend( &dsize );
 	
     //get the file space
-    DataSpace fspace = dataset_.getSpace();
+    DataSpace fspace = datasetE_.getSpace();
     //select the hyperslab
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
     
-    dataset_.write( data, PredType::NATIVE_DOUBLE, mspace, fspace);
+    datasetE_.write( data, PredType::NATIVE_DOUBLE, mspace, fspace);
   }
 
   /**
@@ -116,7 +150,8 @@ namespace CEM
     int fill_val = 0;
     cparms.setFillValue( PredType::NATIVE_DOUBLE, &fill_val);
 
-    dataset_ = file.createDataSet( "Ex", PredType::NATIVE_DOUBLE, mspace, cparms);
+    datasetE_ = file.createDataSet( "EField", PredType::NATIVE_DOUBLE, mspace, cparms);
+    datasetH_ = file.createDataSet( "HField", PredType::NATIVE_DOUBLE, mspace, cparms);
   }
 
   /**
@@ -135,7 +170,6 @@ namespace CEM
 
     hsize_t msize = inputString.length();
     DataSpace space (1,&msize);
-    
 
     // write required size char array
     hid_t strtype = H5Tcopy (H5T_C_S1);
@@ -143,7 +177,6 @@ namespace CEM
  
     DataSet headerDataSet = file.createDataSet( "Header", PredType::NATIVE_CHAR, space);
     headerDataSet.write( inputString.c_str(),PredType::NATIVE_CHAR, space);
- 
   
   }
 
@@ -162,7 +195,6 @@ namespace CEM
 
     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
 
-     
     //get the dataspace and determine the size and rank
     DataSpace filespace = dataset.getSpace();
     int rank = filespace.getSimpleExtentNdims();
