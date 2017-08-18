@@ -42,15 +42,14 @@ namespace testing
     };
 
 
-    TEST_F(DataLogger_Test, write_read_vector_fixed_size)
+    TEST_F(DataLogger_Test, write_read_efield_vector_fixed_size)
     {
+      std::string datasetname = "/EField";
       EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(15));
       dl = new DataLoggerHDF5(input);
       std::vector<double> in = {1,5.87,7.993,8,10.2,2.0190,30,50,100,150,-100,-20,-30.5, 3.4, 5.776};
-      std::cout<<"Writing ..." << std::endl;
-      dl->WriteDataArray(in,"/EField");
-      std::cout<<"Reading ..." << std::endl;
-      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),"/EField", 0);
+      dl->WriteDataArray(in,datasetname);
+      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),datasetname, 0);
 
       EXPECT_THAT(in.size(),Eq(out.size()));
       

@@ -96,7 +96,7 @@ namespace CEM
     DataSpace fspace = dataset.getSpace();
     //select the hyperslab
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
-    
+
     dataset.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
   }
 
