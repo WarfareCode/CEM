@@ -160,45 +160,39 @@ namespace CEM
     H5File file( fileName, H5F_ACC_RDONLY);
     DataSet dataset = file.openDataSet( datasetName);
 
-     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+    hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
 
-     std::cout<<"Current Data Size: " << currentSize << std::endl;
      
     //get the dataspace and determine the size and rank
     DataSpace filespace = dataset.getSpace();
     int rank = filespace.getSimpleExtentNdims();
     hsize_t dims;    // dataset dimensions
     rank = filespace.getSimpleExtentDims( &dims );
-    
-    std::cout << "dataset rank = " << rank << ", dimensions "
-      << (unsigned long)(dims)  <<std::endl;
 
     //get the dataset properties to look at the chunk size
     DSetCreatPropList cparms = dataset.getCreatePlist();
 
+    //get the chunk size to determine how big the array is
     hsize_t cd;
     int rc;
     rc = cparms.getChunk( 1, &cd);
-    std::cout<<"rc: " << rc << " cd: " << cd << std::endl;
      
     //get the memory space to read in
     DataSpace mspace( rc, &cd );
     //determine the offset into the file  
     hsize_t offset = timeIndex*cd;
-
-    std::cout<<"Max Size Offset = " << currentSize - cd << " Max Index = " << (currentSize - cd)/cd << std::endl;
     
-    //make sure the offset is within the file
+    //make sure the offset is within the file, otherwise throw and exception
     if (offset <= currentSize - cd)
       {
-    //get the hyperslab to read
-    filespace.selectHyperslab( H5S_SELECT_SET, &cd, &offset );
+	//get the hyperslab to read
+	filespace.selectHyperslab( H5S_SELECT_SET, &cd, &offset );
       
-    std::vector<double>data_out;
-    data_out.resize(cd);
-    dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
+	std::vector<double>data_out;
+	data_out.resize(cd);
+	dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
 
-    return data_out;
+	return data_out;
       }
     else
       throw std::runtime_error("DataLoggerHDF5::ReadDataArray ... Attempting to read beyond the max size of the file");

@@ -33,8 +33,6 @@ namespace CEM
       {
 	fdtd_ptr_->UpdateFields(time);
 	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField());
-
-	std::vector<double> temp = dLogger_ptr_->ReadDataArray("CEMOutput.h5","/Ex", time);
       }
   }
 }//end namespace CEM
