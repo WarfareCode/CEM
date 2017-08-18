@@ -25,7 +25,8 @@ namespace CEM
     virtual InputParserError ReadInputFile(std::string fileName);
 
     //Input Data get functions
-    virtual std::string getFileName(){return fileName_;};
+    virtual std::string getInputFileName(){return inputFileName_;};
+    virtual std::string getOutputFileName(){return outputFileName_;};
     virtual std::string getComputationType(){return computationType_;};
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;};
     virtual double getStopTime(){return stopTime_;};
@@ -42,7 +43,8 @@ namespace CEM
 	
     bool fileLoaded_;
 
-    std::string fileName_;                    /*!< Input file name that was read from*/
+    std::string inputFileName_;                    /*!< Input file name that was read from*/
+    std::string outputFileName_;              /*!< Output file name to be written to*/
     std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/

@@ -8,29 +8,17 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "InputDataInterface.h"
+#include "MockInputDataInterface.h"
 #include "CEMdefs.h"
 
 namespace CEM
 {
 
-
 namespace FDTD_1DTest
 {
 namespace testing
 {
-  class MockInputData : public InputDataInterface
-  {
-  public:
-    MOCK_METHOD0(getFileName, std::string());
-    MOCK_METHOD0(getComputationType, std::string());
-    MOCK_METHOD0(getAbsorbingBoundaryCondition, std::string());
-    MOCK_METHOD0(getStopTime, double());
-    MOCK_METHOD0(getStartTime, double());
-    MOCK_METHOD0(getVectorLength, int());
-    MOCK_METHOD0(getSourceIndex, int());
-    MOCK_METHOD0(getInputData, InputDataInterface *());
-  };
+
   
     class FDTD_1DTest : public Test
     {

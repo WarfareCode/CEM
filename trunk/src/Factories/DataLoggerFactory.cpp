@@ -15,7 +15,7 @@ namespace CEM
 
   std::unique_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(InputDataInterface * input)
   {
-    std::unique_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5);
+    std::unique_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5(input));
     return dataLogger;
   }
 }

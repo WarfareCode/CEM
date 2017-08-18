@@ -24,7 +24,8 @@ namespace CEM
   {
   public:
  
-    virtual std::string getFileName()=0;
+    virtual std::string getInputFileName()=0;
+    virtual std::string getOutputFileName()=0;
     virtual std::string getComputationType()=0;
     virtual std::string getAbsorbingBoundaryCondition()=0;
     virtual double getStopTime()=0;
@@ -39,7 +40,8 @@ namespace CEM
   //Overloaded << Operator
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
-   os << "FileName: " << input.getFileName() << std::endl;
+   os << "InputFileName: " << input.getInputFileName() << std::endl;
+   os << "OutputFileName: " << input.getOutputFileName() << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
    os << "Start Time: " << input.getStartTime() << std::endl;
    os << "Stop Time: " << input.getStopTime() << std::endl;
@@ -53,7 +55,8 @@ namespace CEM
  inline std::string InputData2String(InputDataInterface *input)
  {
    std::string dataString;
-   dataString = "FileName: " + input->getFileName() + "\n";
+   dataString = "InputFileName: " + input->getInputFileName() + "\n";
+   dataString = "OutputFileName: " + input->getOutputFileName() + "\n";
    dataString += "Computation Type: " + input->getComputationType() + "\n";
    dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
    dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";

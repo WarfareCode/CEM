@@ -12,9 +12,13 @@ namespace CEM
    * \brief Standard Constructor
    *
    */
-  DataLoggerHDF5::DataLoggerHDF5()
+  DataLoggerHDF5::DataLoggerHDF5(InputDataInterface *input)
   {
+    fileName_ = input->getOutputFileName();
+    chunkSize_ = input->getVectorLength();
 
+    CreateFile();
+    WriteDataHeader(input);
   }
 
   /**
@@ -96,17 +100,17 @@ namespace CEM
    *
    * This function creates an HDF5 file with the datasets
    * @param filename The name of the file to create*/
-  void DataLoggerHDF5::CreateFile(std::string filename)
+  void DataLoggerHDF5::CreateFile()
   {
-    fileName_ = filename;
-    hsize_t      dims = 200;  // dataset dimensions at creation
+   
+    hsize_t      dims = chunkSize_;  // dataset dimensions at creation
     hsize_t      maxdims = H5S_UNLIMITED;
     DataSpace mspace( 1, &dims, &maxdims);
    
-    H5File file( filename, H5F_ACC_TRUNC );
+    H5File file( fileName_, H5F_ACC_TRUNC );
     DSetCreatPropList cparms;
         
-    hsize_t      chunk_dims = 200;
+    hsize_t      chunk_dims = chunkSize_;
     cparms.setChunk( 1, &chunk_dims);
         
     int fill_val = 0;
@@ -147,29 +151,57 @@ namespace CEM
    * \brief Read a Data array from a file
    *
    * @param fileName The fileName to read from
-   * @param datasetName The name of the dataset to read*/
+   * @param datasetName The name of the dataset to read
+   * @param timeIndex the offset in time to read from */
   
-  std::vector<double>  DataLoggerHDF5::ReadDataArray(std::string fileName, std::string datasetName)
+  std::vector<double>  DataLoggerHDF5::ReadDataArray(std::string fileName, std::string datasetName, int timeIndex)
   {
-     H5File file( fileName, H5F_ACC_RDONLY);
-     DataSet dataset = file.openDataSet( datasetName);
-     DataSpace filespace = dataset.getSpace();
-    int rank = filespace.getSimpleExtentNdims();
+    //open the file and get the requested dataset
+    H5File file( fileName, H5F_ACC_RDONLY);
+    DataSet dataset = file.openDataSet( datasetName);
 
-    hsize_t dims[2];    // dataset dimensions
-    rank = filespace.getSimpleExtentDims( dims );
-    std::cout << "dataset rank = " << rank << ", dimensions "
-         << (unsigned long)(dims[0]) << " x "
-	      << (unsigned long)(dims[1]) << std::endl;
- 
-    DataSpace mspace(1, dims);
+     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
 
-    std::vector<double> data_out;
-    data_out.resize(dims[0]);
+     std::cout<<"Current Data Size: " << currentSize << std::endl;
      
-     dataset.read( &data_out[0], PredType::NATIVE_INT, mspace, filespace );
+    //get the dataspace and determine the size and rank
+    DataSpace filespace = dataset.getSpace();
+    int rank = filespace.getSimpleExtentNdims();
+    hsize_t dims;    // dataset dimensions
+    rank = filespace.getSimpleExtentDims( &dims );
+    
+    std::cout << "dataset rank = " << rank << ", dimensions "
+      << (unsigned long)(dims)  <<std::endl;
+
+    //get the dataset properties to look at the chunk size
+    DSetCreatPropList cparms = dataset.getCreatePlist();
+
+    hsize_t cd;
+    int rc;
+    rc = cparms.getChunk( 1, &cd);
+    std::cout<<"rc: " << rc << " cd: " << cd << std::endl;
+     
+    //get the memory space to read in
+    DataSpace mspace( rc, &cd );
+    //determine the offset into the file  
+    hsize_t offset = timeIndex*cd;
+
+    std::cout<<"Max Size Offset = " << currentSize - cd << " Max Index = " << (currentSize - cd)/cd << std::endl;
+    
+    //make sure the offset is within the file
+    if (offset <= currentSize - cd)
+      {
+    //get the hyperslab to read
+    filespace.selectHyperslab( H5S_SELECT_SET, &cd, &offset );
+      
+    std::vector<double>data_out;
+    data_out.resize(cd);
+    dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
 
     return data_out;
+      }
+    else
+      throw std::runtime_error("DataLoggerHDF5::ReadDataArray ... Attempting to read beyond the max size of the file");
   }
 
 }//end namespace CEM

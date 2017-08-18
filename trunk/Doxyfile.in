@@ -766,6 +766,7 @@ INPUT =     @CMAKE_CURRENT_SOURCE_DIR@/../README.md \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/SimManager \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/SimEngine \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/Interfaces \
+	    @CMAKE_CURRENT_SOURCE_DIR@/src/MockInterfaces \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/Factories 
 	    
 # This tag can be used to specify the character encoding of the source files

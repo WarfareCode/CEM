@@ -53,6 +53,7 @@ int main (int argc, char *argv[])
 #endif
         
   std::cout << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
+
   CEM::SimManager Sim(inputFileName, outputFileName);
   Sim.Run();
         

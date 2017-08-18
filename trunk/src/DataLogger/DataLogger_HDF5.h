@@ -21,17 +21,21 @@ namespace CEM
   class DataLoggerHDF5: public DataLoggerInterface
   {
   public:
-    DataLoggerHDF5();
-    virtual void WriteDataHeader(InputDataInterface *input);
+    DataLoggerHDF5(InputDataInterface *input);
+    
     virtual void WriteDataArray(std::vector<double>data);
     virtual void WriteDataArray(double *data, int s);
-    virtual void CreateFile(std::string fileName);
-    virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName);
+    virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName, int timeIndex);
+
+  private:
+    void WriteDataHeader(InputDataInterface *input);
+    void CreateFile();
 	
   private:
     DataSet dataset_;
     H5File H5file_;
     std::string fileName_;
+    int chunkSize_;
 
   };
 }

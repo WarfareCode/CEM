@@ -40,6 +40,7 @@ namespace CEM
     absorbingBoundaryCondition_ = basenode_["Absorbing_Boundary_Condition"].as<std::string>();
     vectorLength_ = basenode_["Vector_Length"].as<int>();
     sourceIndex_ = basenode_["Source_Index"].as<int>();
+    outputFileName_ = basenode_["Output_File_Name"].as<std::string>();
 
     fileLoaded_ = true;
     return INPUT_PARSER_SUCCESS;
@@ -53,11 +54,10 @@ namespace CEM
   InputParserError InputParserYAML::ReadInputFile(std::string fileName)
   {
     InputParserError error = INPUT_PARSER_SUCCESS;
-    fileName_ = fileName;
-    basenode_ = YAML::LoadFile(fileName_);
+    inputFileName_ = fileName;
+    basenode_ = YAML::LoadFile(inputFileName_);
     error = ReadInputFile();
     return error;
-
   }
 }//end namespace CEM
 

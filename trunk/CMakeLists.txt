@@ -27,7 +27,7 @@ add_custom_target(build-time-make-input-data-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
 
 #add the common and interface headers to the include path
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces ${CMAKE_CURRENT_SOURCE_DIR}/src/MockInterfaces)
     
 #find the additional libraries needed
 #HDF5 - used for data logging
@@ -78,10 +78,13 @@ target_link_libraries(cem ${HDF5_LIBRARIES} SimManager )
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
 
 #now copy the needed input data files to the appropriate directory for running stand alone		      
-add_custom_command(TARGET cem POST_BUILD
+add_custom_command(TARGET cem PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
 		   ${CMAKE_SOURCE_DIR}/src/Input_Data
                    ${INPUT_DATA_DIRECTORY})
+
+message("Input_Data directory source: " ${CMAKE_SOURCE_DIR}/src/Input_Data)
+message("Input_Data directory target: "  ${INPUT_DATA_DIRECTORY})
 
 # add a target to generate API documentation with Doxygen
 if(DOXYGEN_FOUND)

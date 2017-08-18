@@ -20,8 +20,6 @@ namespace CEM
     fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
 
     dLogger_ptr_ = dlFactory_.createDataLogger(input_);
-    dLogger_ptr_->CreateFile(outputFileName);
-    dLogger_ptr_->WriteDataHeader(input_);
   }
 
   /**
@@ -34,7 +32,9 @@ namespace CEM
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
 	fdtd_ptr_->UpdateFields(time);
-	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField());   
+	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField());
+
+	std::vector<double> temp = dLogger_ptr_->ReadDataArray("CEMOutput.h5","/Ex", time);
       }
   }
 }//end namespace CEM

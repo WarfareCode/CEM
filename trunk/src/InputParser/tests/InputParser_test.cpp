@@ -57,7 +57,8 @@ namespace testing
 
       std::cout<<*input<<std::endl;
 
-      EXPECT_THAT(input->getFileName(),Eq(testFileName));
+      EXPECT_THAT(input->getInputFileName(),Eq(testFileName));
+      EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));
       EXPECT_THAT(input->getComputationType(), Eq("FDTD_1D"));
       EXPECT_THAT(input->getStartTime(),Eq(0));
       EXPECT_THAT(input->getStopTime(),Eq(250));
