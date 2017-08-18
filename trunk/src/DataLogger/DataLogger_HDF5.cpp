@@ -1,7 +1,7 @@
 /**
 * @file DataLogger_HDF5.cpp
 * @brief Implementation of the DataLogger_HDF5 class
-* @author Ben Frazier*
+* @author Ben Frazier
 * @date 08/12/2017 */
 
 #include "DataLogger_HDF5.h"

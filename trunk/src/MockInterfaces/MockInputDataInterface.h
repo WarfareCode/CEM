@@ -1,3 +1,9 @@
+/**
+* @file MockInputDataInterface.h
+* @brief Google Mock Definition for InputDataInterface
+* @author Ben Frazier
+* @date 08/18/2017 */
+
 #include <gmock/gmock.h>
   using ::testing::Eq;
 #include <gtest/gtest.h>
