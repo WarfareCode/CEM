@@ -1,7 +1,6 @@
 /**
 * @file InputParser_YAML.h
 * @brief Header File for the InputParserYAML class
-* @todo  Consider adding interfaces for the various options from the InputStruct. This may require generating specific InputParsers through a factor for the various types.
 * @author Ben Frazier
 * @date 08/14/2017 */
 

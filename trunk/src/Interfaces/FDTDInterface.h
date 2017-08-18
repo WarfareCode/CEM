@@ -10,7 +10,6 @@
 *    getDataSize
 *    getImpedance
 * </pre>
-* @todo Add support for 2D and 3D FDTD computations
 * @author Ben Frazier
 * @date 08/12/2017 */
 

@@ -7,7 +7,6 @@
 *    CreateFile
 *    WriteDataHeader
 * </pre>
-* @todo Add ReadDataInputArray
 * @author Ben Frazier
 * @date 08/12/2017 */
 
