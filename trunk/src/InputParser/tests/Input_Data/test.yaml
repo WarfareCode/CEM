@@ -1,3 +1,10 @@
+#*******************************************************************************
+#test.yaml
+#Contains all the information for running the simulation
+#Note: YAML files require spaces for indentation, NOT tabs
+#******************************************************************************
+
+#Define the Problem Domain
 Computation_Type: FDTD_1D
 Start_Time: 0
 Stop_Time: 250
