@@ -21,36 +21,61 @@ namespace CEM
     InputParserYAML();
 
     //define the virtual functions
-    virtual InputParserError ReadInputFile(std::string fileName);
+    virtual void  ReadInputFile(std::string fileName);
 
     //Input Data get functions
-    virtual std::string getInputFileName(){return inputFileName_;};
-    virtual std::string getOutputFileName(){return outputFileName_;};
-    virtual std::string getComputationType(){return computationType_;};
-    virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;};
-    virtual double getStopTime(){return stopTime_;};
-    virtual double getStartTime(){return startTime_;};
-    virtual int getVectorLength(){return vectorLength_;};
-    virtual int getSourceIndex(){return sourceIndex_;};
+    virtual std::string getInputFileName(){return inputFileName_;}
+    virtual std::string getComputationType(){return computationType_;}
+    virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
+    virtual double getStopTime(){return stopTime_;}
+    virtual double getStartTime(){return startTime_;}
+    virtual int getVectorLength(){return vectorLength_;}
+
+    //source
+    virtual std::string getSourceType(){return sourceType_;}
+    virtual double getSourceAmplitude(){return sourceAmplitude_;}
+    virtual double getSourceDelay(){return sourceDelay_;}
+    virtual double getPulseWidth(){return pulseWidth_;}
+    virtual int getSpatialIndex(){return spatialIndex_;}
+    
+    
+    //datalogging
+    virtual std::string getOutputFileName(){return outputFileName_;}
+    virtual double getOutputDataRate(){return outputRate_;}
+
+    //interface
     virtual InputDataInterface* getInputData();
-	
-    //now define additional support functions
-    InputParserError ReadInputFile();
+
+  private:
+    void ReadInputSourceInfo();
+    void ReadDataLoggingInfo();
+    void ReadInputFile();
 	
   private:
     YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
 	
     bool fileLoaded_;
 
-    std::string inputFileName_;                    /*!< Input file name that was read from*/
-    std::string outputFileName_;              /*!< Output file name to be written to*/
+    std::string inputFileName_;               /*!< Input file name that was read from*/
+  
     std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
-    int vectorLength_;                        /*!< Variable for the length (number of points) for each spatial vector*/
-    int sourceIndex_;   
+    double vectorLength_;                     /*!< Variable containing the spatial size of the vectors*/
 
+    //source parameters
+    std::string sourceType_;                  /*!< String defining the type of source*/
+    double sourceAmplitude_;                  /*!< Variable for the amplitude of the source*/
+    double sourceDelay_;                      /*!< Variable for the delay of the source*/
+    double pulseWidth_;                       /*!< Variable for the pulse width of the source*/
+    int spatialIndex_;                        /*!< Variable for the spatial index of the source*/
+
+    //data logging parameters
+    std::string outputFileName_;              /*!< Output file name to be written to*/
+    double  outputRate_;                      /*!< Output rate to write to the file*/
+
+     
   };
 }
 

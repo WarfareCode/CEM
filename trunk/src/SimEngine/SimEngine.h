@@ -33,7 +33,6 @@ namespace CEM
     //the input parser type is known at compile time - only YAML is handled
     InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
     InputDataInterface* input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
-    InputParserError ipError_;  /*!< InputParserError member variable for handling errors from the InputParserYAML class */
     FDTDFactory fdtdFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
 

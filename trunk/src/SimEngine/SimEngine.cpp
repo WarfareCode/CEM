@@ -15,8 +15,10 @@ namespace CEM
   SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
   {
     //Read the input file and get the Input Data interface
-    ipError_ = ip_.ReadInputFile(inputFileName);
+    ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
+
+    std::cout<< *input_ << std::endl;
 
     //create the pointers to the FDTD engine and the data logger
     fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);

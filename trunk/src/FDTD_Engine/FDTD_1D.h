@@ -27,7 +27,7 @@ namespace CEM
     virtual double getEField(int index);
     virtual std::vector<double> getHField(){return H;};
     virtual double getHField(int index);
-    virtual int getDataSize(){return dataSize;};
+    virtual int getDataSize(){return dataSize_;};
     virtual double getImpedance(){return imp;};
     
     //get functions
@@ -39,8 +39,14 @@ namespace CEM
     std::vector<double> E; /*!< Electric Field Vector */
     std::vector<double> H; /*!< Magnetic Field Vector */
     double imp; /*!< Impedance Vector */
-    int dataSize;
-    int sourceIndex;
+    int dataSize_;
+    int sourceIndex_;
+
+    double sourceAmplitude_;
+    std::string sourceType_;
+    double pulseWidth_;
+    double pulseWidth2_;
+    double sourceDelay_;
 
     bool initialized;
     AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */

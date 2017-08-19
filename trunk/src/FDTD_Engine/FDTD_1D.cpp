@@ -18,7 +18,7 @@ namespace CEM
     initialized(false),
     ABC(SimpleABC),
     imp(377.0),
-    dataSize(0)
+    dataSize_(0)
   {
     InitializeEngine(input);
   }
@@ -31,16 +31,24 @@ namespace CEM
   void FDTD_1D::InitializeEngine(InputDataInterface * input)
   {
 
-    dataSize = input->getVectorLength();
-    sourceIndex = input->getSourceIndex();
+    dataSize_ = input->getVectorLength();
+    
 
     ABC = SimpleABC;
 
-    H.resize(dataSize);
-    E.resize(dataSize);
+    H.resize(dataSize_);
+    E.resize(dataSize_);
 
+    sourceAmplitude_ = input->getSourceAmplitude();
+    sourceType_ = input->getSourceType();
+    pulseWidth_ = input->getPulseWidth();
+    sourceDelay_ = input->getSourceDelay();
+    sourceIndex_ = input->getSpatialIndex();
+
+    pulseWidth2_ = pulseWidth_*pulseWidth_;
+    
+    
     initialized = true;
-   
   }
 
   /**
@@ -53,13 +61,13 @@ namespace CEM
     applyBC_H();
   
     //update the H Field
-    for (int mm = 0; mm < dataSize - 1; mm++)
-      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp;
+    for (int mm = 0; mm < dataSize_ - 1; mm++)
+      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp; 
 
     applyBC_E();
    
     //Now update the E Field
-    for (int mm = 1; mm < dataSize; mm++)
+    for (int mm = 1; mm < dataSize_; mm++)
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp;
 
     //set the source
@@ -68,12 +76,12 @@ namespace CEM
 
   void FDTD_1D::SetEFieldSource(double time)
   {
-     E[sourceIndex] = exp(-(time - 30.) * (time - 30.) / 100.);
+     E[sourceIndex_] = exp(-(time - sourceDelay_) * (time - sourceDelay_) / pulseWidth2_);
   }
 
   void FDTD_1D::SetEFieldSource(int index, double time)
   {
-    E[index] = exp(-(time - 30.) * (time - 30.) / 100.);
+    E[index] = exp(-(time - sourceDelay_) * (time - sourceDelay_) / pulseWidth2_);
   }
 
   /**
@@ -84,7 +92,7 @@ namespace CEM
    * @param index The index of the E field to retrieve*/
   double FDTD_1D::getEField(int index)
   {
-    if (index < dataSize)
+    if (index < dataSize_)
       return E[index];
     else
       return 0;
@@ -98,7 +106,7 @@ namespace CEM
    * @param index The index of the H field to retrieve*/
   double FDTD_1D::getHField(int index)
   {
-    if (index < dataSize)
+    if (index < dataSize_)
       return H[index];
     else
       return 0;
@@ -111,7 +119,7 @@ namespace CEM
 
   void FDTD_1D::simpleABC_H()
   {
-    H[dataSize-1] = H[dataSize-2];
+    H[dataSize_-1] = H[dataSize_-2];
   }
 
 

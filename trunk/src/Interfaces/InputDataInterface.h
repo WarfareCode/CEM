@@ -10,7 +10,7 @@
 *    getStartTime
 *    getStopTime
 *    getVectorLength
-*    getSourceIndex
+*    getSpatialIndex
 *    getInputData
 * </pre>
 * @author Ben Frazier
@@ -27,14 +27,25 @@ namespace CEM
   public:
  
     virtual std::string getInputFileName()=0;
-    virtual std::string getOutputFileName()=0;
     virtual std::string getComputationType()=0;
     virtual std::string getAbsorbingBoundaryCondition()=0;
     virtual double getStopTime()=0;
     virtual double getStartTime()=0;
     virtual int getVectorLength()=0;
-    virtual int getSourceIndex()=0;
 
+    //source
+    virtual std::string getSourceType()=0;
+    virtual double getSourceAmplitude()=0;
+    virtual double getSourceDelay()=0;
+    virtual double getPulseWidth()=0;
+    virtual int getSpatialIndex()=0;
+    
+    
+    //datalogging
+    virtual std::string getOutputFileName()=0;
+    virtual double getOutputDataRate()=0;
+
+    //interface
     virtual InputDataInterface* getInputData()=0;
   };
 
@@ -46,13 +57,20 @@ namespace CEM
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
    os << "InputFileName: " << input.getInputFileName() << std::endl;
-   os << "OutputFileName: " << input.getOutputFileName() << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
    os << "Start Time: " << input.getStartTime() << std::endl;
    os << "Stop Time: " << input.getStopTime() << std::endl;
    os << "Absorbing Boundary Condition: " << input.getAbsorbingBoundaryCondition()<< std::endl;
    os << "Vector Length: " << input.getVectorLength() << std::endl;
-   os << "Source Index: " << input.getSourceIndex() << std::endl;
+   os << "Source Parameters: " << std::endl;
+   os << "Source Type: " <<  input.getSourceType() << std::endl;
+   os << "Source Amplitude: " <<  input.getSourceAmplitude() << std::endl;
+   os << "Source Delay: " <<  input.getSourceDelay() << std::endl;
+   os << "Pulse Width: " <<  input.getPulseWidth() << std::endl;
+   os << "Spatial Index: " << input.getSpatialIndex() << std::endl;
+   os << "Data Logging Parameters: " << std::endl;
+   os << "Output File Name: " << input.getOutputFileName() << std::endl;
+   os << "Output Data Rate: " << input.getOutputDataRate() << std::endl;
 
   return os;  
   }
@@ -66,14 +84,20 @@ namespace CEM
  {
    std::string dataString;
    dataString = "InputFileName: " + input->getInputFileName() + "\n";
-   dataString = "OutputFileName: " + input->getOutputFileName() + "\n";
    dataString += "Computation Type: " + input->getComputationType() + "\n";
    dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
    dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
    dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
    dataString += "Vector Length: " + std::to_string(input->getVectorLength()) + "\n";
-   dataString += "Source Index: " + std::to_string(input->getSourceIndex()) + "\n";
-
+   dataString += "Source Parameters:\n";
+   dataString += "Source Type: " + input->getSourceType() + "\n";
+   dataString += "Source Amplitude: " + std::to_string(input->getSourceAmplitude()) + "\n";
+   dataString += "Source Delay: " + std::to_string(input->getSourceDelay()) + "\n";
+   dataString += "Pulse Width: " + std::to_string(input->getPulseWidth()) + "\n";
+   dataString += "Spatial Index: " + std::to_string(input->getSpatialIndex()) + "\n";
+   dataString += "Data Logging Parameters:\n";
+   dataString += "Output File Name: " + input->getOutputFileName() + "\n";
+   dataString += "Output Data Rate: " + std::to_string(input->getOutputDataRate()) + "\n";
    return dataString;
  }
  

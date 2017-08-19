@@ -12,7 +12,6 @@
 
 #ifndef INPUTPARSER_INTERFACE_H
 #define INPUTPARSER_INTERFACE_H
-#include "CEMTypes.h"
 #include <iostream>
 
 namespace CEM
@@ -22,7 +21,7 @@ namespace CEM
   class InputParserInterface
   {
   public:
-    virtual InputParserError ReadInputFile(std::string fileName) = 0;
+    virtual void  ReadInputFile(std::string fileName) = 0;
   };
 
 }

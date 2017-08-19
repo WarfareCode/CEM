@@ -10,17 +10,6 @@
 
 namespace CEM
 {
-
-  /**
-   * @brief enumeration for the Input Parser error
-   */
-  enum InputParserError
-  {
-    INPUT_PARSER_SUCCESS = 0,
-    INPUT_PARSER_BAD_FILE = -1,
-    INPUT_PARSER_FILE_NOT_LOADED = -2
-  };
-
   /**
    * @brief enumeration for the Absorbing Boundary Condition (ABC)
    */
