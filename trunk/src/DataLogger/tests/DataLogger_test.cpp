@@ -60,6 +60,25 @@ namespace testing
     
     }
 
+  TEST_F(DataLogger_Test, read_test_dielectric_file)
+  {
+     char cwd[1024];
+     getcwd(cwd, sizeof(cwd));
+     std::cout<<"Current Directory: " << cwd << std::endl;
+
+     dl = new DataLoggerHDF5(input);
+     std::string testFileName = "../../Input_Data/dielectricTest.h5";
+     std::vector<double> er = dl->ReadInputDataArray(testFileName,"/EpsR");
+     for (int i = 0; i < 100; i++)
+      {
+	EXPECT_THAT(er[i], Eq(1));
+      }
+     for (int i = 100; i < 200; i++)
+      {
+	EXPECT_THAT(er[i], Eq(9));
+      }
+  }
+
   TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
      size = GetParam();
@@ -76,18 +95,6 @@ namespace testing
      dl->WriteDataArray(in, 1, "/EField");
 
      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),"/EField", 0);
-
-     std::vector<double> er = dl->ReadDataArray("dielectricTest.h5","/EpsR",0);
-
-     for (int i = 0; i < 100; i++)
-       {
-	 EXPECT_THAT(er[i], Eq(1));
-       }
-     for (int i = 100; i < 200; i++)
-       {
-	 EXPECT_THAT(er[i], Eq(9));
-       }
-  
 
       EXPECT_THAT(in.size()+1,Eq(out.size()));
       

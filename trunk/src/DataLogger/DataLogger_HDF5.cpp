@@ -198,7 +198,6 @@ namespace CEM
    * @param fileName The fileName to read from
    * @param datasetName The name of the dataset to read
    * @param timeIndex the offset in time to read from */
-  
   std::vector<double>  DataLoggerHDF5::ReadDataArray(std::string fileName, std::string datasetName, int timeIndex)
   {
     //open the file and get the requested dataset
@@ -240,6 +239,36 @@ namespace CEM
       }
     else
       throw std::runtime_error("DataLoggerHDF5::ReadDataArray ... Attempting to read beyond the max size of the file");
+  }
+
+   /**
+   * @brief Read an Input Array from a file
+   * @details This function uses an "unchunked" layout to directly read in an input vector from a file
+   * @param fileName The fileName to read from
+   * @param datasetName The name of the dataset to read */
+  std::vector<double> DataLoggerHDF5::ReadInputDataArray(std::string fileName, std::string datasetName)
+  {
+    std::vector<double> data_out;
+
+    //open the file and get the requested dataset
+    H5File file( fileName, H5F_ACC_RDONLY);
+    DataSet dataset = file.openDataSet( datasetName);
+
+    hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+
+    //get the dataspace and determine the size and rank
+    DataSpace filespace = dataset.getSpace();
+    int rank = filespace.getSimpleExtentNdims();
+    std::cout<<"Rank: " << rank << std::endl;
+    hsize_t dims;    // dataset dimensions
+    rank = filespace.getSimpleExtentDims( &dims );
+
+    DataSpace mspace( rank , &dims);
+
+    data_out.resize(dims);
+    dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
+
+    return data_out;
   }
 
 }//end namespace CEM
