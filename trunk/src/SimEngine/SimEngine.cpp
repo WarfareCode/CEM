@@ -18,8 +18,8 @@ namespace CEM
     ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
 
-    timeSinceLastDataLogged_ = 0;
     dataLogTime_ = 1/input_->getOutputDataRate();
+    timeSinceLastDataLogged_ = dataLogTime_; //force a write on start
     previousTime_ = 0;
 
     std::cout<< *input_ << std::endl;
