@@ -17,8 +17,6 @@
 #include <string>
 #include "SimManager/SimManager.h"
 
-#define SIZE 200
- 
 int main (int argc, char *argv[])
 {
 
@@ -52,7 +50,8 @@ int main (int argc, char *argv[])
         std::cout<<"Current Directory: " << cwd << std::endl;
 #endif
         
-  std::cout << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
+	//LOG(INFO) << "********************************************************************************************";
+	// LOG(INFO) << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
 
   CEM::SimManager Sim(inputFileName, outputFileName);
   Sim.Run();

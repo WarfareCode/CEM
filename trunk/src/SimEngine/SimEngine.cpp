@@ -4,6 +4,7 @@
 * @author Ben Frazier*
 * @date 08/15/2017 */
 #include "SimEngine.h"
+
 namespace CEM
 {
   /**

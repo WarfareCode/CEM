@@ -34,6 +34,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/
 find_package (HDF5 COMPONENTS CXX)
 message( "HDF5 Found: " ${HDF5_FOUND})
 
+find_package(Log4cplus)
+message( "Log4cplus Found: " ${LOG4CPLUS_FOUND})
+
 #Doxygen - used to generate code documentation
 find_package(Doxygen)
 message("Doxygen found: " ${DOXYGEN_FOUND})
@@ -62,7 +65,7 @@ message("GTEST_INCLUDE_DIR: " ${GTEST_INCLUDE_DIR})
 message("GMOCK_INCLUDE_DIR: " ${GMOCK_INCLUDE_DIR})
 
 #add the additional include directories
-include_directories(${HDF5_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${HDF5_INCLUDE_DIR} ${LOG4CPLUS_INCLUDE_DIR} ${YAMLCPP_INCLUDE_DIR} ${GTEST_INCLUDE_DIR} ${GMOCK_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 #add the src subdirectory
 add_subdirectory(${SOURCE_DIRECTORY})
@@ -72,7 +75,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
 add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(cem ${HDF5_LIBRARIES} SimManager )
+target_link_libraries(cem ${HDF5_LIBRARIES} SimManager ${LOG4CPLUS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
