@@ -7,7 +7,7 @@
 #Define the Problem Domain
 Computation_Type: FDTD_1D
 Start_Time: 0
-Stop_Time: 250
+Stop_Time: 450
 Absorbing_Boundary_Condition: None
 Vector_Length: 200
 
@@ -22,4 +22,4 @@ Source Info:
 #Define the Data Logging Options
 Data Logging Info:
   Output File Name: CEMOutput.h5
-  Output Rate in Seconds: 1
+  Output Rate in Seconds: 0.1

@@ -36,6 +36,10 @@ namespace CEM
     FDTDFactory fdtdFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
 
+    double timeSinceLastDataLogged_; /*!< Time tracking to handle data recording */
+    double dataLogTime_; /*!< Time step to record data */
+    double previousTime_; /*!< Last time the primary loop was executed */
+
   };
 }
 

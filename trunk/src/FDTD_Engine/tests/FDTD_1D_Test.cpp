@@ -43,17 +43,6 @@ namespace testing
 
     };
 
-    TEST_F(FDTD_1DTest, constructor_initialization)
-    {
-      int s = fdtd->getDataSize();
-      double imp = fdtd->getImpedance();
-
-      EXPECT_THAT(s, Eq(200));
-      EXPECT_THAT(imp, Eq(CEM::imp0));
-
-    }
-
-
   TEST_F(FDTD_1DTest, run)
   {
         

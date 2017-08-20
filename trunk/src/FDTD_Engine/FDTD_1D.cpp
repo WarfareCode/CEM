@@ -17,7 +17,7 @@ namespace CEM
   FDTD_1D::FDTD_1D(InputDataInterface * input):
     initialized(false),
     ABC(SimpleABC),
-    imp(377.0),
+    imp_(377.0),
     dataSize_(0)
   {
     InitializeEngine(input);
@@ -62,26 +62,30 @@ namespace CEM
   
     //update the H Field
     for (int mm = 0; mm < dataSize_ - 1; mm++)
-      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp; 
+      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
+
+    //correct H field --> TFSF
+    //H[sourceIndex_ -1] -= computeSourceAmplitude(time,0)/imp_;
 
     applyBC_E();
    
     //Now update the E Field
     for (int mm = 1; mm < dataSize_; mm++)
-      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp;
+      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_;
 
-    //set the source
-    SetEFieldSource(time);
+    //update the source
+    E[sourceIndex_] += computeSourceAmplitude(time,0.0);
   }
 
-  void FDTD_1D::SetEFieldSource(double time)
+   /**
+   * \brief Compute the amplitude of the source
+   *
+   * @param time The time to compute the source
+  * @param shift The value to shift the time (TFSF)*/
+  double FDTD_1D::computeSourceAmplitude(double time, double shift)
   {
-     E[sourceIndex_] = exp(-(time - sourceDelay_) * (time - sourceDelay_) / pulseWidth2_);
-  }
-
-  void FDTD_1D::SetEFieldSource(int index, double time)
-  {
-    E[index] = exp(-(time - sourceDelay_) * (time - sourceDelay_) / pulseWidth2_);
+    double val = sourceAmplitude_ *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
+    return val;
   }
 
   /**

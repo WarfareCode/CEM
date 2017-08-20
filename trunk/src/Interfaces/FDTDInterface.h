@@ -34,8 +34,6 @@ namespace CEM
     virtual std::vector<double> getHField()=0;
     virtual double getHField(int index)=0;
 	
-    virtual int getDataSize()=0;
-    virtual double getImpedance()=0;
   };
 }
 

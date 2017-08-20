@@ -18,6 +18,10 @@ namespace CEM
     ip_.ReadInputFile(inputFileName);
     input_ = ip_.getInputData();
 
+    timeSinceLastDataLogged_ = 0;
+    dataLogTime_ = 1/input_->getOutputDataRate();
+    previousTime_ = 0;
+
     std::cout<< *input_ << std::endl;
 
     //create the pointers to the FDTD engine and the data logger
@@ -35,7 +39,16 @@ namespace CEM
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
 	fdtd_ptr_->UpdateFields(time);
-	dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),"/Ex");
+
+	if (timeSinceLastDataLogged_ >= dataLogTime_)
+	  {
+	    dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),"/Ex");
+	    timeSinceLastDataLogged_ = 0;
+	  }
+	else
+	  timeSinceLastDataLogged_ += time - previousTime_;
+
+	 previousTime_ = time;
       }
   }
 }//end namespace CEM
