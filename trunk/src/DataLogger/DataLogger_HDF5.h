@@ -26,7 +26,7 @@ namespace CEM
     
     virtual void WriteDataArray(std::vector<double>data);
     virtual void WriteDataArray(double *data, int s);
-    virtual void WriteDataArray(std::vector<double>data, std::string datasetName);
+    virtual void WriteDataArray(std::vector<double>data, double time, std::string datasetName);
     virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName, int timeIndex);
 
   private:
@@ -36,6 +36,7 @@ namespace CEM
   private:
     DataSet datasetE_;
     DataSet datasetH_;
+    
     std::string fileName_;
     int chunkSize_;
 

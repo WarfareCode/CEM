@@ -15,7 +15,7 @@ namespace CEM
   DataLoggerHDF5::DataLoggerHDF5(InputDataInterface *input)
   {
     fileName_ = input->getOutputFileName();
-    chunkSize_ = input->getVectorLength();
+    chunkSize_ = input->getVectorLength() + 1; //include room for the time index
 
     CreateFile();
     WriteDataHeader(input);
@@ -66,7 +66,15 @@ namespace CEM
     
   }
 
-  void  DataLoggerHDF5::WriteDataArray(std::vector<double>data, std::string datasetName)
+    /**
+   * \brief Write a std::vector to the File
+   *
+   * This function writes a data array from a std::vector of data and converts
+   * the std::vector to an array of pointers first and then calls the overloaded WriteDataArray function
+   * @param data The data to write
+   * @param time The time to append to the data vector
+   * @param datasetName The dataset to write ("/EField" or "/HField")*/
+  void  DataLoggerHDF5::WriteDataArray(std::vector<double>data, double time, std::string datasetName)
   {
     DataSet dataset;
     if (datasetName.compare("EField"))
@@ -81,6 +89,10 @@ namespace CEM
       throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
 		 
      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
+
+    //add the time to the data
+     data.push_back(time);
+     
     //now get the memory size, the new dataset size, and the offset
     hsize_t msize = data.size();
     hsize_t offset = currentSize; 

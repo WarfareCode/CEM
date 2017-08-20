@@ -1,4 +1,4 @@
-function data = readAllData(varargin)
+function [data,tt] = readAllData(varargin)
 
 if nargin == 0
     fileName = 'CEMOutput.h5';
@@ -13,13 +13,14 @@ end
  
 info = h5info(fileName,group);
 data =[];
-
+tt = [];
 timeLength = info.Dataspace.Size/info.ChunkSize;
 
 for counter = 1:timeLength
     offset = 1 + (counter-1)*info.ChunkSize;
     tempData = h5read('CEMOutput.h5','/EField',offset,info.ChunkSize);
-    data = [data tempData];
+    tt(counter) = tempData(end);
+    data = [data tempData(1:end-1)];
 end
 
 y = linspace(0,info.ChunkSize);

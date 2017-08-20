@@ -42,7 +42,7 @@ namespace CEM
 
 	if (timeSinceLastDataLogged_ >= dataLogTime_)
 	  {
-	    dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),"/Ex");
+	    dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),time,"/EField");
 	    timeSinceLastDataLogged_ = 0;
 	  }
 	else
