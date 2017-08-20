@@ -51,7 +51,7 @@ namespace testing
       dl->WriteDataArray(in,1,datasetname);
       std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),datasetname, 0);
 
-      EXPECT_THAT(in.size()+1,Eq(out.size()));
+      EXPECT_THAT(in.size(),Eq(out.size()));
       
       for (int counter = 0; counter < in.size();counter++)
 	{
@@ -96,14 +96,13 @@ namespace testing
 
      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),"/EField", 0);
 
-      EXPECT_THAT(in.size()+1,Eq(out.size()));
+      EXPECT_THAT(in.size(),Eq(out.size()));
       
       for (int counter = 0; counter < in.size();counter++)
 	{
 	  EXPECT_THAT(in[counter], Eq(out[counter]));
 	}
-      
-    std::cout<<size <<std::endl;
+  
   }
 
   INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7,10,30,50,100,250,500));

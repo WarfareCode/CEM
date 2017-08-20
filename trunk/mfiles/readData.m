@@ -21,8 +21,6 @@ if (timeIndex > timeLength)
 else
     offset = 1 + (timeIndex-1)*info.ChunkSize;
     data = h5read(fileName,group,offset,info.ChunkSize);
-    tt = data(end);
-    data = data(1:end-1);
     plot(data);
     tstring = sprintf('Index: %d',timeIndex);
     title(tstring);

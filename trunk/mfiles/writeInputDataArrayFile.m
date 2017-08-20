@@ -1,6 +1,6 @@
 function  writeInputDataArrayFile( fileName,datasetname, inputArray)
 %writeInputDataArrayFile( fileName,datasetname, inputArray)
-%writes an unchunked data set
+%writes an unchunked data set to the file
 
 if (exist(fileName))
     delete(fileName);

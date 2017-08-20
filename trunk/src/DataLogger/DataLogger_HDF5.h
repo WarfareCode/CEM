@@ -37,6 +37,7 @@ namespace CEM
   private:
     DataSet datasetE_;
     DataSet datasetH_;
+    DataSet datasetT_;
     
     std::string fileName_;
     int chunkSize_;

@@ -18,9 +18,8 @@ timeLength = info.Dataspace.Size/info.ChunkSize;
 
 for counter = 1:timeLength
     offset = 1 + (counter-1)*info.ChunkSize;
-    tempData = h5read('CEMOutput.h5','/EField',offset,info.ChunkSize);
-    tt(counter) = tempData(end);
-    data = [data tempData(1:end-1)];
+    tempData = h5read(fileName,group,offset,info.ChunkSize);
+    data = [data tempData];
 end
 
 y = linspace(0,info.ChunkSize);

@@ -65,7 +65,7 @@ namespace CEM
       H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
 
     //correct H field --> TFSF
-    H[sourceIndex_ -1] -= computeSourceAmplitude(time,0)/imp_;
+    //H[sourceIndex_ -1] -= computeSourceAmplitude(time,0)/imp_;
 
     applyBC_E();
    
@@ -74,7 +74,7 @@ namespace CEM
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_;
 
     //update the source
-    E[sourceIndex_] += computeSourceAmplitude(time,1.0);
+    E[sourceIndex_] += computeSourceAmplitude(time,0.0);
   }
 
    /**

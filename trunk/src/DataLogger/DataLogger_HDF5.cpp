@@ -15,7 +15,7 @@ namespace CEM
   DataLoggerHDF5::DataLoggerHDF5(InputDataInterface *input)
   {
     fileName_ = input->getOutputFileName();
-    chunkSize_ = input->getVectorLength() + 1; //include room for the time index
+    chunkSize_ = input->getVectorLength(); //include room for the time index
 
     CreateFile();
     WriteDataHeader(input);
@@ -89,9 +89,6 @@ namespace CEM
       throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
 		 
      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
-
-    //add the time to the data
-     data.push_back(time);
      
     //now get the memory size, the new dataset size, and the offset
     hsize_t msize = data.size();
@@ -110,6 +107,17 @@ namespace CEM
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
 
     dataset.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+
+    //update the time vector
+    hsize_t tSize = 1;
+    hsize_t toffset = datasetT_.getStorageSize()/8;
+    hsize_t dTsize = toffset + tSize;
+    DataSpace mTspace( 1, &tSize);
+    datasetT_.extend(&dTsize);
+
+    DataSpace tspace = datasetT_.getSpace();
+    tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
+    datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
   }
 
   /**
@@ -164,6 +172,15 @@ namespace CEM
 
     datasetE_ = file.createDataSet( "EField", PredType::NATIVE_DOUBLE, mspace, cparms);
     datasetH_ = file.createDataSet( "HField", PredType::NATIVE_DOUBLE, mspace, cparms);
+
+    hsize_t dimsT_ = 1;
+    DataSpace tspace(1, &dimsT_, &maxdims);
+    DSetCreatPropList tparms;
+    tparms.setChunk( 1, &dimsT_);
+    tparms.setFillValue( PredType::NATIVE_DOUBLE, &fill_val);
+   
+    
+    datasetT_ = file.createDataSet( "Time", PredType::NATIVE_DOUBLE, tspace, tparms);
   }
 
   /**
