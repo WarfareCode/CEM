@@ -119,6 +119,7 @@ namespace CEM
   void FDTD_1D::simpleABC_E()
   {
     E[0] = E[1];
+  E[dataSize_-1] = E[dataSize_-2];
   }
 
   void FDTD_1D::simpleABC_H()

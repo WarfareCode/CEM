@@ -24,9 +24,8 @@ for counter = 1:timeLength
 end
 
 y = linspace(0,info.ChunkSize);
-x = linspace(0,timeLength);
 
 figure
-imagesc(x,y,data);
-xlabel('Time Index (n)')
+imagesc(tt,y,data);
+xlabel('Time (s)')
 ylabel('Spatial Index (m)')

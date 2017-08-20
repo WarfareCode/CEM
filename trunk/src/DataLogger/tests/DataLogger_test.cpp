@@ -77,6 +77,18 @@ namespace testing
 
      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),"/EField", 0);
 
+     std::vector<double> er = dl->ReadDataArray("dielectricTest.h5","/EpsR",0);
+
+     for (int i = 0; i < 100; i++)
+       {
+	 EXPECT_THAT(er[i], Eq(1));
+       }
+     for (int i = 100; i < 200; i++)
+       {
+	 EXPECT_THAT(er[i], Eq(9));
+       }
+  
+
       EXPECT_THAT(in.size()+1,Eq(out.size()));
       
       for (int counter = 0; counter < in.size();counter++)
