@@ -26,7 +26,7 @@ namespace CEM
     std::cout<< *input_ << std::endl;
 
     //create the pointers to the FDTD engine and the data logger
-    fdtd_ptr_ = fdtdFactory_.createComputationalEngine(input_);
+    engine_ptr_ = computeFactory_.createComputationalEngine(input_);
     dLogger_ptr_ = dlFactory_.createDataLogger(input_);
   }
 
@@ -39,11 +39,11 @@ namespace CEM
 
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
-	fdtd_ptr_->UpdateFields(time);
+	engine_ptr_->UpdateFields(time);
 
 	if (timeSinceLastDataLogged_ >= dataLogTime_)
 	  {
-	    dLogger_ptr_->WriteDataArray(fdtd_ptr_->getEField(),time,"/EField");
+	    dLogger_ptr_->WriteDataArray(engine_ptr_->getEField(),time,"/EField");
 	    timeSinceLastDataLogged_ = 0;
 	  }
 	else

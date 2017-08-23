@@ -1,6 +1,6 @@
 /**
-* @file FDTDInterface.h
-* @brief Virtual class definition for FDTD, defines the interface 
+* @file ComputeEngineInterface.h
+* @brief Virtual class definition for Computational Engines, defines the interface 
 * @details Required Interface functions:
 * <pre>
 *    InitializeEngine
@@ -13,8 +13,8 @@
 * @author Ben Frazier
 * @date 08/12/2017 */
 
-#ifndef FDTD_INTERFACE_H
-#define FDTD_INTERFACE_H
+#ifndef COMPUTE_ENGINE_INTERFACE_H
+#define COMPUTE_ENGINE_INTERFACE_H
 
 #include "CEMTypes.h"
 #include <vector>
@@ -23,7 +23,7 @@ struct InputStruct;
 
 namespace CEM
 {
-  class FDTDInterface
+  class ComputeEngineInterface
   {
   public:
     virtual void UpdateFields(double time) = 0;

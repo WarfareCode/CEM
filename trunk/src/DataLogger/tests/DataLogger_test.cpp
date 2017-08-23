@@ -97,7 +97,7 @@ namespace testing
       
      dl = new DataLoggerHDF5(input);
       std::string testFileName = "../../Input_Data/dielectricTest.h5";
-     std::vector<double> er = dl->ReadInputDataArray(testFileName,"/EpsR");
+     std::vector<double> er = dl->ReadVectorFromFile(testFileName,"/EpsR");
      for (int i = 0; i < 100; i++)
       {
 	EXPECT_THAT(er[i], Eq(1));

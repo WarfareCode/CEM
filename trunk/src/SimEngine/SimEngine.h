@@ -9,7 +9,7 @@
 #define SIM_ENGINE_H
 
 #include "InputParser/InputParser_YAML.h"
-#include "Factories/FDTDFactory.h"
+#include "Factories/ComputeEngineFactory.h"
 #include "Factories/DataLoggerFactory.h"
 
 #include <string>
@@ -27,13 +27,13 @@ namespace CEM
 
     //member variables
     //pointer to engine interface FDTD::FDTDInterface* 
-    std::unique_ptr<FDTDInterface> fdtd_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
+    std::unique_ptr<ComputeEngineInterface> engine_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
     std::unique_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
     //the input parser type is known at compile time - only YAML is handled
     InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
     InputDataInterface* input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
-    FDTDFactory fdtdFactory_;  /*!< Factory to generate the FDTD type */
+    ComputeEngineFactory computeFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
 
     double timeSinceLastDataLogged_; /*!< Time tracking to handle data recording */

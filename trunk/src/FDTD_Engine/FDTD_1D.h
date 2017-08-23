@@ -10,14 +10,14 @@
 
 #include <iostream>
 #include <vector>
-#include "FDTDInterface.h"
+#include "ComputeEngineInterface.h"
 #include "InputDataInterface.h"
 
 namespace CEM
 {
   class InputData;
   
-  class FDTD_1D: public FDTDInterface
+  class FDTD_1D: public ComputeEngineInterface
   {
   public:
     FDTD_1D(InputDataInterface* input);
