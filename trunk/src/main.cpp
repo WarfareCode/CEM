@@ -49,9 +49,6 @@ int main (int argc, char *argv[])
         getcwd(cwd, sizeof(cwd));
         std::cout<<"Current Directory: " << cwd << std::endl;
 #endif
-        
-	//LOG(INFO) << "********************************************************************************************";
-	// LOG(INFO) << "Executing ... Input File: " << inputFileName << " Output File: " << outputFileName << std::endl;
 
   CEM::SimManager Sim(inputFileName, outputFileName);
   Sim.Run();

@@ -192,8 +192,6 @@ namespace CEM
   {
 
     std::string inputString = InputData2String(input);
-
-    std::cout<<"inputString: " << inputString << std::endl;
     
     H5File file( fileName_, H5F_ACC_RDWR);
 

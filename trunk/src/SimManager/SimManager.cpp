@@ -57,6 +57,12 @@ int SimManager::Run()
         return -1;
     }
 
+    catch (std::runtime_error &error)
+      {
+	error.what();
+	return -1;
+      }
+
   return 0;
 
 }
