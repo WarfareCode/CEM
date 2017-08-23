@@ -6,6 +6,7 @@
 
 #include "FDTD_1D.h"
 #include <math.h>
+#include "CEMdefs.h"
 
 namespace CEM
 {
@@ -17,7 +18,7 @@ namespace CEM
   FDTD_1D::FDTD_1D(InputDataInterface * input):
     initialized(false),
     ABC(SimpleABC),
-    imp_(377.0),
+    imp_(CEM::imp0),
     dataSize_(0)
   {
     InitializeEngine(input);
