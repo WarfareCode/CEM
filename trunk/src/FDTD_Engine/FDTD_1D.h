@@ -37,14 +37,14 @@ namespace CEM
     std::vector<double> E; /*!< Electric Field Vector */
     std::vector<double> H; /*!< Magnetic Field Vector */
     double imp_; /*!< Impedance Vector */
-    int dataSize_;
-    int sourceIndex_;
-
-    double sourceAmplitude_;
-    std::string sourceType_;
-    double pulseWidth_;
-    double pulseWidth2_;
-    double sourceDelay_;
+    int dataSize_;  /*!< Length of the E and H vectors*/
+    
+    int sourceIndex_;  /*!< Spatial index where the source is applied*/
+    double sourceAmplitude_;  /*!< Amplitude of the source*/
+    std::string sourceType_;  /*!< Type of the source*/
+    double pulseWidth_;  /*!< Pulsewidth of the source*/
+    double pulseWidth2_;  /*!< Pulsewidth squared of the source*/
+    double sourceDelay_;  /*!< Time delay of the source*/
 
     bool initialized;
     AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
