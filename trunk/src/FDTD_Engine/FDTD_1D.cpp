@@ -33,13 +33,22 @@ namespace CEM
   {
 
     dataSize_ = input->getVectorLength();
-    
-
     ABC = SimpleABC;
-
     H.resize(dataSize_);
     E.resize(dataSize_);
 
+    InitializeSource(input);
+     
+    initialized = true;
+  }
+
+    /**
+   * \brief Initialize the Input Source
+   *
+   * This function sets up the input source
+   * @param input The input structure read in from the input file*/
+  void FDTD_1D::InitializeSource(InputDataInterface * input)
+  {
     sourceAmplitude_ = input->getSourceAmplitude();
     sourceType_ = input->getSourceType();
     pulseWidth_ = input->getPulseWidth();
@@ -47,9 +56,6 @@ namespace CEM
     sourceIndex_ = input->getSpatialIndex();
 
     pulseWidth2_ = pulseWidth_*pulseWidth_;
-    
-    
-    initialized = true;
   }
 
   /**

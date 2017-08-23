@@ -55,7 +55,8 @@ namespace CEM
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(InputDataInterface * input);
+    void InitializeEngine(InputDataInterface *input);
+    void InitializeSource(InputDataInterface *input);
    
     double computeSourceAmplitude(double time, double shift);
     
