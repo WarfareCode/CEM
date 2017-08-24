@@ -114,7 +114,13 @@ if(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 
+#add the run test
+add_test(NAME Run_cem 
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+	 
 #Add the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_cem 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
@@ -141,6 +147,7 @@ set_property(
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
 endif()
+endif()
 
 #add the Valgrind test (if enabled)
 if(RUN_VALGRIND)
@@ -151,7 +158,4 @@ if(RUN_VALGRIND)
 endif()
 
 
-#add the run test
-add_test(NAME Run_cem 
-         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+

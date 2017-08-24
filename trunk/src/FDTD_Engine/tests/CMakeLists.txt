@@ -33,6 +33,7 @@ add_test(NAME Run_FDTD_1D_Test
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
 #Next is the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_FDTD_1D_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
@@ -59,6 +60,7 @@ set_property(
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
 
+endif()
 endif()
 
 #Finally we have the Valgrind test (if enabled)

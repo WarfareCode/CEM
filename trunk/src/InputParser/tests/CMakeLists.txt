@@ -36,6 +36,7 @@ add_test(NAME Run_InputParserTest
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
 #Next is the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_InputParserTest 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
@@ -61,6 +62,7 @@ set_property(
 	      MemCheck_InputParserTest
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
+endif()
 endif()
 
 		   

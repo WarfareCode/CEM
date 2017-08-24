@@ -21,7 +21,8 @@ printHelp() {
     -c|--clean-build-directory: deletes the current build directory before generating new files (this option must be selected in order to switch generators)
     -m|--mode: Selects the mode to build (can be Debug or Release, defaults to Release)
     -p|--enable-profiling:
-    -vg|--run-valgrind: Runs Valgrind in the Unit tests
+    --disable-valgrind: Disables Running Valgrind
+    --disable-memcheck: Disables Running Google Perftools Memory Check
     -h|--help: print this menu
 
 EOF
@@ -33,6 +34,8 @@ EOF
 BUILD_MODE=Release
 CLEAN_BUILD_DIRECTORY=0
 CMAKE_ARGS=
+RUN_VALGRIND=1
+RUN_MEMCHECK=1
 
 #loop over input to set flags
 for i in "$@"
@@ -53,8 +56,12 @@ case $i in
 	CMAKE_ARGS="${CMAKE_ARGS} -C${TOOLCHAINS_DIR}/profiler.cmake"
 	;;
 	
-	-vg|--run-valgrind)
-	CMAKE_ARGS="${CMAKE_ARGS} -DRUN_VALGRIND=ON"
+	--disable-valgrind)
+        RUN_VALGRIND=0
+	;;
+
+	--disable-memcheck)
+	RUN_MEMCHECK=0
 	;;
 	
 	-X|--use-xcode)
@@ -87,6 +94,15 @@ if [[ "${BUILD_MODE}" != "Debug" && "${BUILD_MODE}" != "Release" ]]; then
 	printHelp
 	exit -1
 fi
+
+if [ ${RUN_VALGRIND} -eq 1 ]; then
+    CMAKE_ARGS="${CMAKE_ARGS} -DRUN_VALGRIND=ON"
+fi
+
+if [ ${RUN_MEMCHECK} -eq 1 ]; then
+    CMAKE_ARGS="${CMAKE_ARGS} -DRUN_MEMCHECK=ON"
+fi
+   
    
 #output the toolchain info
 echo "Configuring ${BUILD_MODE} mode"
