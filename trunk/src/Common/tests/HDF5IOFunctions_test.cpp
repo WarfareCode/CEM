@@ -1,4 +1,4 @@
-#include "HDF5ReaderFunctions.h"
+#include "HDF5IOFunctions.h"
 
 #include <string>
   using std::string;
@@ -12,15 +12,15 @@ using ::testing::TestWithParam;
 
 namespace CEM
 {
-namespace HDF5ReaderFunction_Test
+namespace HDF5IOFunction_Test
 {
 namespace testing
 {
-  class HDF5Reader_Test : public Test
+  class HDF5IO_Test : public Test
     {
     protected:
-       HDF5Reader_Test(){}
-       ~HDF5Reader_Test(){}
+       HDF5IO_Test(){}
+       ~HDF5IO_Test(){}
 
       virtual void SetUp()
       {
@@ -32,7 +32,7 @@ namespace testing
     };
 
 
-  TEST_F(HDF5Reader_Test, read_test_dielectric_file)
+  TEST_F(HDF5IO_Test, read_test_dielectric_file)
   {
      char cwd[1024];
      getcwd(cwd, sizeof(cwd));
@@ -40,7 +40,7 @@ namespace testing
       
 
      std::string testFileName = "../../Input_Data/dielectric1.h5";
-     std::vector<double> er = HDF5Reader::ReadVectorFromFile(testFileName,"/EpsR");
+     std::vector<double> er = HDF5IO::ReadVectorFromFile(testFileName,"/EpsR");
      
      for (int i = 0; i < 100; i++)
       {

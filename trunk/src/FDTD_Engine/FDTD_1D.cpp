@@ -7,7 +7,7 @@
 #include "FDTD_1D.h"
 #include <math.h>
 #include "CEMdefs.h"
-#include "HDF5ReaderFunctions.h"
+#include "HDF5IOFunctions.h"
 
 namespace CEM
 {
@@ -54,7 +54,7 @@ namespace CEM
 
     if (input->getDielectricSpecification() == "File")
       {
-	dielectricConstant_ = HDF5Reader::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
+	dielectricConstant_ = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)

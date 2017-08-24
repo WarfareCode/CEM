@@ -1,17 +1,17 @@
 /**
-* @file HDF5readerFunctions.cpp
-* @brief Reader functions for HDF5
+* @file HDF5IOFunctions.cpp
+* @brief IO functions for HDF5
 * @author Ben Frazier
 * @date 08/23/2017 */
 
 #include "H5Cpp.h"
-#include "HDF5ReaderFunctions.h"
+#include "HDF5IOFunctions.h"
 
 using namespace H5;
 
 namespace CEM
 {
-  namespace HDF5Reader
+  namespace HDF5IO
   {
     /**
      * @brief Read an Input Array from a file
@@ -41,6 +41,17 @@ namespace CEM
       dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
 
       return data_out;
-  }
+   }
+
+      /**
+   * @brief Write an Output Array to a file
+   * @details This function uses an "unchunked" layout to directly write an output vector to a file
+   * @param data The data to be written
+   * @param fileName The fileName to be written to
+   * @param datasetName The name of the dataset to be written 
+   * @todo Finish and test*/
+   void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)
+   {
+   }    
   }
 }

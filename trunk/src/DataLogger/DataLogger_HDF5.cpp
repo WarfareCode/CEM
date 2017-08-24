@@ -5,7 +5,7 @@
 * @date 08/12/2017 */
 
 #include "DataLogger_HDF5.h"
-#include "HDF5ReaderFunctions.h"
+#include "HDF5IOFunctions.h"
 
 namespace CEM
 {
@@ -264,29 +264,7 @@ namespace CEM
    * @param datasetName The name of the dataset to read */
   std::vector<double> DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
   {
-
-    return HDF5Reader::ReadVectorFromFile(fileName, datasetName);
-    /*
-    std::vector<double> data_out;
-
-    //open the file and get the requested dataset
-    H5File file( fileName, H5F_ACC_RDONLY);
-    DataSet dataset = file.openDataSet( datasetName);
-
-    hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
-
-    //get the dataspace and determine the size and rank
-    DataSpace filespace = dataset.getSpace();
-    int rank = filespace.getSimpleExtentNdims();
-    hsize_t dims;    // dataset dimensions
-    rank = filespace.getSimpleExtentDims( &dims );
-
-    DataSpace mspace( rank , &dims);
-
-    data_out.resize(dims);
-    dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
-
-    return data_out;*/
+    return HDF5IO::ReadVectorFromFile(fileName, datasetName);
   }
 
    /**
@@ -294,11 +272,10 @@ namespace CEM
    * @details This function uses an "unchunked" layout to directly write an output vector to a file
    * @param data The data to be written
    * @param fileName The fileName to be written to
-   * @param datasetName The name of the dataset to be written 
-   * @todo Finish and test*/
+   * @param datasetName The name of the dataset to be written */
   void  DataLoggerHDF5::WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)
   {
- 
+    HDF5IO::WriteVectorToFile(data, fileName, datasetName);
   }
 
 }//end namespace CEM
