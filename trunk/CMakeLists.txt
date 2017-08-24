@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 3.2.2)
 project(cem CXX)
 enable_testing()
 
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dcem)
+else()
+  set(EXE_NAME cem)
+endif()
+
+message("EXE_NAME: " ${EXE_NAME})
+message("CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
+
 #Ensure C++11 standard is used - may need to roll this into specific generators for other platforms
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -74,11 +83,11 @@ add_subdirectory(${SOURCE_DIRECTORY})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
-add_executable(cem ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(cem ${HDF5_LIBRARIES} SimManager ${LOG4CPLUS_LIBRARIES})
+add_executable(${EXE_NAME} ${SOURCE_DIRECTORY}/main.cpp)
+target_link_libraries(${EXE_NAME} ${HDF5_LIBRARIES} SimManager ${LOG4CPLUS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
-target_compile_definitions(cem PRIVATE "-D_USE_MATH_DEFINES")
+target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
 
 # add a target to generate API documentation with Doxygen
 if(DOXYGEN_FOUND)
@@ -117,14 +126,14 @@ endif(DOXYGEN_FOUND)
 #add the run test
 add_test(NAME Run_cem 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 	 
 #Add the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_cem 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
 set_property(
              TEST
@@ -154,7 +163,7 @@ if(RUN_VALGRIND)
 	add_test(NAME Valgrind_cem
 	         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 	         COMMAND valgrind --leak-check=full  --show-leak-kinds=all --track-origins=yes
-	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cem)
+	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 endif()
 
 

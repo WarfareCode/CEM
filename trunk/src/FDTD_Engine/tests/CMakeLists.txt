@@ -11,7 +11,12 @@ endif()
 #create the FDTD_1D test suite
 
 #first need to configure the executable test
-set(EXE_NAME FDTD_1DTest)
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dFDTD_1DTest)
+else()
+  set(EXE_NAME FDTD_1DTest)
+endif()
+
 include_directories( ${SOURCE_DIRECTORY}/FDTD_Engine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 

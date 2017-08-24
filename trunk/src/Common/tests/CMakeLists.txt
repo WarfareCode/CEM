@@ -11,7 +11,14 @@ endif()
 #create the Common test suite
 
 #first need to configure the executable test
-set(EXE_NAME HDF5IOTest)
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dHDF5IOTest)
+else()
+  set(EXE_NAME HDF5IOTest)
+endif()
+
+
 include_directories( ${SOURCE_DIRECTORY}/Comon
                      ${CMAKE_CURRENT_SOURCE_DIR})
 

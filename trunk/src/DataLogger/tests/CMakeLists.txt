@@ -11,7 +11,12 @@ endif()
 #create the DataLogger test suite
 
 #first need to configure the executable test
-set(EXE_NAME DataLogger_Test)
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dDataLogger_Test)
+else()
+  set(EXE_NAME DataLogger_Test)
+endif()
+
 include_directories( ${SOURCE_DIRECTORY}/DataLogger
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} DataLogger_test.cpp)

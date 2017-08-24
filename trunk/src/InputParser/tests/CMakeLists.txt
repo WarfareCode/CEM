@@ -12,6 +12,14 @@ endif()
 
 #first need to configure the executable test
 set(EXE_NAME InputParser_Test)
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dInputParser_Test)
+else()
+  set(EXE_NAME InputParser_Test)
+endif()
+
+
 include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} InputParser_test.cpp)

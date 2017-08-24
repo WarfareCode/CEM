@@ -11,7 +11,14 @@ endif()
 #create the SimEngine test suite
 
 #first need to configure the executable test
-set(EXE_NAME SimEngine_Test)
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dSimEngine_Test)
+else()
+  set(EXE_NAME SimEngine_Test)
+endif()
+
+
 include_directories( ${SOURCE_DIRECTORY}/SimEngine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} SimEngine_test.cpp)
