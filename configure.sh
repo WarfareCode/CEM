@@ -36,6 +36,7 @@ CLEAN_BUILD_DIRECTORY=0
 CMAKE_ARGS=
 RUN_VALGRIND=1
 RUN_MEMCHECK=1
+TOOLCHAIN=clang-64
 
 #loop over input to set flags
 for i in "$@"
@@ -71,6 +72,7 @@ case $i in
 	
 	-X|--use-xcode)
 	    CMAKE_ARGS="${CMAKE_ARGS} -G Xcode"
+	    TOOLCHAIN=xcode
 	    shift
 	;;
 	
@@ -141,12 +143,22 @@ if ! [ -d ${PROJECT_ROOT}/build ]; then
 	mkdir ${PROJECT_ROOT}/build
 fi
 
-echo "cd to ${PROJECT_ROOT}/build"
-cd "${PROJECT_ROOT}/build"
+#create the toolchain directory if it doesn't already exist
+if ! [ -d ${PROJECT_ROOT}/build/${TOOLCHAIN} ]; then
+	mkdir ${PROJECT_ROOT}/build/${TOOLCHAIN}
+fi
+
+#create the build mode if it doesn't already exist
+if ! [ -d ${PROJECT_ROOT}/build/${TOOLCHAIN}/${BUILD_MODE} ]; then
+	mkdir ${PROJECT_ROOT}/build/${TOOLCHAIN}/${BUILD_MODE}
+fi
 
 #set up the build directory and CMake root directory
-BUILD_DIR="${PROJECT_ROOT}/build/gnu/${BUILD_MODE}"
+BUILD_DIR="${PROJECT_ROOT}/build/${TOOLCHAIN}/${BUILD_MODE}"
 CMAKE_ROOT_DIR="${PROJECT_ROOT}/trunk"
+
+echo "cd to ${BUILD_DIR}"
+cd "${BUILD_DIR}"
 
 #add the mode
 CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_BUILD_TYPE=${BUILD_MODE}"
