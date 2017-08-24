@@ -14,7 +14,9 @@ Simulation Spatial Domain:
     Propagation Direction: Z
     Z Length: 200
     Z Sampling: 1
-  Dielectric Constant: dielectric1.h5  
+  Dielectric Constant: 
+    Specification: File
+    File Name: dielectric1.h5  
   Absorbing Boundary Condition: None
  
    

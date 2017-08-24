@@ -72,6 +72,31 @@ namespace CEM
      zSamplingDistance_ = dimensionalityNode["Z Sampling"].as<double>();
 
      vectorZLength_ = round(zLength_/zSamplingDistance_);
+
+     YAML::Node dielectricNode = spatialNode["Dielectric Constant"];
+     ReadDielectricInfo(dielectricNode);
+  }
+
+  void InputParserYAML::ReadDielectricInfo(YAML::Node dNode)
+  {
+    if(dNode.IsNull())
+       throw std::runtime_error("InputParserYAML::ReadDielectricInfo ... dielectricNode is Null");
+
+    std::string specification;
+    specification= dNode["Specification"].as<std::string>();
+
+    if(specification == "File")
+      {
+	dielectricFileName_ = dNode["File Name"].as<std::string>();
+      }
+    else if (specification == "Vector")
+      {
+      }
+    else if (specification == "Constant")
+     {
+       dielectricConstant_ =  dNode["Value"].as<double>();
+     }
+
   }
 
   void InputParserYAML::ReadInputSourceInfo()

@@ -42,7 +42,10 @@ namespace CEM
     virtual double getSourceDelay()=0;
     virtual double getPulseWidth()=0;
     virtual int getSpatialIndex()=0;
-    
+
+    //dielectric
+    virtual std::string getDielectricFileName()=0;
+    virtual double getDielectricConstant()=0;
     
     //datalogging
     virtual std::string getOutputFileName()=0;

@@ -40,6 +40,10 @@ namespace CEM
     virtual double getSourceDelay(){return sourceDelay_;}
     virtual double getPulseWidth(){return pulseWidth_;}
     virtual int getSpatialIndex(){return spatialIndex_;}
+
+    //dielectric
+    virtual std::string getDielectricFileName(){return dielectricFileName_;}
+    virtual double getDielectricConstant(){return dielectricConstant_;}
     
     
     //datalogging
@@ -54,6 +58,7 @@ namespace CEM
     void ReadDataLoggingInfo();
     void ReadTemporalDomainInfo();
     void ReadSpatialDomainInfo();
+    void ReadDielectricInfo(YAML::Node dNode);
     void ReadInputFile();
 	
   private:
@@ -72,7 +77,8 @@ namespace CEM
     int numberOfDimensions_;                  /*!< Number of dimensions for the spatial domain*/
     double zLength_;                          /*!< Length of the domain in Z*/
     double zSamplingDistance_;                /*!< Sampling distance in Z*/
-
+    std::string dielectricFileName_;          /*!< Filename for the dielectric constant*/
+    double dielectricConstant_;               /*!< Constant value of dielectric constant*/
      
     //source parameters
     std::string sourceType_;                  /*!< String defining the type of source*/
