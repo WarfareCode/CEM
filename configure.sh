@@ -39,7 +39,7 @@ RUN_MEMCHECK=1
 
 #loop over input to set flags
 for i in "$@"
-do
+do 
 case $i in
 
 	-h|--help)
@@ -48,28 +48,35 @@ case $i in
 	;;
 	
 	-m|--mode)
-	shift
+	    shift
 	BUILD_MODE=$1
+	echo "BUILD_MODE = $1"
+	shift
 	;;
 	
 	-p|--enable-profiling)
-	CMAKE_ARGS="${CMAKE_ARGS} -C${TOOLCHAINS_DIR}/profiler.cmake"
+	    CMAKE_ARGS="${CMAKE_ARGS} -C${TOOLCHAINS_DIR}/profiler.cmake"
+	    shift
 	;;
 	
 	--disable-valgrind)
-        RUN_VALGRIND=0
+            RUN_VALGRIND=0
+	    shift
 	;;
 
 	--disable-memcheck)
-	RUN_MEMCHECK=0
+	    RUN_MEMCHECK=0
+	    shift
 	;;
 	
 	-X|--use-xcode)
-	CMAKE_ARGS="${CMAKE_ARGS} -G Xcode"
+	    CMAKE_ARGS="${CMAKE_ARGS} -G Xcode"
+	    shift
 	;;
 	
 	-c|--clean-build-directory)
-	CLEAN_BUILD_DIRECTORY=1
+	    CLEAN_BUILD_DIRECTORY=1
+	    shift
 	;;
 		
 	-?*)
@@ -78,12 +85,13 @@ case $i in
 	exit -1
 	;;
 	
-    --)
-    shift
-    while [ "$1" != ""];do
-    	CMAKE_ARGS = "{CMAKE_ARGS} $1"
-    	shift
-    done
+         --)
+       shift
+        while [ "$1" != ""];do
+    	 CMAKE_ARGS = "{CMAKE_ARGS} $1"
+	 echo "CMAKE_ARGS = {CMAKE_ARGS} $1"
+    	 shift
+        done
     ;;  	
 esac
 done
