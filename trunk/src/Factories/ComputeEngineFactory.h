@@ -22,7 +22,7 @@ namespace CEM
 
     // ComputeEngineInterface* createComputeEngine();
 
-    std::unique_ptr<ComputeEngineInterface> createComputationalEngine(InputDataInterface * input);
+    std::unique_ptr<ComputeEngineInterface> createComputationalEngine(std::shared_ptr<InputDataInterface> input);
 
   };
 }

@@ -22,10 +22,10 @@ namespace CEM
    * \brief Get the Input Data Itnerface
    *
    */
- InputDataInterface* InputParserYAML::getInputData()
+  std::shared_ptr<InputDataInterface> InputParserYAML::getInputData()
    {
      if (fileLoaded_)
-       return this;
+       return shared_from_this();
      else throw std::runtime_error("InputParserYAML::getInputData()....Input File Not Loaded.");
    }
   
@@ -41,6 +41,8 @@ namespace CEM
     ReadDataLoggingInfo();
 
     fileLoaded_ = true;
+
+    std::cout<<"File Loaded ..." << std::endl;
   }
 
   void InputParserYAML::ReadTemporalDomainInfo()

@@ -22,7 +22,7 @@ namespace CEM
   class DataLoggerHDF5: public DataLoggerInterface
   {
   public:
-    DataLoggerHDF5(InputDataInterface *input);
+    DataLoggerHDF5(std::shared_ptr<InputDataInterface> input);
     DataLoggerHDF5() = delete;
     
     virtual void WriteDataArray(std::vector<double>data);
@@ -33,7 +33,7 @@ namespace CEM
     virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
 
   private:
-    void WriteDataHeader(InputDataInterface *input);
+    void WriteDataHeader(std::shared_ptr<InputDataInterface> input);
     void CreateFile();
 	
   private:

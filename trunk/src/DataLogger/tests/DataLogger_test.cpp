@@ -27,14 +27,14 @@ namespace testing
 
       virtual void SetUp()
       {
-	input = new MockInputData;
+	input = std::make_shared<MockInputData>();
 	EXPECT_CALL(*input, getOutputFileName()).WillRepeatedly(::testing::Return("CEMTest.h5"));
 	
       }
-      virtual void TearDown(){ delete dl; delete input;}
+      virtual void TearDown(){ delete dl;}
 
       DataLoggerHDF5* dl;
-      MockInputData* input;
+      std::shared_ptr<MockInputData> input;
       std::string outputFileName;
 
       int size;

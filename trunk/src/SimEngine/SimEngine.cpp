@@ -10,15 +10,11 @@ namespace CEM
   /**
    * @brief Constructor with file names
    *
-   * @param inputFileName Name of the file to read as input
-   * @param outputFileName Name of the file to be created as output
+   * @param input Pointer to the input data structure
    **/
-  SimEngine::SimEngine(std::string inputFileName, std::string outputFileName)
+  SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
   {
-    //Read the input file and get the Input Data interface
-    ip_.ReadInputFile(inputFileName);
-    input_ = ip_.getInputData();
-
+    input_ = input;
     dataLogTime_ = 1/input_->getOutputDataRate();
     timeSinceLastDataLogged_ = dataLogTime_; //force a write on start
     previousTime_ = 0;

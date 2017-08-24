@@ -22,13 +22,14 @@ namespace testing
 
       virtual void SetUp()
        {
+	 ip = std::make_shared<InputParserYAML>();
          testFileName = "Input_Data/test.yaml";
        }
       virtual void TearDown(){}
 
       std::string testFileName;
-      InputParserYAML ip;
-      InputDataInterface * input;
+      std::shared_ptr<InputParserYAML> ip;
+      std::shared_ptr<InputDataInterface> input;
     };
 
     TEST_F(InputParser_Test, constructor_fileNotLoaded)
@@ -36,7 +37,7 @@ namespace testing
       std::string eString = "";
       try
 	{
-	  input =  ip.getInputData();
+	  input =  ip->getInputData();
 	}
       catch(std::runtime_error &e)
 	{
@@ -49,9 +50,9 @@ namespace testing
 
     TEST_F(InputParser_Test, readTestFile)
     {
-      ip.ReadInputFile(testFileName);
+      ip->ReadInputFile(testFileName);
 
-      input = ip.getInputData();
+      input = ip->getInputData();
       std::cout<<*input;
       EXPECT_THAT(input->getInputFileName(),Eq(testFileName));
       EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));

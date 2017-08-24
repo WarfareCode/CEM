@@ -28,8 +28,7 @@ namespace testing
 
         virtual void SetUp()
       {
-       
-	input = new MockInputData;
+	input = std::make_shared<MockInputData>();
 	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(200));
 	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
 	EXPECT_CALL(*input, getDielectricSpecification()).WillRepeatedly(::testing::Return("Constant"));
@@ -37,11 +36,11 @@ namespace testing
 	
 	fdtd = new FDTD_1D(input);
       }
-      virtual void TearDown(){ delete fdtd; delete input;}
+      virtual void TearDown(){ delete fdtd;}
 
 
-        FDTD_1D* fdtd;
-        MockInputData* input;
+      FDTD_1D* fdtd;
+      std::shared_ptr<MockInputData> input;
 
     };
 

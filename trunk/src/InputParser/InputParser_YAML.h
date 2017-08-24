@@ -11,11 +11,13 @@
 #include "InputDataInterface.h"
 #include "yaml-cpp/yaml.h"
 
+#include <memory>
+
 #include <fstream>
 using namespace YAML;
 namespace CEM
 {
-  class InputParserYAML: public InputParserInterface, public InputDataInterface
+  class InputParserYAML: public InputParserInterface, public InputDataInterface, public std::enable_shared_from_this<InputParserYAML>
   {
   public:
     InputParserYAML();
@@ -52,7 +54,7 @@ namespace CEM
     virtual double getOutputDataRate(){return outputRate_;}
 
     //interface
-    virtual InputDataInterface* getInputData();
+    virtual std::shared_ptr<InputDataInterface> getInputData();
 
   private:
     void ReadInputSourceInfo();

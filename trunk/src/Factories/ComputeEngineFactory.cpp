@@ -13,7 +13,7 @@ namespace CEM
   {
   }
 
-   std::unique_ptr<ComputeEngineInterface> ComputeEngineFactory::createComputationalEngine(InputDataInterface * input)
+  std::unique_ptr<ComputeEngineInterface> ComputeEngineFactory::createComputationalEngine(std::shared_ptr<InputDataInterface> input)
    {
      std::unique_ptr<ComputeEngineInterface> computeEngine (new FDTD_1D(input));
      return computeEngine;

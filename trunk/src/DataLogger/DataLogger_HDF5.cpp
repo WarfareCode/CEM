@@ -12,7 +12,7 @@ namespace CEM
    * \brief Standard Constructor
    *
    */
-  DataLoggerHDF5::DataLoggerHDF5(InputDataInterface *input)
+  DataLoggerHDF5::DataLoggerHDF5(std::shared_ptr<InputDataInterface>input)
   {
     fileName_ = input->getOutputFileName();
     chunkSize_ = input->getVectorZLength(); //include room for the time index
@@ -188,7 +188,7 @@ namespace CEM
    *
    * This function writes the input struct to the data file so that the inputs are captured
    * @param input The InputStruct to write out*/
-  void DataLoggerHDF5::WriteDataHeader(InputDataInterface * input)
+  void DataLoggerHDF5::WriteDataHeader(std::shared_ptr<InputDataInterface> input)
   {
 
     std::string inputString = InputData2String(input);

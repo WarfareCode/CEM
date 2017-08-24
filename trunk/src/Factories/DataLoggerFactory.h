@@ -20,7 +20,7 @@ namespace CEM
   public:
     DataLoggerFactory();
 
-    std::unique_ptr<DataLoggerInterface> createDataLogger(InputDataInterface *input);
+    std::unique_ptr<DataLoggerInterface> createDataLogger(std::shared_ptr<InputDataInterface> input);
 
   };
 }

@@ -10,6 +10,7 @@
 #define SIM_MANAGER_H
 
 #include "SimEngine/SimEngine.h"
+#include "InputParser/InputParser_YAML.h"
 
 #include <string>
 
@@ -25,7 +26,9 @@ namespace CEM
     //member functions
 
     //member variables
-    SimEngine engine_;  /*!< Simulation engine member variable for running the simulation */
+    SimEngine *engine_;  /*!< Simulation engine member variable for running the simulation */
+    std::shared_ptr<InputParserYAML> ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
+    std::shared_ptr<InputDataInterface> input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
   };
 }
 

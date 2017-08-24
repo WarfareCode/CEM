@@ -40,7 +40,7 @@ namespace CEM
     MOCK_METHOD0(getSpatialIndex, int());
     MOCK_METHOD0(getOutputFileName, std::string());
     MOCK_METHOD0(getOutputDataRate, double()); 
-    MOCK_METHOD0(getInputData, InputDataInterface *());
+    MOCK_METHOD0(getInputData, std::shared_ptr<InputDataInterface>());
   };
 
 }

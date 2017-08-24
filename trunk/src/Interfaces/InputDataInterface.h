@@ -54,7 +54,7 @@ namespace CEM
     virtual double getOutputDataRate()=0;
 
     //interface
-    virtual InputDataInterface* getInputData()=0;
+    virtual std::shared_ptr<InputDataInterface> getInputData()=0;
   };
 
 
@@ -95,7 +95,7 @@ namespace CEM
  * Converts an InputDataInterface to a std::string
  * @param input Reference to the InputDataInterface to convert
  */
- inline std::string InputData2String(InputDataInterface *input)
+ inline std::string InputData2String(std::shared_ptr<InputDataInterface> input)
  {
    std::string dataString;
    dataString = "InputFileName: " + input->getInputFileName() + "\n";

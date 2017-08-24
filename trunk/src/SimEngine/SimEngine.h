@@ -19,7 +19,8 @@ namespace CEM
   class SimEngine
   {
   public:
-    SimEngine(std::string inputFileName, std::string outputFileName);
+    //SimEngine(std::string inputFileName, std::string outputFileName);
+    SimEngine(std::shared_ptr<InputDataInterface> input);
     void Run();
 
   private:
@@ -32,7 +33,7 @@ namespace CEM
 
     //the input parser type is known at compile time - only YAML is handled
     InputParserYAML ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
-    InputDataInterface* input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
+    std::shared_ptr<InputDataInterface> input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
     ComputeEngineFactory computeFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
 

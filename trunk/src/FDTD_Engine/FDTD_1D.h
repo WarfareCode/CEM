@@ -20,7 +20,7 @@ namespace CEM
   class FDTD_1D: public ComputeEngineInterface
   {
   public:
-    FDTD_1D(InputDataInterface* input);
+    FDTD_1D(std::shared_ptr<InputDataInterface> input);
 
     virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
@@ -56,9 +56,9 @@ namespace CEM
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(InputDataInterface *input);
-    void InitializeSource(InputDataInterface *input);
-    void InitializeDielectric(InputDataInterface *input);
+    void InitializeEngine(std::shared_ptr<InputDataInterface>input);
+    void InitializeSource(std::shared_ptr<InputDataInterface>input);
+    void InitializeDielectric(std::shared_ptr<InputDataInterface>input);
    
     double computeSourceAmplitude(double time, double shift);
     

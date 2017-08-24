@@ -16,7 +16,7 @@ namespace CEM
  *
  *  Standard Constructor
  */
-  FDTD_1D::FDTD_1D(InputDataInterface * input):
+  FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input):
     initialized(false),
     ABC(SimpleABC),
     imp_(CEM::imp0),
@@ -30,7 +30,7 @@ namespace CEM
    *
    * This function sets the size of the E and H vectors
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeEngine(InputDataInterface * input)
+  void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input)
   {
     dataSize_ = input->getVectorZLength();
 		      
@@ -49,7 +49,7 @@ namespace CEM
    *
    * This function sets up the dielectric
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeDielectric(InputDataInterface * input)
+  void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input)
   {
 
     if (input->getDielectricSpecification() == "File")
@@ -77,7 +77,7 @@ namespace CEM
    *
    * This function sets up the input source
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeSource(InputDataInterface * input)
+  void FDTD_1D::InitializeSource(std::shared_ptr<InputDataInterface> input)
   {
     sourceAmplitude_ = input->getSourceAmplitude();
     sourceType_ = input->getSourceType();
