@@ -31,6 +31,23 @@ namespace testing
 
     };
 
+  TEST_F(HDF5IO_Test, write_read_test_file)
+  {
+    std::string testFileName = "tempOut.h5";
+    std::string dataSet = "test";
+
+    std::vector<double>data_out = {1,2,3,4,5,6,7,8,9,10};
+    HDF5IO::WriteVectorToFile(data_out,testFileName,dataSet);
+    std::vector<double>data_in =  HDF5IO::ReadVectorFromFile(testFileName,"/" + dataSet);
+
+    EXPECT_THAT(data_in.size(), Eq(data_out.size()));
+
+    for (int i = 0; i < data_out.size();i++)
+      {
+	EXPECT_THAT(data_in[i], Eq(data_out[i]));
+      }
+  }
+
 
   TEST_F(HDF5IO_Test, read_test_dielectric_file)
   {
