@@ -5,6 +5,7 @@
 * @date 08/12/2017 */
 
 #include "DataLogger_HDF5.h"
+#include "HDF5ReaderFunctions.h"
 
 namespace CEM
 {
@@ -263,6 +264,9 @@ namespace CEM
    * @param datasetName The name of the dataset to read */
   std::vector<double> DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
   {
+
+    return HDF5Reader::ReadVectorFromFile(fileName, datasetName);
+    /*
     std::vector<double> data_out;
 
     //open the file and get the requested dataset
@@ -282,7 +286,7 @@ namespace CEM
     data_out.resize(dims);
     dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
 
-    return data_out;
+    return data_out;*/
   }
 
    /**
