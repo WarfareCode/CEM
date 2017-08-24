@@ -3,6 +3,7 @@
 * @brief Implementation of the InputParserYAML class
 * @author Ben Frazier
 * @date 08/14/2017 */
+#include <math.h>
 
 #include "InputParser_YAML.h"
 namespace CEM
@@ -34,16 +35,43 @@ namespace CEM
    * This function reads the configuration into the input structure */
   void InputParserYAML::ReadInputFile()
   {	
-    computationType_ = basenode_["Computation_Type"].as<std::string>();
-    startTime_ = basenode_["Start_Time"].as<double>();
-    stopTime_ = basenode_["Stop_Time"].as<double>();
-    absorbingBoundaryCondition_ = basenode_["Absorbing_Boundary_Condition"].as<std::string>();
-    vectorLength_ = basenode_["Vector_Length"].as<int>();
-
+    ReadSpatialDomainInfo();
+    ReadTemporalDomainInfo();
     ReadInputSourceInfo();
     ReadDataLoggingInfo();
 
     fileLoaded_ = true;
+  }
+
+  void InputParserYAML::ReadTemporalDomainInfo()
+  {
+     YAML::Node timenode = basenode_["Simulation Temporal Domain"];
+     if (timenode.IsNull())
+       throw std::runtime_error("InputParserYAML::ReadTemporalDomainInfo ... Timenode is Null");
+
+    startTime_ = timenode["Start Time"].as<double>();
+    stopTime_ = timenode["Stop Time"].as<double>();
+    temporalSamplingRate_ = timenode["Temporal Sampling Rate"].as<double>();
+  }
+  
+  void InputParserYAML::ReadSpatialDomainInfo()
+  {
+     YAML::Node spatialNode = basenode_["Simulation Spatial Domain"];
+     if (spatialNode.IsNull())
+       throw std::runtime_error("InputParserYAML::ReadSpatialDomainInfo ... Spatialnode is Null");
+     
+     computationType_ = spatialNode["Computation Type"].as<std::string>();
+     absorbingBoundaryCondition_ = spatialNode["Absorbing Boundary Condition"].as<std::string>();
+ 
+     YAML::Node dimensionalityNode = spatialNode["Dimensionality"];
+     if (dimensionalityNode.IsNull())
+       throw std::runtime_error("InputParserYAML::ReadSpatialDomainInfo ... dimensionalityNode is Null");
+
+     numberOfDimensions_ = dimensionalityNode["Number of Dimensions"].as<int>();
+     zLength_ = dimensionalityNode["Z Length"].as<double>();
+     zSamplingDistance_ = dimensionalityNode["Z Sampling"].as<double>();
+
+     vectorZLength_ = round(zLength_/zSamplingDistance_);
   }
 
   void InputParserYAML::ReadInputSourceInfo()
@@ -64,7 +92,6 @@ namespace CEM
   void InputParserYAML::ReadDataLoggingInfo()
   {
     YAML::Node dataNode = basenode_["Data Logging Info"];
-
      if (dataNode.IsNull())
        throw std::runtime_error("InputParserYAML::ReadDataLoggingInfo ... Datanode is Null");
      

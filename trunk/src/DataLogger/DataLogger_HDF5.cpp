@@ -15,7 +15,7 @@ namespace CEM
   DataLoggerHDF5::DataLoggerHDF5(InputDataInterface *input)
   {
     fileName_ = input->getOutputFileName();
-    chunkSize_ = input->getVectorLength(); //include room for the time index
+    chunkSize_ = input->getVectorZLength(); //include room for the time index
 
     CreateFile();
     WriteDataHeader(input);

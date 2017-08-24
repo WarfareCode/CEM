@@ -45,7 +45,7 @@ namespace testing
     TEST_F(DataLogger_Test, write_read_efield_vector_fixed_size)
     {
       std::string datasetname = "/EField";
-      EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(15));
+      EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
       dl = new DataLoggerHDF5(input);
       std::vector<double> in = {1,5.87,7.993,8,10.2,2.0190,30,50,100,150,-100,-20,-30.5, 3.4, 5.776};
       dl->WriteDataArray(in,1,datasetname);
@@ -64,7 +64,7 @@ namespace testing
   TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
      size = GetParam();
-     EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(size));
+     EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(size));
       dl = new DataLoggerHDF5(input);
 
      std::vector<double>(in);
@@ -93,7 +93,7 @@ namespace testing
      getcwd(cwd, sizeof(cwd));
      std::cout<<"Current Directory: " << cwd << std::endl;
 
-     EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(15));
+     EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
       
      dl = new DataLoggerHDF5(input);
       std::string testFileName = "../../Input_Data/dielectricTest.h5";

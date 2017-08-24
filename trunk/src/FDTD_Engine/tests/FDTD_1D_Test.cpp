@@ -30,7 +30,7 @@ namespace testing
       {
        
 	input = new MockInputData;
-	EXPECT_CALL(*input, getVectorLength()).WillRepeatedly(::testing::Return(200));
+	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(200));
 	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
 	
 	fdtd = new FDTD_1D(input);

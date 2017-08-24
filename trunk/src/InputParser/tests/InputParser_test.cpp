@@ -52,14 +52,14 @@ namespace testing
       ip.ReadInputFile(testFileName);
 
       input = ip.getInputData();
-      
+      std::cout<<*input;
       EXPECT_THAT(input->getInputFileName(),Eq(testFileName));
       EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));
-      EXPECT_THAT(input->getComputationType(), Eq("FDTD_1D"));
+      EXPECT_THAT(input->getComputationType(), Eq("FDTD"));
       EXPECT_THAT(input->getStartTime(),Eq(0.0));
-      EXPECT_THAT(input->getStopTime(),Eq(250.0));
+      EXPECT_THAT(input->getStopTime(),Eq(450.0));
       EXPECT_THAT(input->getAbsorbingBoundaryCondition(),Eq("None"));
-      EXPECT_THAT(input->getVectorLength(),Eq(200));
+      EXPECT_THAT(input->getVectorZLength(),Eq(200));
     }
 
 } // namespace testing

@@ -31,8 +31,8 @@ namespace CEM
    * @param input The input structure read in from the input file*/
   void FDTD_1D::InitializeEngine(InputDataInterface * input)
   {
-
-    dataSize_ = input->getVectorLength();
+    dataSize_ = input->getVectorZLength();
+		      
     ABC = SimpleABC;
     H.resize(dataSize_);
     E.resize(dataSize_);

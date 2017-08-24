@@ -29,8 +29,11 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
-    virtual int getVectorLength(){return vectorLength_;}
-
+    virtual int getNumDimensions(){return numberOfDimensions_;}
+    virtual double getZLength(){return zLength_;}
+    virtual double getZSamplingDistance(){return zSamplingDistance_;}
+    virtual int getVectorZLength(){return vectorZLength_;}
+    
     //source
     virtual std::string getSourceType(){return sourceType_;}
     virtual double getSourceAmplitude(){return sourceAmplitude_;}
@@ -49,6 +52,8 @@ namespace CEM
   private:
     void ReadInputSourceInfo();
     void ReadDataLoggingInfo();
+    void ReadTemporalDomainInfo();
+    void ReadSpatialDomainInfo();
     void ReadInputFile();
 	
   private:
@@ -61,9 +66,14 @@ namespace CEM
     std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/
+    double temporalSamplingRate_;              /*!< Sampling Rate in Hz*/
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
-    double vectorLength_;                     /*!< Variable containing the spatial size of the vectors*/
+    int vectorZLength_;                        /*!< Number of vector elements in the Z dimension*/
+    int numberOfDimensions_;                  /*!< Number of dimensions for the spatial domain*/
+    double zLength_;                          /*!< Length of the domain in Z*/
+    double zSamplingDistance_;                /*!< Sampling distance in Z*/
 
+     
     //source parameters
     std::string sourceType_;                  /*!< String defining the type of source*/
     double sourceAmplitude_;                  /*!< Variable for the amplitude of the source*/

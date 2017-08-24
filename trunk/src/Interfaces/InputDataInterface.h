@@ -31,7 +31,10 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition()=0;
     virtual double getStopTime()=0;
     virtual double getStartTime()=0;
-    virtual int getVectorLength()=0;
+    virtual int getNumDimensions()=0;
+    virtual double getZLength()=0;
+    virtual double getZSamplingDistance()=0;
+    virtual int getVectorZLength()=0;
 
     //source
     virtual std::string getSourceType()=0;
@@ -57,11 +60,18 @@ namespace CEM
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
    os << "InputFileName: " << input.getInputFileName() << std::endl;
+   os << "Spatial Domain: " << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
+   os << "Number of Dimensions: " << input.getNumDimensions() << std::endl;
+   os << "Z Length: " << input.getZLength() << std::endl;
+   os << "Z Sampling Distance: " << input.getZSamplingDistance() << std::endl;
+   os << "Vector Z Length: " << input.getVectorZLength() << std::endl;
+   os << "Absorbing Boundary Condition: " << input.getAbsorbingBoundaryCondition()<< std::endl;
+
+   os << "Temporal Domain: " << std::endl;
    os << "Start Time: " << input.getStartTime() << std::endl;
    os << "Stop Time: " << input.getStopTime() << std::endl;
-   os << "Absorbing Boundary Condition: " << input.getAbsorbingBoundaryCondition()<< std::endl;
-   os << "Vector Length: " << input.getVectorLength() << std::endl;
+   
    os << "Source Parameters: " << std::endl;
    os << "Source Type: " <<  input.getSourceType() << std::endl;
    os << "Source Amplitude: " <<  input.getSourceAmplitude() << std::endl;
@@ -85,10 +95,16 @@ namespace CEM
    std::string dataString;
    dataString = "InputFileName: " + input->getInputFileName() + "\n";
    dataString += "Computation Type: " + input->getComputationType() + "\n";
+   dataString += "Number of Dimensions: " + std::to_string(input->getNumDimensions()) + "\n";
+   dataString += "Z Length: " + std::to_string(input->getZLength()) + "\n";
+   dataString += "Z Sampling Distance: " + std::to_string(input->getZSamplingDistance()) + "\n";
+   dataString += "Vector Z Length: " + std::to_string(input->getVectorZLength()) + "\n";
+   dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
+ 
+   dataString += "Temporal Domain:\n"; 
    dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
    dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
-   dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
-   dataString += "Vector Length: " + std::to_string(input->getVectorLength()) + "\n";
+   
    dataString += "Source Parameters:\n";
    dataString += "Source Type: " + input->getSourceType() + "\n";
    dataString += "Source Amplitude: " + std::to_string(input->getSourceAmplitude()) + "\n";

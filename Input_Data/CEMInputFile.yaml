@@ -4,16 +4,30 @@
 #Note: YAML files require spaces for indentation, NOT tabs
 #******************************************************************************
 
-#Define the Problem Domain
-Computation_Type: FDTD_1D
-Start_Time: 0
-Stop_Time: 450
-Absorbing_Boundary_Condition: None
-Vector_Length: 200
-
+#Define the Problem Spatial Domain
+Simulation Spatial Domain:
+  Computation Type: FDTD
+  Dimensionality:
+    Number of Dimensions: 1
+    Electric Field Direction: X
+    Magnetic Field Direction: Y
+    Propagation Direction: Z
+    Z Length: 200
+    Z Sampling: 1
+  Dielectric Constant: dielectric1.h5  
+  Absorbing Boundary Condition: None
+ 
+   
+#Define the Problem Temporal Domain
+Simulation Temporal Domain:
+  Start Time: 0
+  Stop Time: 450
+  Temporal Sampling Rate: 1
+  
 #Define the Input Source
 Source Info:
-  Type: Gaussian
+  Type: Modulated Gaussian
+  Frequency: 35e9
   Amplitude: 1
   Delay in Seconds: 30
   Pulse Width in Seconds: 10

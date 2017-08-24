@@ -19,10 +19,16 @@ namespace CEM
   public:
     MOCK_METHOD0(getInputFileName, std::string());
     MOCK_METHOD0(getComputationType, std::string());
+    MOCK_METHOD0(getNumDimensions, int());
+    MOCK_METHOD0(getZLength, double());
+    MOCK_METHOD0(getZSamplingDistance, double());
+    MOCK_METHOD0(getVectorZLength, int());
     MOCK_METHOD0(getAbsorbingBoundaryCondition, std::string());
+
     MOCK_METHOD0(getStopTime, double());
     MOCK_METHOD0(getStartTime, double());
-    MOCK_METHOD0(getVectorLength, int());
+
+    
     MOCK_METHOD0(getSourceType, std::string());
     MOCK_METHOD0(getSourceAmplitude, double());
     MOCK_METHOD0(getSourceDelay, double());
