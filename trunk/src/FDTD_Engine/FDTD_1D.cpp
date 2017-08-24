@@ -7,6 +7,7 @@
 #include "FDTD_1D.h"
 #include <math.h>
 #include "CEMdefs.h"
+#include "HDF5ReaderFunctions.h"
 
 namespace CEM
 {
@@ -38,10 +39,39 @@ namespace CEM
     E.resize(dataSize_);
 
     InitializeSource(input);
+    InitializeDielectric(input);
      
     initialized = true;
   }
 
+    /**
+   * \brief Initialize the Dielectric
+   *
+   * This function sets up the dielectric
+   * @param input The input structure read in from the input file*/
+  void FDTD_1D::InitializeDielectric(InputDataInterface * input)
+  {
+
+    if (input->getDielectricSpecification() == "File")
+      {
+	dielectricConstant_ = HDF5Reader::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
+
+	//check the size
+        if(dielectricConstant_.size() != dataSize_)
+	  {
+	    std::string eString = "FDTD_1D::Initialize Dielectric ... Dielectric read in from file invalid size: " + std::to_string(dielectricConstant_.size()) + " should be: " + std::to_string( dataSize_);
+            throw std::runtime_error(eString);
+	  }
+      }
+    else if (input->getDielectricSpecification() == "Constant")
+      {
+	dielectricConstant_.resize(dataSize_);
+	for (int i = 0; i < dielectricConstant_.size();i++)
+	  dielectricConstant_[i] = input->getDielectricConstant();
+      }
+
+  }
+  
     /**
    * \brief Initialize the Input Source
    *
@@ -78,7 +108,7 @@ namespace CEM
    
     //Now update the E Field
     for (int mm = 1; mm < dataSize_; mm++)
-      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_;
+      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
 
     //update the source
     E[sourceIndex_] += computeSourceAmplitude(time,1.0);

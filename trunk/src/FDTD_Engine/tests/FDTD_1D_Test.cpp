@@ -32,6 +32,8 @@ namespace testing
 	input = new MockInputData;
 	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(200));
 	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
+	EXPECT_CALL(*input, getDielectricSpecification()).WillRepeatedly(::testing::Return("Constant"));
+	EXPECT_CALL(*input, getDielectricConstant()).WillRepeatedly(::testing::Return(1));
 	
 	fdtd = new FDTD_1D(input);
       }

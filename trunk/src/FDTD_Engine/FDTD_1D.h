@@ -36,6 +36,7 @@ namespace CEM
 
     std::vector<double> E; /*!< Electric Field Vector */
     std::vector<double> H; /*!< Magnetic Field Vector */
+    std::vector<double> dielectricConstant_;  /*!<Dielectric Constant Vector */
     double imp_; /*!< Impedance Vector */
     int dataSize_;  /*!< Length of the E and H vectors*/
     
@@ -57,6 +58,7 @@ namespace CEM
 
     void InitializeEngine(InputDataInterface *input);
     void InitializeSource(InputDataInterface *input);
+    void InitializeDielectric(InputDataInterface *input);
    
     double computeSourceAmplitude(double time, double shift);
     

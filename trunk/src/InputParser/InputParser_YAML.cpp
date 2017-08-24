@@ -82,17 +82,18 @@ namespace CEM
     if(dNode.IsNull())
        throw std::runtime_error("InputParserYAML::ReadDielectricInfo ... dielectricNode is Null");
 
-    std::string specification;
-    specification= dNode["Specification"].as<std::string>();
+    dielectricSpecification_ = dNode["Specification"].as<std::string>();
 
-    if(specification == "File")
+    if(dielectricSpecification_ == "File")
       {
 	dielectricFileName_ = dNode["File Name"].as<std::string>();
+	dielectricFileName_ = "../Input_Data/" + dielectricFileName_;
+	dielectricDatasetName_ = dNode["Dataset Name"].as<std::string>();
       }
-    else if (specification == "Vector")
+    else if (dielectricSpecification_ == "Vector")
       {
       }
-    else if (specification == "Constant")
+    else if (dielectricSpecification_ == "Constant")
      {
        dielectricConstant_ =  dNode["Value"].as<double>();
      }

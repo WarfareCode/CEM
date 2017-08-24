@@ -44,7 +44,8 @@ namespace CEM
     //dielectric
     virtual std::string getDielectricFileName(){return dielectricFileName_;}
     virtual double getDielectricConstant(){return dielectricConstant_;}
-    
+    virtual std::string getDielectricSpecification(){return dielectricSpecification_;}
+    virtual std::string getDielectricDatasetName(){return dielectricDatasetName_;}
     
     //datalogging
     virtual std::string getOutputFileName(){return outputFileName_;}
@@ -79,6 +80,8 @@ namespace CEM
     double zSamplingDistance_;                /*!< Sampling distance in Z*/
     std::string dielectricFileName_;          /*!< Filename for the dielectric constant*/
     double dielectricConstant_;               /*!< Constant value of dielectric constant*/
+    std::string dielectricSpecification_;    /*!< Indicates how the dielectric constant is specified*/
+    std::string dielectricDatasetName_;   /*!< Name of the dataset to read in for the dielectric constant */
      
     //source parameters
     std::string sourceType_;                  /*!< String defining the type of source*/

@@ -46,6 +46,8 @@ namespace CEM
     //dielectric
     virtual std::string getDielectricFileName()=0;
     virtual double getDielectricConstant()=0;
+    virtual std::string getDielectricSpecification()=0;
+    virtual std::string getDielectricDatasetName()=0;
     
     //datalogging
     virtual std::string getOutputFileName()=0;

@@ -17,7 +17,8 @@ Simulation Spatial Domain:
     Z Sampling: 1
   Dielectric Constant: 
     Specification: File
-    File Name: dielectric1.h5  
+    File Name: dielectric1.h5
+    Dataset Name: /EpsR
   Absorbing Boundary Condition: None
  
    
