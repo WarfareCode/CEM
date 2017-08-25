@@ -31,10 +31,6 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition()=0;
     virtual double getStopTime()=0;
     virtual double getStartTime()=0;
-    virtual int getNumDimensions()=0;
-    virtual double getZLength()=0;
-    virtual double getZSamplingDistance()=0;
-    virtual int getVectorZLength()=0;
 
     //source
     virtual std::string getSourceType()=0;
@@ -42,12 +38,6 @@ namespace CEM
     virtual double getSourceDelay()=0;
     virtual double getPulseWidth()=0;
     virtual int getSpatialIndex()=0;
-
-    //dielectric
-    virtual std::string getDielectricFileName()=0;
-    virtual double getDielectricConstant()=0;
-    virtual std::string getDielectricSpecification()=0;
-    virtual std::string getDielectricDatasetName()=0;
     
     //datalogging
     virtual std::string getOutputFileName()=0;
@@ -67,10 +57,6 @@ namespace CEM
    os << "InputFileName: " << input.getInputFileName() << std::endl;
    os << "Spatial Domain: " << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
-   os << "Number of Dimensions: " << input.getNumDimensions() << std::endl;
-   os << "Z Length: " << input.getZLength() << std::endl;
-   os << "Z Sampling Distance: " << input.getZSamplingDistance() << std::endl;
-   os << "Vector Z Length: " << input.getVectorZLength() << std::endl;
    os << "Absorbing Boundary Condition: " << input.getAbsorbingBoundaryCondition()<< std::endl;
 
    os << "Temporal Domain: " << std::endl;
@@ -90,7 +76,7 @@ namespace CEM
   return os;  
   }
  
- /** \brief Converstion to std::string
+ /** \brief Conversion to std::string
  *
  * Converts an InputDataInterface to a std::string
  * @param input Reference to the InputDataInterface to convert
@@ -100,10 +86,6 @@ namespace CEM
    std::string dataString;
    dataString = "InputFileName: " + input->getInputFileName() + "\n";
    dataString += "Computation Type: " + input->getComputationType() + "\n";
-   dataString += "Number of Dimensions: " + std::to_string(input->getNumDimensions()) + "\n";
-   dataString += "Z Length: " + std::to_string(input->getZLength()) + "\n";
-   dataString += "Z Sampling Distance: " + std::to_string(input->getZSamplingDistance()) + "\n";
-   dataString += "Vector Z Length: " + std::to_string(input->getVectorZLength()) + "\n";
    dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
  
    dataString += "Temporal Domain:\n"; 

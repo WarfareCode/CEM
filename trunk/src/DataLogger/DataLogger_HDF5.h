@@ -14,6 +14,7 @@
 #include "DataLoggerInterface.h"
 #include "H5Cpp.h"
 #include "InputDataInterface.h"
+#include "GridControlInterface.h"
 
 using namespace H5;
 
@@ -22,7 +23,7 @@ namespace CEM
   class DataLoggerHDF5: public DataLoggerInterface
   {
   public:
-    DataLoggerHDF5(std::shared_ptr<InputDataInterface> input);
+    DataLoggerHDF5(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl);
     DataLoggerHDF5() = delete;
     
     virtual void WriteDataArray(std::vector<double>data);

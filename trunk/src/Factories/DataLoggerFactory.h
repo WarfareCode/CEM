@@ -13,14 +13,15 @@
 
 namespace CEM
 {
-  class InputDataInterface;
+  //class InputDataInterface;
+  //class GridControlInterface;
     
   class DataLoggerFactory
   {
   public:
     DataLoggerFactory();
 
-    std::unique_ptr<DataLoggerInterface> createDataLogger(std::shared_ptr<InputDataInterface> input);
+    std::unique_ptr<DataLoggerInterface> createDataLogger(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl);
 
   };
 }

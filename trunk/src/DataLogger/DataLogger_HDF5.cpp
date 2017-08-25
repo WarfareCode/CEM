@@ -13,10 +13,10 @@ namespace CEM
    * \brief Standard Constructor
    *
    */
-  DataLoggerHDF5::DataLoggerHDF5(std::shared_ptr<InputDataInterface>input)
+  DataLoggerHDF5::DataLoggerHDF5(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridControlInterface> gridControl)
   {
     fileName_ = input->getOutputFileName();
-    chunkSize_ = input->getVectorZLength(); //include room for the time index
+    chunkSize_ = gridControl->getVectorZLength(); //include room for the time index
 
     CreateFile();
     WriteDataHeader(input);

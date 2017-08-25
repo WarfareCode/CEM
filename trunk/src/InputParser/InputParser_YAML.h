@@ -9,6 +9,7 @@
 
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
+#include "GridControlInterface.h"
 #include "yaml-cpp/yaml.h"
 
 #include <memory>
@@ -17,7 +18,7 @@
 using namespace YAML;
 namespace CEM
 {
-  class InputParserYAML: public InputParserInterface, public InputDataInterface, public std::enable_shared_from_this<InputParserYAML>
+  class InputParserYAML: public InputParserInterface, public InputDataInterface, public GridControlInterface, public std::enable_shared_from_this<InputParserYAML>
   {
   public:
     InputParserYAML();
@@ -31,11 +32,7 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
-    virtual int getNumDimensions(){return numberOfDimensions_;}
-    virtual double getZLength(){return zLength_;}
-    virtual double getZSamplingDistance(){return zSamplingDistance_;}
-    virtual int getVectorZLength(){return vectorZLength_;}
-    
+
     //source
     virtual std::string getSourceType(){return sourceType_;}
     virtual double getSourceAmplitude(){return sourceAmplitude_;}
@@ -48,7 +45,23 @@ namespace CEM
     virtual double getDielectricConstant(){return dielectricConstant_;}
     virtual std::string getDielectricSpecification(){return dielectricSpecification_;}
     virtual std::string getDielectricDatasetName(){return dielectricDatasetName_;}
-    
+
+    //Grid Interface
+    virtual std::string getGridSpecificationType(){return gridSpecificationType_;}
+    virtual int getGridNumDimensions(){return gridNumDimensions_;}
+    virtual double getGridZLength(){return gridZLength_;}
+    virtual double getGridZSamplingFrequency(){return gridZSamplingFrequency_;}
+    virtual double getGridYLength(){return gridYLength_;}
+    virtual double getGridYSamplingFrequency(){return gridYSamplingFrequency_;}
+    virtual double getGridXLength(){return gridXLength_;}
+    virtual double getGridXSamplingFrequency(){return gridXSamplingFrequency_;}
+    virtual int getVectorZLength(){return vectorZLength_;}
+    virtual int getVectorYLength(){return vectorYLength_;}
+    virtual int getVectorXLength(){return vectorXLength_;}
+
+    //get the grid intefaceinterface
+    virtual std::shared_ptr<GridControlInterface> getGridControl();
+     
     //datalogging
     virtual std::string getOutputFileName(){return outputFileName_;}
     virtual double getOutputDataRate(){return outputRate_;}
@@ -63,6 +76,7 @@ namespace CEM
     void ReadSpatialDomainInfo();
     void ReadDielectricInfo(YAML::Node dNode);
     void ReadInputFile();
+    void ReadGridInfo();		       
 	
   private:
     YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
@@ -76,14 +90,12 @@ namespace CEM
     double stopTime_;                         /*!< Stop time for the simulation*/
     double temporalSamplingRate_;              /*!< Sampling Rate in Hz*/
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
-    int vectorZLength_;                        /*!< Number of vector elements in the Z dimension*/
-    int numberOfDimensions_;                  /*!< Number of dimensions for the spatial domain*/
-    double zLength_;                          /*!< Length of the domain in Z*/
-    double zSamplingDistance_;                /*!< Sampling distance in Z*/
+    
+   
     std::string dielectricFileName_;          /*!< Filename for the dielectric constant*/
     double dielectricConstant_;               /*!< Constant value of dielectric constant*/
     std::string dielectricSpecification_;    /*!< Indicates how the dielectric constant is specified*/
-    std::string dielectricDatasetName_;   /*!< Name of the dataset to read in for the dielectric constant */
+    std::string dielectricDatasetName_;      /*!< Name of the dataset to read in for the dielectric constant */
      
     //source parameters
     std::string sourceType_;                  /*!< String defining the type of source*/
@@ -96,6 +108,19 @@ namespace CEM
     std::string outputFileName_;              /*!< Output file name to be written to*/
     double  outputRate_;                      /*!< Output rate to write to the file*/
 
+    //grid parameters
+    std::string gridSpecificationType_;     /*!< Indicates how the grid is specified*/
+    int gridNumDimensions_;                 /*!< Number of dimensions in the grid*/
+    double gridZLength_;                    /*!< Length of the grid along the Z axis in m*/
+    double gridZSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Z axis in m^-1*/
+    double gridXLength_;                    /*!< Length of the grid along the X axis in m*/
+    double gridXSamplingFrequency_;         /*!< Sampling Frequency of the grid along the X axis in m^-1*/
+    double gridYLength_;                    /*!< Length of the grid along the Y axis in m*/
+    double gridYSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Y axis in m^-1*/
+    int vectorXLength_;                        /*!< Number of vector elements in the X dimension*/
+    int vectorYLength_;                        /*!< Number of vector elements in the Y dimension*/
+    int vectorZLength_;                        /*!< Number of vector elements in the Z dimension*/
+    std::string gridFileName_;               /*!< Filename for the grid info*/
      
   };
 }

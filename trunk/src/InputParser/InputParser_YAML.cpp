@@ -28,21 +28,48 @@ namespace CEM
        return shared_from_this();
      else throw std::runtime_error("InputParserYAML::getInputData()....Input File Not Loaded.");
    }
+
+   /**
+   * \brief Get the Grid Control Itnerface
+   *
+   */
+  std::shared_ptr<GridControlInterface> InputParserYAML::getGridControl()
+  {
+     if (fileLoaded_)
+       return shared_from_this();
+     else throw std::runtime_error("InputParserYAML::getGridControl()....Input File Not Loaded.");
+  }
   
   /**
    * \brief read the input file
    *
    * This function reads the configuration into the input structure */
   void InputParserYAML::ReadInputFile()
-  {	
+  {
     ReadSpatialDomainInfo();
     ReadTemporalDomainInfo();
     ReadInputSourceInfo();
     ReadDataLoggingInfo();
-
+    ReadGridInfo();
     fileLoaded_ = true;
+  }
 
-    std::cout<<"File Loaded ..." << std::endl;
+  void InputParserYAML::ReadGridInfo()
+  {
+      YAML::Node gridnode = basenode_["Grid Control"];
+     if (gridnode.IsNull())
+       throw std::runtime_error("InputParserYAML::ReadGridInfo ... Gridnode is Null");
+      
+     gridSpecificationType_ = gridnode["Specification"].as<std::string>();
+     gridNumDimensions_ = gridnode["Number of Dimensions"].as<int>();
+     gridZLength_ = gridnode["Z Length in meters"].as<double>();
+     gridZSamplingFrequency_ = gridnode["Z Spatial Sampling Frequency in meters^-1"].as<double>();
+
+     vectorZLength_ = round(gridZLength_/gridZSamplingFrequency_);
+      
+     YAML::Node dielectricNode = gridnode["Dielectric Constant"];
+     ReadDielectricInfo(dielectricNode);
+      
   }
 
   void InputParserYAML::ReadTemporalDomainInfo()
@@ -64,19 +91,6 @@ namespace CEM
      
      computationType_ = spatialNode["Computation Type"].as<std::string>();
      absorbingBoundaryCondition_ = spatialNode["Absorbing Boundary Condition"].as<std::string>();
- 
-     YAML::Node dimensionalityNode = spatialNode["Dimensionality"];
-     if (dimensionalityNode.IsNull())
-       throw std::runtime_error("InputParserYAML::ReadSpatialDomainInfo ... dimensionalityNode is Null");
-
-     numberOfDimensions_ = dimensionalityNode["Number of Dimensions"].as<int>();
-     zLength_ = dimensionalityNode["Z Length"].as<double>();
-     zSamplingDistance_ = dimensionalityNode["Z Sampling"].as<double>();
-
-     vectorZLength_ = round(zLength_/zSamplingDistance_);
-
-     YAML::Node dielectricNode = spatialNode["Dielectric Constant"];
-     ReadDielectricInfo(dielectricNode);
   }
 
   void InputParserYAML::ReadDielectricInfo(YAML::Node dNode)
@@ -134,15 +148,13 @@ namespace CEM
    * @param fileName Name of the file to read*/
   void InputParserYAML::ReadInputFile(std::string fileName)
   {
- 
     inputFileName_ = fileName;
     basenode_ = YAML::LoadFile(inputFileName_);
 
     if (basenode_.IsNull())
       throw std::runtime_error("InputParserYAML::ReadInputFile ... Basenode is Null");
-    
-    ReadInputFile();
 
+    ReadInputFile();
   }
 }//end namespace CEM
 

@@ -7,19 +7,22 @@
 #Define the Problem Spatial Domain
 Simulation Spatial Domain:
   Computation Type: FDTD
-  Dimensionality:
-    Number of Dimensions: 1
-    Electric Field Direction: X
-    Magnetic Field Direction: Y
-    Propagation Direction: Z
-    Z Length: 200
-    Z Sampling: 1
+  Electric Field Direction: X
+  Magnetic Field Direction: Y
+  Propagation Direction: Z
+  Polarization: TEM
+  Absorbing Boundary Condition: None
+  
+#Define the Grid
+Grid Control:
+  Specification: Input
+  Number of Dimensions: 1
+  Z Length in meters: 200
+  Z Spatial Sampling Frequency in meters^-1: 1
   Dielectric Constant: 
     Specification: File
     File Name: dielectric1.h5
     Dataset Name: /EpsR 
-  Absorbing Boundary Condition: None
- 
    
 #Define the Problem Temporal Domain
 Simulation Temporal Domain:

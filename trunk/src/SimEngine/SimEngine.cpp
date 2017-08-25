@@ -12,20 +12,24 @@ namespace CEM
    *
    * @param input Pointer to the input data structure
    **/
-  SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
+  SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input):
+    initialized_(false)
   {
     input_ = input;
     dataLogTime_ = 1/input_->getOutputDataRate();
     timeSinceLastDataLogged_ = dataLogTime_; //force a write on start
     previousTime_ = 0;
-
-    std::cout<< *input_ << std::endl;
-
-    //create the pointers to the FDTD engine and the data logger
-    engine_ptr_ = computeFactory_.createComputationalEngine(input_);
-    dLogger_ptr_ = dlFactory_.createDataLogger(input_);
   }
 
+  void SimEngine::Initialize(std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger)
+  {
+
+    engine_ptr_ = compute;
+    dLogger_ptr_ = dlogger;
+    
+    initialized_ = true;
+  }
+  
   /**
    * @brief Run the simulation
    *
@@ -33,6 +37,9 @@ namespace CEM
   void SimEngine::Run()
   {
 
+    if (!initialized_)
+      throw std::runtime_error("SimEngine::Run ... Simulation Engine has not been initialized");
+ 
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
 	engine_ptr_->UpdateFields(time);

@@ -16,13 +16,13 @@ namespace CEM
  *
  *  Standard Constructor
  */
-  FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input):
+  FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl):
     initialized(false),
     ABC(SimpleABC),
     imp_(CEM::imp0),
     dataSize_(0)
   {
-    InitializeEngine(input);
+    InitializeEngine(input,gridControl);
   }
 
   /**
@@ -30,16 +30,16 @@ namespace CEM
    *
    * This function sets the size of the E and H vectors
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input)
+  void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl)
   {
-    dataSize_ = input->getVectorZLength();
+    dataSize_ = gridControl->getVectorZLength();
 		      
     ABC = SimpleABC;
     H.resize(dataSize_);
     E.resize(dataSize_);
 
-    InitializeSource(input);
-    InitializeDielectric(input);
+    InitializeSource(input,gridControl);
+    InitializeDielectric(input,gridControl);
      
     initialized = true;
   }
@@ -49,12 +49,14 @@ namespace CEM
    *
    * This function sets up the dielectric
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input)
+  void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl)
   {
 
-    if (input->getDielectricSpecification() == "File")
+    if (gridControl->getDielectricSpecification() == "File")
       {
-	dielectricConstant_ = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
+	dielectricConstant_ = HDF5IO::ReadVectorFromFile(gridControl->getDielectricFileName(),gridControl->getDielectricDatasetName());
+
+	std::cout<<"dielectric ... " << dielectricConstant_[0]<<std::endl;
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)
@@ -63,11 +65,11 @@ namespace CEM
             throw std::runtime_error(eString);
 	  }
       }
-    else if (input->getDielectricSpecification() == "Constant")
+    else if (gridControl->getDielectricSpecification() == "Constant")
       {
 	dielectricConstant_.resize(dataSize_);
 	for (int i = 0; i < dielectricConstant_.size();i++)
-	  dielectricConstant_[i] = input->getDielectricConstant();
+	  dielectricConstant_[i] = gridControl->getDielectricConstant();
       }
 
   }
@@ -77,7 +79,7 @@ namespace CEM
    *
    * This function sets up the input source
    * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeSource(std::shared_ptr<InputDataInterface> input)
+  void FDTD_1D::InitializeSource(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl)
   {
     sourceAmplitude_ = input->getSourceAmplitude();
     sourceType_ = input->getSourceType();

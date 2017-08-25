@@ -4,6 +4,7 @@
 * @author Ben Frazier
 * @date 08/14/2017 */
 #include "SimManager.h"
+
 namespace CEM
 {
 /**
@@ -15,13 +16,27 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
   ip_ = std::make_shared<InputParserYAML>();
      
-  //Read the input file and get the Input Data interface
+  //Read the input file and get the interfaces
   ip_->ReadInputFile(inputFileName);
   input_ = ip_->getInputData();
+  gridControl_ = ip_->getGridControl();
 
-  engine_ = new SimEngine(input_);
+  //create the pointers to the computational engine and the data logger
+  compute_ptr_ = computeFactory_.createComputationalEngine(input_, gridControl_);
+  dLogger_ptr_ = dlFactory_.createDataLogger(input_, gridControl_);
+
+  engine_ptr_ = createSimEngine(input_);
+  engine_ptr_->Initialize(compute_ptr_, dLogger_ptr_);
+
+  std::cout<<*input_ << *gridControl_ << std::endl;
+
 }
   
+  std::unique_ptr<SimEngine>SimManager::createSimEngine(std::shared_ptr<InputDataInterface> input)
+  {
+    std::unique_ptr<SimEngine> simengine (new SimEngine(input));
+    return simengine;
+  }
 
 /**
 * @brief Run the simulation
@@ -31,7 +46,7 @@ int SimManager::Run()
 {
   try
     {
-      engine_->Run();
+      engine_ptr_->Run();
        
     }  // end of try block
     

@@ -13,9 +13,9 @@ namespace CEM
   {
   }
 
-  std::unique_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(std::shared_ptr<InputDataInterface> input)
+  std::unique_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl)
   {
-    std::unique_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5(input));
+    std::unique_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5(input, gridControl));
     return dataLogger;
   }
 }
