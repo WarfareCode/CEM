@@ -1,4 +1,5 @@
 #include "InputParser_YAML.h"
+#include "CEMCommon.h"
 
 #include <string>
   using std::string;
@@ -7,6 +8,7 @@
   using ::testing::Eq;
 #include <gtest/gtest.h>
   using ::testing::Test;
+#include <unistd.h>
 
 namespace CEM
 {
@@ -22,8 +24,12 @@ namespace testing
 
       virtual void SetUp()
        {
+	 char cwd[1024];
+        getcwd(cwd, sizeof(cwd));
+        std::cout<<"Current Directory: " << cwd << std::endl;
+	
 	 ip = std::make_shared<InputParserYAML>();
-         testFileName = "Input_Data/test.yaml";
+         testFileName = FILE::FindInputFile("CEMInputFile.yaml");
        }
       virtual void TearDown(){}
 
@@ -35,6 +41,7 @@ namespace testing
 
     TEST_F(InputParser_Test, constructor_fileNotLoaded)
     {
+      
       std::string eString = "";
       try
 	{

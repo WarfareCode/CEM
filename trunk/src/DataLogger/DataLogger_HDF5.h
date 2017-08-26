@@ -11,10 +11,13 @@
 
 #include <vector>
 #include <string>
-#include "DataLoggerInterface.h"
 #include "H5Cpp.h"
+
+#include "DataLoggerInterface.h"
 #include "InputDataInterface.h"
 #include "GridControlInterface.h"
+
+#include "CEMCommon.h"
 
 using namespace H5;
 

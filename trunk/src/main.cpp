@@ -15,6 +15,7 @@
 #endif
 
 #include <string>
+#include "CEMCommon.h"
 #include "SimManager/SimManager.h"
 
 int main (int argc, char *argv[])
@@ -36,7 +37,7 @@ int main (int argc, char *argv[])
     }
   else if (argc == 1)
     {
-      inputFileName = "../Input_Data/CEMInputFile.yaml";
+      inputFileName = "CEMInputFile.yaml";
       outputFileName = "CEMOutput.h5";
     }
   else
@@ -50,6 +51,8 @@ int main (int argc, char *argv[])
         std::cout<<"Current Directory: " << cwd << std::endl;
 #endif
 
+  inputFileName = CEM::FILE::FindInputFile(inputFileName);	
+ 
   CEM::SimManager Sim(inputFileName, outputFileName);
   Sim.Run();
         

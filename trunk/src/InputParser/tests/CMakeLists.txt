@@ -23,16 +23,10 @@ endif()
 include_directories( ${SOURCE_DIRECTORY}/InputParser
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} InputParser_test.cpp)
-target_link_libraries (${EXE_NAME} InputParser yaml-cpp gmock_main  ${GPERFTOOLS_LIBRARIES})
+target_link_libraries (${EXE_NAME} InputParser yaml-cpp gmock_main CEMCommon ${GPERFTOOLS_LIBRARIES})
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
 
-#now copy the needed input data files to the appropriate directory for running stand alone		      
-add_custom_command(TARGET ${EXE_NAME} POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-		   ${CMAKE_SOURCE_DIR}/src/InputParser/tests/Input_Data
-                   ${BINARY_TEST_DIRECTORY}/Input_Data)
-		   
 #Now add the tests
 #First is the Build Test
 add_test(NAME Build_InputParserTest

@@ -84,7 +84,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_DIRECTORY})
 
 #Add the main function and the link libraries
 add_executable(${EXE_NAME} ${SOURCE_DIRECTORY}/main.cpp)
-target_link_libraries(${EXE_NAME} ${HDF5_LIBRARIES} SimManager ${LOG4CPLUS_LIBRARIES})
+target_link_libraries(${EXE_NAME} ${HDF5_LIBRARIES} SimManager CEMCommon ${LOG4CPLUS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
