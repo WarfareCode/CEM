@@ -14,13 +14,13 @@ build) and Useful libraries (without which the code will still build but some te
 will not be available)
 
 Required:
-	HDF5 - used for data logging and reading in binary input files
-	Eigen3 - Matrix library that handles the underlying mathematics
-	CMake - handles generating the overall build process
+	1. HDF5 - used for data logging and reading in binary input files (https://support.hdfgroup.org/downloads/) 
+	2. Eigen3 - Matrix library that handles the underlying mathematics (http://eigen.tuxfamily.org) 
+	3. CMake - handles generating the overall build process (https://cmake.org)
 
-Useful:
-	gperftools - google performance tools suite, useful for memory and cpu profiling
-	Doxygen/graphviz - used to generate documentation
+Useful (Used if Available, but NOT required):
+	1. gperftools - google performance tools suite, useful for memory and cpu profiling
+	2. Doxygen/graphviz - used to generate documentation
 
 Due to issues with conflicts, the YAML-CPP and GTEST libraries are included as part of the overall
 code base.
