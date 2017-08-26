@@ -6,6 +6,7 @@
 
 #include "H5Cpp.h"
 #include "HDF5IOFunctions.h"
+#include "FileUtilityFunctions.h"
 
 using namespace H5;
 
@@ -21,6 +22,8 @@ namespace CEM
     std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName)
     {
       std::vector<double> data_out;
+
+      fileName = FILE::FindInputFile(fileName);
 
       //open the file and get the requested dataset
       H5File file( fileName, H5F_ACC_RDONLY);

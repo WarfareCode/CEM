@@ -19,13 +19,12 @@ namespace CEM
 	bool fileFound = false;
 	std::fstream fs;
 
-	std::vector<std::string>filepaths = {"Input_Data","../Input_Data/", "../../Input_Data/", "../../../Input_Data/", "../../../../Input_Data/"};
+	std::vector<std::string>filepaths = {"","Input_Data/","../Input_Data/", "../../Input_Data/", "../../../Input_Data/", "../../../../Input_Data/"};
 
 	for (int i = 0; i < filepaths.size();i++)
 	  {
 	    fileName = filepaths[i] + requestedFileName;
 
-	    std::cout<<"Searching " << fileName << std::endl;
 	    fs.open(fileName);
 
 	    if(fs.is_open())

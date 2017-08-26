@@ -96,6 +96,7 @@ namespace CEM
    * @param time The next time step to update*/
   void FDTD_1D::UpdateFields(double time, std::shared_ptr<SourceControlInterface> source)
   {
+
     applyBC_H();
   
     //update the H Field
@@ -103,7 +104,8 @@ namespace CEM
       H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
 
     //correct H field --> TFSF
-    H[sourceIndex_ -1] -= computeSourceAmplitude(time,0)/imp_;
+    //H[sourceIndex_ -1] -=computeSourceAmplitude(time,0)/imp_;
+    H[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
 
     applyBC_E();
    
@@ -112,7 +114,8 @@ namespace CEM
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
 
     //update the source
-    E[sourceIndex_] += computeSourceAmplitude(time,1.0);
+    // E[sourceIndex_] += computeSourceAmplitude(time,1.0);
+    E[sourceIndex_] += source->getInputSource(time,1.0);//computeSourceAmplitude(time,1.0);
   }
 
    /**

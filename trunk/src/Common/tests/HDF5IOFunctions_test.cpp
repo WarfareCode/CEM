@@ -56,7 +56,7 @@ namespace testing
      std::cout<<"Current Directory: " << cwd << std::endl;
       
 
-     std::string testFileName = "../../Input_Data/dielectric1.h5";
+     std::string testFileName = "dielectric1.h5";
      std::vector<double> er = HDF5IO::ReadVectorFromFile(testFileName,"/EpsR");
      
      for (int i = 0; i < 100; i++)

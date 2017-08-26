@@ -14,7 +14,7 @@ namespace CEM
   public:
 
     //source
-    virtual double getInputSource(double time)=0;
+    virtual double getInputSource(double time, double shift)=0;
 
   };
 

@@ -22,7 +22,7 @@ namespace CEM
     
     GaussianSource(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
         //source
-    virtual double getInputSource(double time);
+    virtual double getInputSource(double time, double shift);
 
   private:
     //member functions

@@ -17,7 +17,7 @@ namespace CEM
   class MockSourceControl : public SourceControlInterface
   {
   public:
-    MOCK_METHOD0(getInputSource, double());
+    MOCK_METHOD2(getInputSource, double(double time, double shift));
 
   };
 

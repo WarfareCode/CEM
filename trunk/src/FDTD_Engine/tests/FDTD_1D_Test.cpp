@@ -32,6 +32,7 @@ namespace testing
       {
 	input = std::make_shared<MockInputData>();
 	gridDefinition = std::make_shared<MockGridDefinition>();
+	source = std::make_shared<MockSourceControl>();
 	EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(200));
 	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
 	EXPECT_CALL(*gridDefinition, getDielectricSpecification()).WillRepeatedly(::testing::Return("Constant"));

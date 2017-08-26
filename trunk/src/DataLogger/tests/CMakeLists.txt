@@ -20,7 +20,7 @@ endif()
 include_directories( ${SOURCE_DIRECTORY}/DataLogger
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} DataLogger_test.cpp)
-target_link_libraries (${EXE_NAME} DataLogger  gmock_main  ${HDF5_LIBRARIES} ${GPERFTOOLS_LIBRARIES})
+target_link_libraries (${EXE_NAME} DataLogger  CEMCommon gmock_main  ${HDF5_LIBRARIES} ${GPERFTOOLS_LIBRARIES})
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
 		   

@@ -16,11 +16,13 @@ namespace CEM
     pulseWidth_ = sourceDefinition->getPulseWidth();
     sourceDelay_ = sourceDefinition->getSourceDelay();
     sourceIndex_ = sourceDefinition->getSpatialIndex();
+
+    pulseWidth2_ = pulseWidth_ * pulseWidth_;
   }
 
-  double GaussianSource::getInputSource(double time)
+  double GaussianSource::getInputSource(double time, double shift)
   {
-    return sourceAmplitude_ *exp(-(time - sourceDelay_ ) * (time - sourceDelay_ ) / pulseWidth2_);
+    return sourceAmplitude_  *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
   }
 
 } //end namespace CEM

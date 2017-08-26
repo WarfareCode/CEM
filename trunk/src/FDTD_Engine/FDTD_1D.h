@@ -13,6 +13,7 @@
 #include "ComputeEngineInterface.h"
 #include "InputDataInterface.h"
 #include "GridDefinitionInterface.h"
+#include "SourceControlInterface.h"
 #include "CEMCommon.h"
 
 namespace CEM
