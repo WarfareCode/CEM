@@ -19,7 +19,7 @@ namespace CEM
   }
 
   /**
-   * \brief Get the Input Data Itnerface
+   * \brief Get the Input Data Interface
    *
    */
   std::shared_ptr<InputDataInterface> InputParserYAML::getInputData()
@@ -44,11 +44,11 @@ namespace CEM
    * \brief Get the Source Control Itnerface
    *
    */
-  std::shared_ptr<SourceControlInterface> InputParserYAML::getSourceControl()
+  std::shared_ptr<SourceDefinitionInterface> InputParserYAML::getSourceDefinition()
   {
      if (fileLoaded_)
        return shared_from_this();
-     else throw std::runtime_error("InputParserYAML::getSourceControl()....Input File Not Loaded.");
+     else throw std::runtime_error("InputParserYAML::getSourceDefinition()....Input File Not Loaded.");
   }
   
   /**

@@ -10,7 +10,7 @@
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
 #include "GridControlInterface.h"
-#include "SourceControlInterface.h"
+#include "SourceDefinitionInterface.h"
 
 #include "yaml-cpp/yaml.h"
 
@@ -23,7 +23,7 @@ namespace CEM
   class InputParserYAML: public InputParserInterface,
                          public InputDataInterface,
                          public GridControlInterface,
-                         public SourceControlInterface,
+                         public SourceDefinitionInterface,
                          public std::enable_shared_from_this<InputParserYAML>
   {
   public:
@@ -45,7 +45,7 @@ namespace CEM
     virtual double getSourceDelay(){return sourceDelay_;}
     virtual double getPulseWidth(){return pulseWidth_;}
     virtual int getSpatialIndex(){return spatialIndex_;}
-    virtual std::shared_ptr<SourceControlInterface> getSourceControl();
+    virtual std::shared_ptr<SourceDefinitionInterface> getSourceDefinition();
     
     //dielectric
     virtual std::string getDielectricFileName(){return dielectricFileName_;}
