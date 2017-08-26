@@ -40,6 +40,7 @@ namespace CEM
 
  /** \brief Overloaded << Operator
  *
+ * @param os Ouptut Stream
  * @param input Reference to the InputDataInterface to make available to the ostream
  */ 
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  

@@ -10,7 +10,8 @@ namespace CEM
 /**
 * @brief Constructor with a file name
 *
-* @param fileName Name of the file to read as input
+* @param inputFileName Name of the file to read as input
+* @param outputFileName Name of the file to be output
 **/
 SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
@@ -35,7 +36,12 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
 }
-  
+
+ /**
+* @brief Create the Simulation Engine
+*
+* @param input input data structure
+**/
   std::unique_ptr<SimEngine>SimManager::createSimEngine(std::shared_ptr<InputDataInterface> input)
   {
     std::unique_ptr<SimEngine> simengine (new SimEngine(input));
@@ -52,21 +58,11 @@ int SimManager::Run()
     {
       bool done = false;
       double time = input_->getStartTime();
-
-      double printTime = 0.25;
-      double timeSinceLastPrint = 0;
       
       while (!done)
 	{
          engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
 	 time += timeIncrement_;
-	 timeSinceLastPrint +=timeIncrement_;
-
-	 if (timeSinceLastPrint >= printTime)
-	   {
-	     std::cout<<"Time: " << time << std::endl;
-	     timeSinceLastPrint = 0;
-	   }
 
 	 if (time >= input_->getStopTime())
 	   done = true;

@@ -761,7 +761,7 @@ WARN_LOGFILE           =
 INPUT =     @CMAKE_CURRENT_SOURCE_DIR@/../README.md \
             @CMAKE_CURRENT_SOURCE_DIR@/src/main.cpp \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/Common \
-	    @CMAKE_CURRENT_SOURCE_DIR@/src/DataLogger\
+	    @CMAKE_CURRENT_SOURCE_DIR@/src/DataLogger \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/Factories \
             @CMAKE_CURRENT_SOURCE_DIR@/src/FDTD_Engine \
 	    @CMAKE_CURRENT_SOURCE_DIR@/src/GridControl \

@@ -14,6 +14,8 @@ namespace CEM
  /** \brief FDTD_1D Overloaded Constructor
  *
  *  Standard Constructor
+ * @param input The input data structure
+ * @param gridDefinition The input definition of the grid
  */
   FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition):
     initialized(false),
@@ -28,7 +30,8 @@ namespace CEM
    * \brief Initialize the FDTD_1D engine
    *
    * This function sets the size of the E and H vectors
-   * @param input The input structure read in from the input file*/
+   * @param input The input structure read in from the input file
+   * @param gridDefinition The input definition of the grid*/
   void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
   {
     dataSize_ = gridDefinition->getVectorZLength();
@@ -48,7 +51,8 @@ namespace CEM
    * \brief Initialize the Dielectric
    *
    * This function sets up the dielectric
-   * @param input The input structure read in from the input file*/
+   * @param input The input structure read in from the input file
+   * @param gridDefinition The input definition of the grid*/
   void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
   {
 
@@ -78,7 +82,8 @@ namespace CEM
    * \brief Update the E and H fields
    *
    * This function updates the E and H fields by stepping to the specified time index
-   * @param time The next time step to update*/
+   * @param time The next time step to update
+   * @param source The Source Control*/
   void FDTD_1D::UpdateFields(double time, std::shared_ptr<SourceControlInterface> source)
   {
 

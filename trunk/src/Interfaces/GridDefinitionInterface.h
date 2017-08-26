@@ -41,6 +41,7 @@ namespace CEM
 
  /** \brief Overloaded << Operator
  *
+ * @param os Ouptut Stream
  * @param input Reference to the GridDefinitionInterface to make available to the ostream
  */ 
  inline std::ostream& operator<<(std::ostream& os, GridDefinitionInterface& input)  

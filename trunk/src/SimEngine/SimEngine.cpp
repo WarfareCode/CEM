@@ -22,7 +22,10 @@ namespace CEM
     
   /**
    * @brief Update the simulation
-   *
+   * @param time The current time
+   * @param compute The pointer to the computational engine
+   * @param dlogger The pointer to the data logger
+   * @param source The pointer to the source controller
    **/
   void SimEngine::Update(double time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source)
   {

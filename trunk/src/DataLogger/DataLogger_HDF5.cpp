@@ -198,8 +198,7 @@ namespace CEM
   /**
    * \brief Create an HDF5 file
    *
-   * This function creates an HDF5 file with the datasets
-   * @param filename The name of the file to create*/
+   * This function creates an HDF5 file with the datasets*/
   void DataLoggerHDF5::CreateFile()
   {
    
