@@ -29,7 +29,6 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
-  engine_ptr_->Initialize(compute_ptr_, dLogger_ptr_);
 
   std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
@@ -49,7 +48,10 @@ int SimManager::Run()
 {
   try
     {
-      engine_ptr_->Run();
+      for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
+      {
+        engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
+      }
        
     }  // end of try block
     
