@@ -9,7 +9,7 @@
 namespace CEM
 {
   
-  GaussianSource::GaussianSource(std::shared_ptr<InputDataInterface> input, std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
+  GaussianSource::GaussianSource(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
   {
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();

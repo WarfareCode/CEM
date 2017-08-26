@@ -36,7 +36,7 @@ namespace testing
       std::string testFileName;
       std::shared_ptr<InputParserYAML> ip;
       std::shared_ptr<InputDataInterface> input;
-      std::shared_ptr<GridControlInterface> gridControl;
+      std::shared_ptr<GridDefinitionInterface> gridDefinition;
     };
 
     TEST_F(InputParser_Test, constructor_fileNotLoaded)
@@ -57,14 +57,14 @@ namespace testing
 
        try
 	{
-	  gridControl =  ip->getGridControl();
+	  gridDefinition =  ip->getGridDefinition();
 	  
 	}
       catch(std::runtime_error &e)
 	{
 	  eString = e.what();
 	}
-      EXPECT_THAT(eString,Eq("InputParserYAML::getGridControl()....Input File Not Loaded."));
+      EXPECT_THAT(eString,Eq("InputParserYAML::getGridDefinition()....Input File Not Loaded."));
       
     }
 
@@ -73,16 +73,14 @@ namespace testing
       ip->ReadInputFile(testFileName);
 
       input = ip->getInputData();
-      gridControl = ip->getGridControl();
-      std::cout<<*input;
-      std::cout<<*gridControl;
+      gridDefinition = ip->getGridDefinition();
       EXPECT_THAT(input->getInputFileName(),Eq(testFileName));
       EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));
       EXPECT_THAT(input->getComputationType(), Eq("FDTD"));
       EXPECT_THAT(input->getStartTime(),Eq(0.0));
       EXPECT_THAT(input->getStopTime(),Eq(450.0));
       EXPECT_THAT(input->getAbsorbingBoundaryCondition(),Eq("None"));
-      EXPECT_THAT(gridControl->getVectorZLength(),Eq(200));
+      EXPECT_THAT(gridDefinition->getVectorZLength(),Eq(200));
     }
 
 } // namespace testing

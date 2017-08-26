@@ -19,16 +19,19 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //Read the input file and get the interfaces
   ip_->ReadInputFile(inputFileName);
   input_ = ip_->getInputData();
-  gridControl_ = ip_->getGridControl();
+  gridDefinition_ = ip_->getGridDefinition();
+  sourceDefinition_ = ip_->getSourceDefinition();
 
-  //create the pointers to the computational engine and the data logger
-  compute_ptr_ = computeFactory_.createComputationalEngine(input_, gridControl_);
-  dLogger_ptr_ = dlFactory_.createDataLogger(input_, gridControl_);
+  //create the pointers from the factories
+  source_ptr_ = sourceFactory_.createSourceControl(sourceDefinition_);
+  compute_ptr_ = computeFactory_.createComputationalEngine(input_, gridDefinition_);
+  dLogger_ptr_ = dlFactory_.createDataLogger(input_, gridDefinition_);
 
+  //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
   engine_ptr_->Initialize(compute_ptr_, dLogger_ptr_);
 
-  std::cout<<*input_ << *gridControl_ << std::endl;
+  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
 }
   

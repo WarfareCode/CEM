@@ -9,7 +9,7 @@
   using ::testing::Test;
 
 #include "MockInputDataInterface.h"
-#include "MockGridControlInterface.h"
+#include "MockGridDefinitionInterface.h"
 #include "CEMdefs.h"
 
 namespace CEM
@@ -30,20 +30,20 @@ namespace testing
         virtual void SetUp()
       {
 	input = std::make_shared<MockInputData>();
-	gridControl = std::make_shared<MockGridControl>();
-	EXPECT_CALL(*gridControl, getVectorZLength()).WillRepeatedly(::testing::Return(200));
+	gridDefinition = std::make_shared<MockGridDefinition>();
+	EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(200));
 	EXPECT_CALL(*input, getStopTime()).WillRepeatedly(::testing::Return(250));
-	EXPECT_CALL(*gridControl, getDielectricSpecification()).WillRepeatedly(::testing::Return("Constant"));
-	EXPECT_CALL(*gridControl, getDielectricConstant()).WillRepeatedly(::testing::Return(1));
+	EXPECT_CALL(*gridDefinition, getDielectricSpecification()).WillRepeatedly(::testing::Return("Constant"));
+	EXPECT_CALL(*gridDefinition, getDielectricConstant()).WillRepeatedly(::testing::Return(1));
 	
-	fdtd = new FDTD_1D(input, gridControl);
+	fdtd = new FDTD_1D(input, gridDefinition);
       }
       virtual void TearDown(){ delete fdtd;}
 
 
       FDTD_1D* fdtd;
       std::shared_ptr<MockInputData> input;
-      std::shared_ptr<MockGridControl> gridControl;
+      std::shared_ptr<MockGridDefinition> gridDefinition;
 
     };
 

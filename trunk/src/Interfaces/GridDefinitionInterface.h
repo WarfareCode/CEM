@@ -1,17 +1,17 @@
 /**
-* @file GridControlInterface.h
-* @brief Abstract virtual class for the Grid Control class, defines the interface
+* @file GridDefinitionInterface.h
+* @brief Abstract virtual class for the Grid Definition class, defines the interface
 * @details Required Interface functions:
 * @author Ben Frazier
 * @date 08/25/2017 */
 
-#ifndef GRID_CONTROL_INTERFACE_H
-#define GRID_CONTROL_INTERFACE_H
+#ifndef GRID_DEFINITION_INTERFACE_H
+#define GRID_DEFINITION_INTERFACE_H
 #include <iostream>
 
 namespace CEM
 {
-  class GridControlInterface
+  class GridDefinitionInterface
   {
   public:
 
@@ -35,15 +35,15 @@ namespace CEM
     virtual std::string getDielectricDatasetName()=0;
 
     //interface
-    virtual std::shared_ptr<GridControlInterface> getGridControl()=0;
+    virtual std::shared_ptr<GridDefinitionInterface> getGridDefinition()=0;
   };
 
 
  /** \brief Overloaded << Operator
  *
- * @param input Reference to the GridControlInterface to make available to the ostream
+ * @param input Reference to the GridDefinitionInterface to make available to the ostream
  */ 
- inline std::ostream& operator<<(std::ostream& os, GridControlInterface& input)  
+ inline std::ostream& operator<<(std::ostream& os, GridDefinitionInterface& input)  
  {  
    os << "Grid Control Interface:" << std::endl;
    os << "Specification Type: " << input.getGridSpecificationType() << std::endl;
@@ -61,10 +61,10 @@ namespace CEM
  
  /** \brief Conversion to std::string
  *
- * Converts an InputDataInterface to a std::string
- * @param input Reference to the GridControlInterface to convert
+ * Converts a GridDefinitionInterface to a std::string
+ * @param input Reference to the GridDefinitionInterface to convert
  */
- inline std::string InputData2String(std::shared_ptr<GridControlInterface> input)
+ inline std::string InputData2String(std::shared_ptr<GridDefinitionInterface> input)
  {
    std::string dataString;
    dataString = "Grid Control Interface:\n";

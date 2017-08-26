@@ -20,7 +20,7 @@ namespace CEM
   {
   public:
     
-    GaussianSource(std::shared_ptr<InputDataInterface> input, std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
+    GaussianSource(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
         //source
     virtual double getInputSource(double time);
 

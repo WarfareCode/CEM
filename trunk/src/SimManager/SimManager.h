@@ -12,6 +12,16 @@
 #include "SimEngine/SimEngine.h"
 #include "InputParser/InputParser_YAML.h"
 
+
+#include "InputDataInterface.h"
+#include "SourceControlInterface.h"
+#include "SourceDefinitionInterface.h"
+#include "GridDefinitionInterface.h"
+
+#include "SourceControlFactory.h"
+#include "ComputeEngineFactory.h"
+#include "DataLoggerFactory.h"
+
 #include <string>
 
 namespace CEM
@@ -28,16 +38,20 @@ namespace CEM
     
     //member variables
     std::unique_ptr<SimEngine> engine_ptr_;  /*!< Simulation engine member variable for running the simulation */
+    
     std::shared_ptr<InputParserYAML> ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
     std::shared_ptr<InputDataInterface> input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
-    std::shared_ptr<GridControlInterface> gridControl_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
+    std::shared_ptr<GridDefinitionInterface> gridDefinition_;  /*!< Grid Definitions from the Input Data. */
+    std::shared_ptr<SourceDefinitionInterface> sourceDefinition_;  /*!< Source Definitions from the Input Data. */
 
+
+    std::shared_ptr<SourceControlInterface> source_ptr_;  /*!< Pointer to the source controller */
     std::shared_ptr<ComputeEngineInterface> compute_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
     std::shared_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
     ComputeEngineFactory computeFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
-    
+    SourceControlFactory sourceFactory_;  /*!< Factory to generate the source */
   };
 }
 

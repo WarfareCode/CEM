@@ -12,9 +12,9 @@ namespace CEM
   {
   }
 
-  std::unique_ptr<SourceControlInterface> createSourceControl(std::shared_ptr<InputDataInterface> input, std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
+  std::shared_ptr<SourceControlInterface> SourceControlFactory::createSourceControl(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
    {
-     std::unique_ptr<SourceControlInterface> sourceControl (new GaussianSource(input,sourceDefinition));
+     std::shared_ptr<SourceControlInterface> sourceControl (new GaussianSource(sourceDefinition));
      return sourceControl;
    }
 

@@ -12,7 +12,7 @@
 #include <vector>
 #include "ComputeEngineInterface.h"
 #include "InputDataInterface.h"
-#include "GridControlInterface.h"
+#include "GridDefinitionInterface.h"
 
 namespace CEM
 {
@@ -21,7 +21,7 @@ namespace CEM
   class FDTD_1D: public ComputeEngineInterface
   {
   public:
-    FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl);
+    FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
 
     virtual void UpdateFields(double time);
     virtual std::vector<double> getEField(){return E;};
@@ -57,9 +57,9 @@ namespace CEM
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridControlInterface> gridControl);
-    void InitializeSource(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridControlInterface> gridControl);
-    void InitializeDielectric(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridControlInterface> gridControl);
+    void InitializeEngine(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    void InitializeSource(std::shared_ptr<InputDataInterface>input);
+    void InitializeDielectric(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
    
     double computeSourceAmplitude(double time, double shift);
     

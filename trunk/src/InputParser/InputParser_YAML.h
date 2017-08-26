@@ -9,7 +9,7 @@
 
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
-#include "GridControlInterface.h"
+#include "GridDefinitionInterface.h"
 #include "SourceDefinitionInterface.h"
 
 #include "yaml-cpp/yaml.h"
@@ -22,7 +22,7 @@ namespace CEM
 {
   class InputParserYAML: public InputParserInterface,
                          public InputDataInterface,
-                         public GridControlInterface,
+                         public GridDefinitionInterface,
                          public SourceDefinitionInterface,
                          public std::enable_shared_from_this<InputParserYAML>
   {
@@ -65,7 +65,7 @@ namespace CEM
     virtual int getVectorZLength(){return vectorZLength_;}
     virtual int getVectorYLength(){return vectorYLength_;}
     virtual int getVectorXLength(){return vectorXLength_;}
-    virtual std::shared_ptr<GridControlInterface> getGridControl();
+    virtual std::shared_ptr<GridDefinitionInterface> getGridDefinition();
      
     //datalogging
     virtual std::string getOutputFileName(){return outputFileName_;}

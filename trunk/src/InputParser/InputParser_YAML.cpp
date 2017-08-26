@@ -30,14 +30,14 @@ namespace CEM
    }
 
    /**
-   * \brief Get the Grid Control Itnerface
+   * \brief Get the Grid Definition Itnerface
    *
    */
-  std::shared_ptr<GridControlInterface> InputParserYAML::getGridControl()
+  std::shared_ptr<GridDefinitionInterface> InputParserYAML::getGridDefinition()
   {
      if (fileLoaded_)
        return shared_from_this();
-     else throw std::runtime_error("InputParserYAML::getGridControl()....Input File Not Loaded.");
+     else throw std::runtime_error("InputParserYAML::getGridDefinition()....Input File Not Loaded.");
   }
 
    /**

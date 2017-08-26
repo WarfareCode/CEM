@@ -10,7 +10,7 @@
 using ::testing::TestWithParam;
 
 #include "MockInputDataInterface.h"
-#include "MockGridControlInterface.h"
+#include "MockGridDefinitionInterface.h"
 #include "CEMdefs.h"
 
 
@@ -29,7 +29,7 @@ namespace testing
       virtual void SetUp()
       {
 	input = std::make_shared<MockInputData>();
-	gridControl = std::make_shared<MockGridControl>();
+	gridDefinition = std::make_shared<MockGridDefinition>();
 	EXPECT_CALL(*input, getOutputFileName()).WillRepeatedly(::testing::Return("CEMTest.h5"));
 	
       }
@@ -37,7 +37,7 @@ namespace testing
 
       DataLoggerHDF5* dl;
       std::shared_ptr<MockInputData> input;
-      std::shared_ptr<MockGridControl> gridControl;
+      std::shared_ptr<MockGridDefinition> gridDefinition;
       std::string outputFileName;
 
       int size;
@@ -48,8 +48,8 @@ namespace testing
     TEST_F(DataLogger_Test, write_read_efield_vector_fixed_size)
     {
       std::string datasetname = "/EField";
-      EXPECT_CALL(*gridControl, getVectorZLength()).WillRepeatedly(::testing::Return(15));
-      dl = new DataLoggerHDF5(input, gridControl);
+      EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(15));
+      dl = new DataLoggerHDF5(input, gridDefinition);
       std::vector<double> in = {1,5.87,7.993,8,10.2,2.0190,30,50,100,150,-100,-20,-30.5, 3.4, 5.776};
       dl->WriteDataArray(in,1,datasetname);
       std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),datasetname, 0);
@@ -67,8 +67,8 @@ namespace testing
   TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
      size = GetParam();
-     EXPECT_CALL(*gridControl, getVectorZLength()).WillRepeatedly(::testing::Return(size));
-     dl = new DataLoggerHDF5(input, gridControl);
+     EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(size));
+     dl = new DataLoggerHDF5(input, gridDefinition);
 
      std::vector<double>(in);
      in.resize(size);
@@ -96,9 +96,9 @@ namespace testing
      getcwd(cwd, sizeof(cwd));
      std::cout<<"Current Directory: " << cwd << std::endl;
 
-     EXPECT_CALL(*gridControl, getVectorZLength()).WillRepeatedly(::testing::Return(15));
+     EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(15));
       
-     dl = new DataLoggerHDF5(input, gridControl);
+     dl = new DataLoggerHDF5(input, gridDefinition);
       std::string testFileName = "../../Input_Data/dielectric1.h5";
      std::vector<double> er = dl->ReadVectorFromFile(testFileName,"/EpsR");
      for (int i = 0; i < 100; i++)

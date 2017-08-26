@@ -1,6 +1,6 @@
 /**
-* @file MockGridControlInterface.h
-* @brief Google Mock Definition for GridControlInterface
+* @file MockGridDefinitionInterface.h
+* @brief Google Mock Definition for GridDefinitionInterface
 * @author Ben Frazier
 * @date 08/18/2017 */
 
@@ -9,12 +9,12 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-#include "GridControlInterface.h"
+#include "GridDefinitionInterface.h"
 
 
 namespace CEM
 {
-  class MockGridControl: public GridControlInterface
+  class MockGridDefinition: public GridDefinitionInterface
   {
   public:
   
@@ -33,7 +33,7 @@ namespace CEM
     MOCK_METHOD0(getDielectricConstant,double());
     MOCK_METHOD0(getDielectricSpecification,std::string());
     MOCK_METHOD0(getDielectricDatasetName,std::string());
-    MOCK_METHOD0(getGridControl, std::shared_ptr<GridControlInterface>());
+    MOCK_METHOD0(getGridDefinition, std::shared_ptr<GridDefinitionInterface>());
   };
 
 }

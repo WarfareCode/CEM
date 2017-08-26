@@ -8,7 +8,7 @@
 #ifndef COMPUTE_ENGINE_FACTORY_H
 #define COMPUTE_ENGINE_FACTORY_H
 
-#include "FDTD_Engine/FDTD_1D.h"
+#include "FDTD_1D.h"
 #include "ComputeEngineInterface.h"
 
 namespace CEM
@@ -17,10 +17,8 @@ namespace CEM
   {
   public:
     ComputeEngineFactory();
-
-    // ComputeEngineInterface* createComputeEngine();
-
-    std::unique_ptr<ComputeEngineInterface> createComputationalEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridControlInterface> gridControl);
+    
+    std::shared_ptr<ComputeEngineInterface> createComputationalEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
 
   };
 }

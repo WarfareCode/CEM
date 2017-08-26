@@ -9,7 +9,7 @@
 
 #include "GaussianSource.h"
 #include "SourceControlInterface.h"
-#include "InputDataInterface.h"
+#include "SourceDefinitionInterface.h"
 
 namespace CEM
 { 
@@ -18,7 +18,7 @@ namespace CEM
   public:
     SourceControlFactory();
 
-    std::unique_ptr<SourceControlInterface> createSourceControl(std::shared_ptr<InputDataInterface> input, std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
+    std::shared_ptr<SourceControlInterface> createSourceControl(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
 
   };
 }
