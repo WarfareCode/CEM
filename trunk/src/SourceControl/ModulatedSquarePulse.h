@@ -24,6 +24,7 @@ namespace CEM
     ModulatedSquarePulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
  
     virtual double getInputSource(double time, double shift);
+    virtual std::string getSourceType(){return sourceType_;}
 
   private:
     //member functions

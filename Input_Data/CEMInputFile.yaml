@@ -32,7 +32,7 @@ Simulation Temporal Domain:
   
 #Define the Input Source
 Source Info:
-  Type: Modulated Gaussian
+  Type: Modulated Gaussian Pulse
   Frequency: 35e9
   Amplitude: 1
   Delay in Seconds: 30

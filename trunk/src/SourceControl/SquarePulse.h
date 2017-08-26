@@ -23,6 +23,7 @@ namespace CEM
     SquarePulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
         //source
     virtual double getInputSource(double time, double shift);
+    virtual std::string getSourceType(){return sourceType_;}
 
   private:
     //member functions

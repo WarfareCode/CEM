@@ -7,6 +7,8 @@
 #ifndef SOURCE_CONTROL_INTERFACE_H
 #define SOURCE_CONTROL_INTERFACE_H
 
+#include <string>
+
 namespace CEM
 {
   class SourceControlInterface
@@ -15,6 +17,7 @@ namespace CEM
 
     //source
     virtual double getInputSource(double time, double shift)=0;
+    virtual std::string getSourceType()=0;
 
   };
 

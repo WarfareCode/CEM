@@ -18,6 +18,7 @@ namespace CEM
   {
   public:
     MOCK_METHOD2(getInputSource, double(double time, double shift));
+    MOCK_METHOD0( getSourceType, std::string());
 
   };
 
