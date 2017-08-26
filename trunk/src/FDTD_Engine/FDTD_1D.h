@@ -26,13 +26,10 @@ namespace CEM
     FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
 
     virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source);
-    virtual std::vector<double> getEField(){return E;};
     virtual double getEField(int index);
-    virtual std::vector<double> getHField(){return H;};
     virtual double getHField(int index);
-
-    virtual Eigen::VectorXd getE2Field() {return E2;}
-    virtual Eigen::VectorXd getH2Field() {return H2;}
+    virtual Eigen::VectorXd getEField() {return E;}
+    virtual Eigen::VectorXd getHField() {return H;}
     
     //get functions
     AbsorbingBoundaryCondition getABC(){return ABC;};
@@ -40,11 +37,9 @@ namespace CEM
   private:
     char HDirection, EDirection;
 
-    Eigen::VectorXd E2;
-    Eigen::VectorXd H2;
+    Eigen::VectorXd E;/*!< Electric Field Vector */
+    Eigen::VectorXd H;/*!< Magnetic Field Vector */
 
-    std::vector<double> E; /*!< Electric Field Vector */
-    std::vector<double> H; /*!< Magnetic Field Vector */
     std::vector<double> dielectricConstant_;  /*!<Dielectric Constant Vector */
     double imp_; /*!< Impedance Vector */
     int dataSize_;  /*!< Length of the E and H vectors*/

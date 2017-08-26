@@ -30,7 +30,7 @@ namespace CEM
 
     if (timeSinceLastDataLogged_ >= dataLogTime_)
     {
-      dlogger->WriteDataArray(compute->getE2Field(),time,"/EField");
+      dlogger->WriteDataArray(compute->getEField(),time,"/EField");
       timeSinceLastDataLogged_ = 0;
     }
     else

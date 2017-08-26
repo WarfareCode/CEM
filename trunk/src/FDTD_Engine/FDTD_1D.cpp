@@ -36,8 +36,6 @@ namespace CEM
     ABC = SimpleABC;
     H.resize(dataSize_);
     E.resize(dataSize_);
-    E2.resize(dataSize_);
-    H2.resize(dataSize_);
 
     InitializeDielectric(input,gridDefinition);
 
@@ -88,28 +86,19 @@ namespace CEM
   
     //update the H Field
     for (int mm = 0; mm < dataSize_ - 1; mm++)
-      {
       H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
-
-      H2[mm] = H2[mm] + (E2[mm + 1] - E2[mm]) / imp_;
-      }
 
     //correct H field --> TFSF
     H[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
-    H2[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
 
     applyBC_E();
    
     //Now update the E Field
     for (int mm = 1; mm < dataSize_; mm++)
-      {
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
-      E2[mm] = E2[mm] + (H2[mm] - H2[mm - 1]) * imp_/dielectricConstant_[mm];
-      }
 
     //update the source
     E[sourceIndex_] += source->getInputSource(time,1.0);
-    E2[sourceIndex_] += source->getInputSource(time,1.0);
   }
 
   /**
@@ -143,13 +132,11 @@ namespace CEM
   void FDTD_1D::simpleABC_E()
   {
     E[0] = E[1];
-    E2[0] = E2[1];
   }
 
   void FDTD_1D::simpleABC_H()
   {
     H[dataSize_-1] = H[dataSize_-2];
-    H2[dataSize_-1] = H2[dataSize_-2];
   }
 
 
