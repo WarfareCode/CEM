@@ -17,30 +17,29 @@ Simulation Spatial Domain:
 Grid Control:
   Specification: Input
   Number of Dimensions: 1
-  Z Length in meters: 3000
+  Z Length in meters: 200
   Z Spatial Sampling Frequency in meters^-1: 1
   Dielectric Constant: 
-    Specification: Constant
-    Value: 1
+    Specification: File
     File Name: dielectric1.h5
     Dataset Name: /EpsR 
    
 #Define the Problem Temporal Domain
 Simulation Temporal Domain:
   Start Time: 0
-  Stop Time: 1e-4
-  Temporal Sampling Rate in Hz: 2.998e8
+  Stop Time: 450
+  Temporal Sampling Rate in Hz: 1
   
 #Define the Input Source
 Source Info:
-  Type: Square Pulse
-  Frequency: 9.375e6
+  Type: Gaussian Pulse
+  Frequency: 35e9
   Amplitude: 1
-  Delay in Seconds: 10e-7
-  Pulse Width in Seconds: 7e-7
-  Spatial Index: 2
+  Delay in Seconds: 30
+  Pulse Width in Seconds: 10
+  Spatial Index: 50
 
 #Define the Data Logging Options
 Data Logging Info:
   Output File Name: CEMOutput.h5
-  Output Rate in Hz: 1e8
+  Output Rate in Hz: 0.1

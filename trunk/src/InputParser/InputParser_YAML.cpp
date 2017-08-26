@@ -79,19 +79,19 @@ namespace CEM
      vectorZLength_ = round(gridZLength_/gridZSamplingFrequency_);
       
      YAML::Node dielectricNode = gridnode["Dielectric Constant"];
-     ReadDielectricInfo(dielectricNode);
-      
+     ReadDielectricInfo(dielectricNode);   
   }
 
   void InputParserYAML::ReadTemporalDomainInfo()
   {
+    
      YAML::Node timenode = basenode_["Simulation Temporal Domain"];
      if (timenode.IsNull())
        throw std::runtime_error("InputParserYAML::ReadTemporalDomainInfo ... Timenode is Null");
 
     startTime_ = timenode["Start Time"].as<double>();
     stopTime_ = timenode["Stop Time"].as<double>();
-    temporalSamplingRate_ = timenode["Temporal Sampling Rate"].as<double>();
+    temporalSamplingRate_ = timenode["Temporal Sampling Rate in Hz"].as<double>();
   }
   
   void InputParserYAML::ReadSpatialDomainInfo()

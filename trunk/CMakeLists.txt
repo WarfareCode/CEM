@@ -122,14 +122,16 @@ endif(DOXYGEN_FOUND)
 #add the run test
 add_test(NAME Run_cem 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	 CEMInputTestFile.yaml)
 	 
 #Add the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_cem 
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	 CEMInputTestFile.yaml)
 
 set_property(
              TEST
@@ -159,7 +161,8 @@ if(RUN_VALGRIND)
 	add_test(NAME Valgrind_cem
 	         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 	         COMMAND valgrind --leak-check=full  --show-leak-kinds=all --track-origins=yes
-	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+		 CEMInputTestFile.yaml)
 endif()
 
 
