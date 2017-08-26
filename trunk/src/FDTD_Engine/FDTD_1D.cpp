@@ -6,8 +6,7 @@
 
 #include "FDTD_1D.h"
 #include <math.h>
-#include "CEMdefs.h"
-#include "HDF5IOFunctions.h"
+#include "CEMCommon.h"
 
 namespace CEM
 {

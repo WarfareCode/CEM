@@ -23,7 +23,7 @@ include_directories( ${SOURCE_DIRECTORY}/Comon
                      ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable (${EXE_NAME} HDF5IOFunctions_Test.cpp)
-target_link_libraries (${EXE_NAME} HDF5IO gmock_main ${GPERFTOOLS_LIBRARIES})
+target_link_libraries (${EXE_NAME} CEMCommon gmock_main ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")

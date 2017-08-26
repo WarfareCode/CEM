@@ -5,7 +5,6 @@
 * @date 08/12/2017 */
 
 #include "DataLogger_HDF5.h"
-#include "HDF5IOFunctions.h"
 
 namespace CEM
 {
