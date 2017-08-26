@@ -36,7 +36,8 @@ add_test(NAME Build_SourceControlFactory_Test
 #Next is the Run Tests
 add_test(NAME Run_SourceControlFactory_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	 --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
 
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)

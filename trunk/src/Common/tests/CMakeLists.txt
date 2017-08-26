@@ -36,7 +36,8 @@ add_test(NAME Build_HDF5IO_Test
 #Next is the Run Tests
 add_test(NAME Run_HDF5IO_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
 
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
@@ -105,7 +106,8 @@ add_test(NAME Build_FileUtilities_Test
 #Next is the Run Tests
 add_test(NAME Run_FileUtilities_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME1})
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME1}
+	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME1}_results.xml)
 
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
