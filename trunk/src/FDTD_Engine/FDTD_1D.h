@@ -13,6 +13,7 @@
 #include "ComputeEngineInterface.h"
 #include "InputDataInterface.h"
 #include "GridDefinitionInterface.h"
+#include "CEMCommon.h"
 
 namespace CEM
 {
@@ -23,7 +24,7 @@ namespace CEM
   public:
     FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
 
-    virtual void UpdateFields(double time);
+    virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source);
     virtual std::vector<double> getEField(){return E;};
     virtual double getEField(int index);
     virtual std::vector<double> getHField(){return H;};

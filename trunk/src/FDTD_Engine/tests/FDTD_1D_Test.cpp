@@ -10,6 +10,7 @@
 
 #include "MockInputDataInterface.h"
 #include "MockGridDefinitionInterface.h"
+#include "MockSourceControlInterface.h"
 #include "CEMdefs.h"
 
 namespace CEM
@@ -44,6 +45,7 @@ namespace testing
       FDTD_1D* fdtd;
       std::shared_ptr<MockInputData> input;
       std::shared_ptr<MockGridDefinition> gridDefinition;
+      std::shared_ptr<MockSourceControl> source;
 
     };
 
@@ -52,7 +54,7 @@ namespace testing
         
    for(int time = input->getStartTime(); time < input->getStopTime(); time++)
        {
-         fdtd->UpdateFields(time);
+         fdtd->UpdateFields(time, source);
        }
   }
 

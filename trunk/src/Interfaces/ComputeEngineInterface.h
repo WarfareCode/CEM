@@ -16,17 +16,18 @@
 #ifndef COMPUTE_ENGINE_INTERFACE_H
 #define COMPUTE_ENGINE_INTERFACE_H
 
-#include "CEMTypes.h"
 #include <vector>
 
 struct InputStruct;
 
 namespace CEM
 {
+  class SourceControlInterface;
+  
   class ComputeEngineInterface
   {
   public:
-    virtual void UpdateFields(double time) = 0;
+    virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source) = 0;
 
     virtual std::vector<double> getEField()=0;
     virtual double getEField(int index)=0;

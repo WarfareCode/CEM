@@ -26,7 +26,7 @@ namespace CEM
    **/
   void SimEngine::Update(double time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source)
   {
-    compute->UpdateFields(time);
+    compute->UpdateFields(time, source);
 
     if (timeSinceLastDataLogged_ >= dataLogTime_)
     {

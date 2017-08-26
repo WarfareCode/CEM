@@ -94,7 +94,7 @@ namespace CEM
    *
    * This function updates the E and H fields by stepping to the specified time index
    * @param time The next time step to update*/
-  void FDTD_1D::UpdateFields(double time)
+  void FDTD_1D::UpdateFields(double time, std::shared_ptr<SourceControlInterface> source)
   {
     applyBC_H();
   
