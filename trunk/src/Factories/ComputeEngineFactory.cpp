@@ -5,7 +5,6 @@
 * @date 08/15/2017 */
 
 #include "ComputeEngineFactory.h"
-#include "Interfaces/ComputeEngineInterface.h"
 
 namespace CEM
 {

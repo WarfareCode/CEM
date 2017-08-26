@@ -9,12 +9,10 @@
 #define COMPUTE_ENGINE_FACTORY_H
 
 #include "FDTD_Engine/FDTD_1D.h"
-#include "Interfaces/ComputeEngineInterface.h"
+#include "ComputeEngineInterface.h"
 
 namespace CEM
 {
-  //class InputDataInterface;
-  
   class ComputeEngineFactory
   {
   public:

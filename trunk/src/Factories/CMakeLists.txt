@@ -1,8 +1,5 @@
-#Add the ComputeEngineFactory
-add_library(ComputeEngineFactory ComputeEngineFactory.h ComputeEngineFactory.cpp )
-target_link_libraries(ComputeEngineFactory FDTD ${GPERFTOOLS_LIBRARIES})
+#Add the CEMFactories
+add_library(CEMFactories DataLoggerFactory.h DataLoggerFactory.cpp ComputeEngineFactory.h ComputeEngineFactory.cpp SourceControlFactory.h SourceControlFactory.cpp)
+target_link_libraries(CEMFactories DataLogger FDTD SourceControl ${GPERFTOOLS_LIBRARIES})
 
-#Add the DataLoggerFactory
-add_library(DataLoggerFactory DataLoggerFactory.h DataLoggerFactory.cpp )
-target_link_libraries(DataLoggerFactory DataLogger ${GPERFTOOLS_LIBRARIES})
 

@@ -22,7 +22,7 @@ endif()
 include_directories( ${SOURCE_DIRECTORY}/SimEngine
                      ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable (${EXE_NAME} SimEngine_test.cpp)
-target_link_libraries (${EXE_NAME} DataLoggerFactory ComputeEngineFactory InputParser yaml-cpp gmock_main  ${GPERFTOOLS_LIBRARIES})
+target_link_libraries (${EXE_NAME} CEMFactories InputParser yaml-cpp gmock_main  ${GPERFTOOLS_LIBRARIES})
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
 

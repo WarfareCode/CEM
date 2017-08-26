@@ -8,8 +8,8 @@
 #ifndef DATA_LOGGER_FACTORY_H
 #define DATA_LOGGER_FACTORY_H
 
-#include "DataLogger/DataLogger_HDF5.h"
-#include "Interfaces/DataLoggerInterface.h"
+#include "DataLogger_HDF5.h"
+#include "DataLoggerInterface.h"
 
 namespace CEM
 {
