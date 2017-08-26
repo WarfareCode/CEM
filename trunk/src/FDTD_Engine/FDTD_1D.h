@@ -40,7 +40,7 @@ namespace CEM
     Eigen::VectorXd E;/*!< Electric Field Vector */
     Eigen::VectorXd H;/*!< Magnetic Field Vector */
 
-    std::vector<double> dielectricConstant_;  /*!<Dielectric Constant Vector */
+    Eigen::VectorXd dielectricConstant_;  /*!<Dielectric Constant Vector */
     double imp_; /*!< Impedance Vector */
     int dataSize_;  /*!< Length of the E and H vectors*/
     

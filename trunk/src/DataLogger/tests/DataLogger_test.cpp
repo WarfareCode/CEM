@@ -50,7 +50,9 @@ namespace testing
       std::string datasetname = "/EField";
       EXPECT_CALL(*gridDefinition, getVectorZLength()).WillRepeatedly(::testing::Return(15));
       dl = new DataLoggerHDF5(input, gridDefinition);
-      std::vector<double> in = {1,5.87,7.993,8,10.2,2.0190,30,50,100,150,-100,-20,-30.5, 3.4, 5.776};
+      Eigen::VectorXd in;
+      in.resize(15);
+      in << 1, 5.87, 7.993, 8, 10.2, 2.0190, 30, 50, 100, 150, -100, -20, -30.5, 3.4, 5.776;
       dl->WriteDataArray(in,1,datasetname);
       std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),datasetname, 0);
 
@@ -100,7 +102,7 @@ namespace testing
       
      dl = new DataLoggerHDF5(input, gridDefinition);
      std::string testFileName = "dielectric1.h5";
-     std::vector<double> er = dl->ReadVectorFromFile(testFileName,"/EpsR");
+     Eigen::VectorXd er = dl->ReadVectorFromFile(testFileName,"/EpsR");
      for (int i = 0; i < 100; i++)
       {
 	EXPECT_THAT(er[i], Eq(1));

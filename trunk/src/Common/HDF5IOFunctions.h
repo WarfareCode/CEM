@@ -9,14 +9,18 @@
  
 #include <vector>
 #include <string>
+#include "CEMCommon.h"
+
 namespace CEM
 {
    namespace HDF5IO
    {
   
-     std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName);
+     //std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName);
 
-     void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
+     Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName);
+
+     void WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName);
    }
 }
 

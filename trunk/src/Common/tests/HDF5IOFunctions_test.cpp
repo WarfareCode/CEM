@@ -36,9 +36,11 @@ namespace testing
     std::string testFileName = "tempOut.h5";
     std::string dataSet = "test";
 
-    std::vector<double>data_out = {1,2,3,4,5,6,7,8,9,10};
+    Eigen::VectorXd data_out;
+    data_out.resize(10);
+    data_out << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
     HDF5IO::WriteVectorToFile(data_out,testFileName,dataSet);
-    std::vector<double>data_in =  HDF5IO::ReadVectorFromFile(testFileName,"/" + dataSet);
+    Eigen::VectorXd data_in =  HDF5IO::ReadVectorFromFile(testFileName,"/" + dataSet);
 
     EXPECT_THAT(data_in.size(), Eq(data_out.size()));
 
@@ -55,9 +57,8 @@ namespace testing
      getcwd(cwd, sizeof(cwd));
      std::cout<<"Current Directory: " << cwd << std::endl;
       
-
      std::string testFileName = "dielectric1.h5";
-     std::vector<double> er = HDF5IO::ReadVectorFromFile(testFileName,"/EpsR");
+     Eigen::VectorXd er = HDF5IO::ReadVectorFromFile(testFileName,"/EpsR");
      
      for (int i = 0; i < 100; i++)
       {

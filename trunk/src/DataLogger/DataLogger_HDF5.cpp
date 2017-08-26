@@ -307,7 +307,7 @@ namespace CEM
    * @details This function uses an "unchunked" layout to directly read in an input vector from a file
    * @param fileName The fileName to read from
    * @param datasetName The name of the dataset to read */
-  std::vector<double> DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
+  Eigen::VectorXd DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
   {
     return HDF5IO::ReadVectorFromFile(fileName, datasetName);
   }
@@ -318,7 +318,7 @@ namespace CEM
    * @param data The data to be written
    * @param fileName The fileName to be written to
    * @param datasetName The name of the dataset to be written */
-  void  DataLoggerHDF5::WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)
+  void  DataLoggerHDF5::WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName)
   {
     HDF5IO::WriteVectorToFile(data, fileName, datasetName);
   }

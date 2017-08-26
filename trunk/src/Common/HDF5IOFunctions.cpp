@@ -19,9 +19,10 @@ namespace CEM
      * @details This function uses an "unchunked" layout to directly read in an input vector from a file
      * @param fileName The fileName to read from
      * @param datasetName The name of the dataset to read */
-    std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName)
+     Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName)
     {
-      std::vector<double> data_out;
+      //std::vector<double> data_out;
+      Eigen::VectorXd data_out;
 
       fileName = FILE::FindInputFile(fileName);
 
@@ -51,7 +52,7 @@ namespace CEM
    * @param data The data to be written
    * @param fileName The fileName to be written to
    * @param datasetName The name of the dataset to be written */
-   void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)
+    void WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName)
    {
      //create the file
      H5File file( fileName, H5F_ACC_TRUNC );

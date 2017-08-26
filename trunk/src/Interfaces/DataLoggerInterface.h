@@ -28,9 +28,9 @@ namespace CEM
     virtual void WriteDataArray(std::vector<double>data, double time, std::string datasetName) = 0;
     virtual void WriteDataArray(Eigen::VectorXd data, double time, std::string datasetName) = 0;
     
-    virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName) = 0;
-
-    virtual std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName) = 0;
+    virtual void WriteVectorToFile(Eigen::VectorXd, std::string fileName, std::string datasetName) = 0;
+    virtual Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName) = 0;
+    
     virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName, int timeIndex) = 0;
   };
 }
