@@ -52,6 +52,8 @@ namespace CEM
     ComputeEngineFactory computeFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
     SourceControlFactory sourceFactory_;  /*!< Factory to generate the source */
+
+    double timeIncrement_; /*!< Value to increment at each time step */
   };
 }
 

@@ -11,6 +11,7 @@ namespace CEM
   
   ModulatedGaussianPulse::ModulatedGaussianPulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
   {
+       std::cout<<"Modulated Gaussian ..." << std::endl;
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();
     pulseWidth_ = sourceDefinition->getPulseWidth();

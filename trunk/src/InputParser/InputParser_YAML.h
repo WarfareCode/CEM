@@ -38,6 +38,7 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
+    virtual double getTemporalSamplingRate(){return temporalSamplingRate_;}
 
     //Source Control Interface
     virtual std::string getSourceType(){return sourceType_;}

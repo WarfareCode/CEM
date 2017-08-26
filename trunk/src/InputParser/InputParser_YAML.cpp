@@ -150,7 +150,7 @@ namespace CEM
        throw std::runtime_error("InputParserYAML::ReadDataLoggingInfo ... Datanode is Null");
      
      outputFileName_ =  dataNode["Output File Name"].as<std::string>();
-     outputRate_ = dataNode["Output Rate in Seconds"].as<double>();
+     outputRate_ = dataNode["Output Rate in Hz"].as<double>();
   }
 
   /**

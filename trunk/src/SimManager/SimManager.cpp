@@ -30,6 +30,8 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
 
+  timeIncrement_ = 1/input_->getTemporalSamplingRate();
+
   std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
 }
@@ -48,10 +50,28 @@ int SimManager::Run()
 {
   try
     {
-      for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
-      {
-        engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-      }
+      bool done = false;
+      double time = input_->getStartTime();
+
+      double printTime = 0.25;
+      double timeSinceLastPrint = 0;
+      
+      while (!done)
+	{
+         engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
+	 time += timeIncrement_;
+	 timeSinceLastPrint +=timeIncrement_;
+
+	 if (timeSinceLastPrint >= printTime)
+	   {
+	     std::cout<<"Time: " << time << std::endl;
+	     timeSinceLastPrint = 0;
+	   }
+
+	 if (time >= input_->getStopTime())
+	   done = true;
+	 
+        }
        
     }  // end of try block
     

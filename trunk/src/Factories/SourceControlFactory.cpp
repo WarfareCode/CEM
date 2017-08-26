@@ -20,13 +20,13 @@ namespace CEM
      //check the source definition input for the type to return
      std::string type = sourceDefinition->getSourceType();
     
-     if(type.compare("Gaussian Pulse"))
-	sourceControl = std::make_shared<GaussianPulse>(sourceDefinition);
-     else if(type.compare("Modulated Gaussian Pulse"))
-       	sourceControl = std::make_shared<ModulatedGaussianPulse>(sourceDefinition);
-     else if(type.compare("Square Pulse"))
-	sourceControl = std::make_shared<SquarePulse>(sourceDefinition);
-     else if(type.compare("Modulated SquarePulse"))
+     if(type.compare("Gaussian Pulse") == 0)
+	  sourceControl = std::make_shared<GaussianPulse>(sourceDefinition);
+     else if(type.compare("Modulated Gaussian Pulse") == 0)
+      sourceControl = std::make_shared<ModulatedGaussianPulse>(sourceDefinition);
+     else if(type.compare("Square Pulse") == 0)
+	  sourceControl = std::make_shared<SquarePulse>(sourceDefinition);
+     else if(type.compare("Modulated Square Pulse") == 0)
        	sourceControl = std::make_shared<ModulatedSquarePulse>(sourceDefinition);
      else
        {

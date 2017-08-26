@@ -27,6 +27,7 @@ namespace CEM
 
     MOCK_METHOD0(getStopTime, double());
     MOCK_METHOD0(getStartTime, double());
+    MOCK_METHOD0(getTemporalSamplingRate, double());
     
     MOCK_METHOD0(getDielectricFileName, std::string());
     MOCK_METHOD0(getDielectricConstant,double());

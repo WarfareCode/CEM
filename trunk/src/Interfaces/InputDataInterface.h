@@ -20,6 +20,7 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition()=0;
     virtual double getStopTime()=0;
     virtual double getStartTime()=0;
+    virtual double getTemporalSamplingRate()=0;
 
     //source
     virtual std::string getSourceType()=0;

@@ -11,6 +11,7 @@ namespace CEM
   
   GaussianPulse::GaussianPulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
   {
+      std::cout<<"Gaussian ..." << std::endl;
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();
     pulseWidth_ = sourceDefinition->getPulseWidth();
