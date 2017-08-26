@@ -46,6 +46,11 @@ message( "Log4cplus Found: " ${LOG4CPLUS_FOUND})
 find_package(Doxygen)
 message("Doxygen found: " ${DOXYGEN_FOUND})
 
+#Eigen - matrix library
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+message("Eigen3 found: " ${EIGEN3_FOUND})
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 #Gperftools
 find_package(Gperftools)
 message("GPerftools found: " ${GPERFTOOLS_FOUND})

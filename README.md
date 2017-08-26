@@ -15,6 +15,7 @@ will not be available)
 
 Required:
 	HDF5 - used for data logging and reading in binary input files
+	Eigen3 - Matrix library that handles the underlying mathematics
 	CMake - handles generating the overall build process
 
 Useful:

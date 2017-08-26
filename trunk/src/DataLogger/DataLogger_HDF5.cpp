@@ -120,6 +120,52 @@ namespace CEM
     datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
   }
 
+ void DataLoggerHDF5:: WriteDataArray(Eigen::VectorXd data, double time, std::string datasetName)
+    {
+    DataSet dataset;
+    if (datasetName.compare("EField"))
+      {
+	dataset = datasetE_;
+      }
+    else if (datasetName.compare("HField"))
+      {
+        dataset = datasetH_;
+      }
+    else
+      throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
+		 
+     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
+     
+    //now get the memory size, the new dataset size, and the offset
+    hsize_t msize = data.size();
+    hsize_t offset = currentSize; 
+    hsize_t dsize = offset + data.size();
+
+    //create the memory space
+    DataSpace mspace( 1, &msize);
+    
+    //extend the data set
+    dataset.extend( &dsize );
+	
+    //get the file space
+    DataSpace fspace = dataset.getSpace();
+    //select the hyperslab
+    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
+
+    dataset.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+
+    //update the time vector
+    hsize_t tSize = 1;
+    hsize_t toffset = datasetT_.getStorageSize()/8;
+    hsize_t dTsize = toffset + tSize;
+    DataSpace mTspace( 1, &tSize);
+    datasetT_.extend(&dTsize);
+
+    DataSpace tspace = datasetT_.getSpace();
+    tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
+    datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
+  }
+
   /**
    * \brief Write an array to the File
    *

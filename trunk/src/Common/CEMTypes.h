@@ -4,9 +4,11 @@
 * @author Ben Frazier
 * @date 08/14/2017 */
 
-
 #ifndef CEM_TYPES_H
 #define CEM_TYPES_H
+
+#include <Eigen/Dense>
+#include <vector>
 
 namespace CEM
 {
@@ -19,7 +21,7 @@ namespace CEM
     SimpleABC,
     TFSF_ABC
   };
-  
+
 }// end namespace CEM
 
 #endif

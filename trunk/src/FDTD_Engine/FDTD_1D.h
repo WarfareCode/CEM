@@ -30,12 +30,18 @@ namespace CEM
     virtual double getEField(int index);
     virtual std::vector<double> getHField(){return H;};
     virtual double getHField(int index);
+
+    virtual Eigen::VectorXd getE2Field() {return E2;}
+    virtual Eigen::VectorXd getH2Field() {return H2;}
     
     //get functions
     AbsorbingBoundaryCondition getABC(){return ABC;};
 
   private:
     char HDirection, EDirection;
+
+    Eigen::VectorXd E2;
+    Eigen::VectorXd H2;
 
     std::vector<double> E; /*!< Electric Field Vector */
     std::vector<double> H; /*!< Magnetic Field Vector */

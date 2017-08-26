@@ -22,6 +22,9 @@ namespace CEM
     MOCK_METHOD1(getEField, double(int index));
     MOCK_METHOD0(getHField, std::vector<double>));
     MOCK_METHOD1(getHField, double(int index));
+
+    MOCK_METHOD0(getE2Field, Eigen::VectorXd));
+    MOCK_METHOD0(getH2Field, Eigen::VectorXd));
   };
 
 }

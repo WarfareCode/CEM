@@ -17,6 +17,7 @@
 #define COMPUTE_ENGINE_INTERFACE_H
 
 #include <vector>
+#include "CEMCommon.h"
 
 struct InputStruct;
 
@@ -34,6 +35,9 @@ namespace CEM
 	
     virtual std::vector<double> getHField()=0;
     virtual double getHField(int index)=0;
+
+    virtual Eigen::VectorXd getE2Field()=0;
+    virtual Eigen::VectorXd getH2Field()=0;
 	
   };
 }
