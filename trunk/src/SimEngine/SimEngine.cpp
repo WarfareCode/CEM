@@ -21,7 +21,7 @@ namespace CEM
 
     
   /**
-   * @brief Run the simulation
+   * @brief Update the simulation
    *
    **/
   void SimEngine::Update(double time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source)

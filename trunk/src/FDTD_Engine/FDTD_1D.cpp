@@ -37,8 +37,9 @@ namespace CEM
     H.resize(dataSize_);
     E.resize(dataSize_);
 
-    InitializeSource(input);
     InitializeDielectric(input,gridDefinition);
+
+    sourceIndex_ = input->getSpatialIndex();
      
     initialized = true;
   }
@@ -72,22 +73,6 @@ namespace CEM
       }
 
   }
-  
-    /**
-   * \brief Initialize the Input Source
-   *
-   * This function sets up the input source
-   * @param input The input structure read in from the input file*/
-  void FDTD_1D::InitializeSource(std::shared_ptr<InputDataInterface> input)
-  {
-    sourceAmplitude_ = input->getSourceAmplitude();
-    sourceType_ = input->getSourceType();
-    pulseWidth_ = input->getPulseWidth();
-    sourceDelay_ = input->getSourceDelay();
-    sourceIndex_ = input->getSpatialIndex();
-
-    pulseWidth2_ = pulseWidth_*pulseWidth_;
-  }
 
   /**
    * \brief Update the E and H fields
@@ -104,7 +89,6 @@ namespace CEM
       H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
 
     //correct H field --> TFSF
-    //H[sourceIndex_ -1] -=computeSourceAmplitude(time,0)/imp_;
     H[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
 
     applyBC_E();
@@ -114,19 +98,7 @@ namespace CEM
       E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
 
     //update the source
-    // E[sourceIndex_] += computeSourceAmplitude(time,1.0);
-    E[sourceIndex_] += source->getInputSource(time,1.0);//computeSourceAmplitude(time,1.0);
-  }
-
-   /**
-   * \brief Compute the amplitude of the source
-   *
-   * @param time The time to compute the source
-  * @param shift The value to shift the time (TFSF)*/
-  double FDTD_1D::computeSourceAmplitude(double time, double shift)
-  {
-    double val = sourceAmplitude_ *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
-    return val;
+    E[sourceIndex_] += source->getInputSource(time,1.0);
   }
 
   /**

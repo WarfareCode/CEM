@@ -44,11 +44,6 @@ namespace CEM
     int dataSize_;  /*!< Length of the E and H vectors*/
     
     int sourceIndex_;  /*!< Spatial index where the source is applied*/
-    double sourceAmplitude_;  /*!< Amplitude of the source*/
-    std::string sourceType_;  /*!< Type of the source*/
-    double pulseWidth_;  /*!< Pulsewidth of the source*/
-    double pulseWidth2_;  /*!< Pulsewidth squared of the source*/
-    double sourceDelay_;  /*!< Time delay of the source*/
 
     bool initialized;
     AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
@@ -60,12 +55,9 @@ namespace CEM
     void applyBC_H();
 
     void InitializeEngine(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    void InitializeSource(std::shared_ptr<InputDataInterface>input);
     void InitializeDielectric(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-   
-    double computeSourceAmplitude(double time, double shift);
-    
 
+    
   };
 }
 
