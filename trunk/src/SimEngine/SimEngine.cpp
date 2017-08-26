@@ -1,6 +1,6 @@
 /**
 * @file SimEngine.cpp
-* @brief Implementation of the Simulation Engine class *
+* @brief Implementation of the Simulation Engine class
 * @author Ben Frazier*
 * @date 08/15/2017 */
 #include "SimEngine.h"
@@ -24,7 +24,7 @@ namespace CEM
   void SimEngine::Initialize(std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger)
   {
 
-    engine_ptr_ = compute;
+    compute_ptr_ = compute;
     dLogger_ptr_ = dlogger;
     
     initialized_ = true;
@@ -42,11 +42,11 @@ namespace CEM
  
     for(int time = input_->getStartTime(); time < input_->getStopTime(); time++)
       {
-	engine_ptr_->UpdateFields(time);
+	compute_ptr_->UpdateFields(time);
 
 	if (timeSinceLastDataLogged_ >= dataLogTime_)
 	  {
-	    dLogger_ptr_->WriteDataArray(engine_ptr_->getEField(),time,"/EField");
+	    dLogger_ptr_->WriteDataArray(compute_ptr_->getEField(),time,"/EField");
 	    timeSinceLastDataLogged_ = 0;
 	  }
 	else

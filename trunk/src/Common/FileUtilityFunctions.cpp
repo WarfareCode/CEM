@@ -1,6 +1,6 @@
 /**
-* @file File Utility Functions.cpp
-* @brief Collection of File Utility functions
+* @file FileUtilityFunctions.cpp
+* @brief Implementation of File Utility functions
 * @author Ben Frazier
 * @date 08/53/2017 */
 

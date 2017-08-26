@@ -10,6 +10,8 @@
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
 #include "GridControlInterface.h"
+#include "SourceControlInterface.h"
+
 #include "yaml-cpp/yaml.h"
 
 #include <memory>
@@ -18,7 +20,11 @@
 using namespace YAML;
 namespace CEM
 {
-  class InputParserYAML: public InputParserInterface, public InputDataInterface, public GridControlInterface, public std::enable_shared_from_this<InputParserYAML>
+  class InputParserYAML: public InputParserInterface,
+                         public InputDataInterface,
+                         public GridControlInterface,
+                         public SourceControlInterface,
+                         public std::enable_shared_from_this<InputParserYAML>
   {
   public:
     InputParserYAML();
@@ -33,13 +39,14 @@ namespace CEM
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
 
-    //source
+    //Source Control Interface
     virtual std::string getSourceType(){return sourceType_;}
     virtual double getSourceAmplitude(){return sourceAmplitude_;}
     virtual double getSourceDelay(){return sourceDelay_;}
     virtual double getPulseWidth(){return pulseWidth_;}
     virtual int getSpatialIndex(){return spatialIndex_;}
-
+    virtual std::shared_ptr<SourceControlInterface> getSourceControl();
+    
     //dielectric
     virtual std::string getDielectricFileName(){return dielectricFileName_;}
     virtual double getDielectricConstant(){return dielectricConstant_;}
@@ -58,8 +65,6 @@ namespace CEM
     virtual int getVectorZLength(){return vectorZLength_;}
     virtual int getVectorYLength(){return vectorYLength_;}
     virtual int getVectorXLength(){return vectorXLength_;}
-
-    //get the grid intefaceinterface
     virtual std::shared_ptr<GridControlInterface> getGridControl();
      
     //datalogging

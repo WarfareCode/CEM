@@ -2,17 +2,6 @@
 * @file InputDataInterface.h
 * @brief Abstract virtual class for the InputData class, defines the interface
 * @details Required Interface functions:
-* <pre>
-*    getInputFileName
-*    getOutputFileName
-*    getComputationType
-*    getAbsorbingBoundaryCondition
-*    getStartTime
-*    getStopTime
-*    getVectorLength
-*    getSpatialIndex
-*    getInputData
-* </pre>
 * @author Ben Frazier
 * @date 08/17/2017 */
 

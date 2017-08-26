@@ -39,6 +39,17 @@ namespace CEM
        return shared_from_this();
      else throw std::runtime_error("InputParserYAML::getGridControl()....Input File Not Loaded.");
   }
+
+   /**
+   * \brief Get the Source Control Itnerface
+   *
+   */
+  std::shared_ptr<SourceControlInterface> InputParserYAML::getSourceControl()
+  {
+     if (fileLoaded_)
+       return shared_from_this();
+     else throw std::runtime_error("InputParserYAML::getSourceControl()....Input File Not Loaded.");
+  }
   
   /**
    * \brief read the input file

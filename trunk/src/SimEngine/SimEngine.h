@@ -28,7 +28,7 @@ namespace CEM
     //member functions
 
     //member variables
-    std::shared_ptr<ComputeEngineInterface> engine_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
+    std::shared_ptr<ComputeEngineInterface> compute_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
     std::shared_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
     //the input parser type is known at compile time - only YAML is handled
