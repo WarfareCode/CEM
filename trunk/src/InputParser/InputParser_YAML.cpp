@@ -139,6 +139,7 @@ namespace CEM
      sourceDelay_ = sourceNode["Delay in Seconds"].as<double>();
      pulseWidth_ = sourceNode["Pulse Width in Seconds"].as<double>();
      spatialIndex_ = sourceNode["Spatial Index"].as<int>();
+     sourceFrequency_ = sourceNode["Frequency"].as<double>();
      
   }
 

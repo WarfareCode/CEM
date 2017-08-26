@@ -7,7 +7,7 @@
 #ifndef SOURCE_CONTROL_FACTORY_H
 #define SOURCE_CONTROL_FACTORY_H
 
-#include "GaussianSource.h"
+#include "SourceControl.h"
 #include "SourceControlInterface.h"
 #include "SourceDefinitionInterface.h"
 

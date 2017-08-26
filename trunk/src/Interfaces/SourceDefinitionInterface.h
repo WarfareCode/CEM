@@ -20,6 +20,7 @@ namespace CEM
     virtual double getSourceDelay()=0;
     virtual double getPulseWidth()=0;
     virtual int getSpatialIndex()=0;
+    virtual double getSourceFrequency()=0;
 
     //interface
     virtual std::shared_ptr<SourceDefinitionInterface> getSourceDefinition()=0;
@@ -38,6 +39,7 @@ namespace CEM
    os << "Source Delay: " <<  input.getSourceDelay() << std::endl;
    os << "Pulse Width: " <<  input.getPulseWidth() << std::endl;
    os << "Spatial Index: " << input.getSpatialIndex() << std::endl;
+   os << "Source Frequency: " << input.getSourceFrequency() << std::endl;
 
   return os;  
   }
@@ -56,6 +58,7 @@ namespace CEM
    dataString += "Source Delay: " + std::to_string(input->getSourceDelay()) + "\n";
    dataString += "Pulse Width: " + std::to_string(input->getPulseWidth()) + "\n";
    dataString += "Spatial Index: " + std::to_string(input->getSpatialIndex()) + "\n";
+   dataString += "Source Frequency: " + std::to_string(input->getSourceFrequency()) + "\n";
    return dataString;
  }
  

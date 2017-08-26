@@ -22,6 +22,7 @@ namespace CEM
     MOCK_METHOD0(getSourceDelay, double());
     MOCK_METHOD0(getPulseWidth, double());
     MOCK_METHOD0(getSpatialIndex, int());
+    MOCK_METHOD0(getSourceFrequency,double());
     MOCK_METHOD0(getSourceDefinition, std::shared_ptr<SourceDefinitionInterface>());
   };
 

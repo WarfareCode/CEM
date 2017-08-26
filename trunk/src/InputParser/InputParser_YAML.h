@@ -45,6 +45,7 @@ namespace CEM
     virtual double getSourceDelay(){return sourceDelay_;}
     virtual double getPulseWidth(){return pulseWidth_;}
     virtual int getSpatialIndex(){return spatialIndex_;}
+    virtual double getSourceFrequency() {return sourceFrequency_;}
     virtual std::shared_ptr<SourceDefinitionInterface> getSourceDefinition();
     
     //dielectric
@@ -107,6 +108,7 @@ namespace CEM
     double sourceAmplitude_;                  /*!< Variable for the amplitude of the source*/
     double sourceDelay_;                      /*!< Variable for the delay of the source*/
     double pulseWidth_;                       /*!< Variable for the pulse width of the source*/
+    double sourceFrequency_;                  /*!< Variable for the frequency of the source*/
     int spatialIndex_;                        /*!< Variable for the spatial index of the source*/
 
     //data logging parameters

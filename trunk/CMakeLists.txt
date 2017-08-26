@@ -30,11 +30,6 @@ set(BINARY_TEST_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin/tests)
 add_custom_target(build-time-make-bin-test-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${BINARY_TEST_DIRECTORY})
 
-#set the input data directory and set a command to create it during the build process
-set(INPUT_DATA_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../Input_Data)
-add_custom_target(build-time-make-input-data-directory ALL
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${INPUT_DATA_DIRECTORY})
-
 #add the common and interface headers to the include path
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces ${CMAKE_CURRENT_SOURCE_DIR}/src/MockInterfaces)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/SourceControl ${CMAKE_CURRENT_SOURCE_DIR}/src/DataLogger ${CMAKE_CURRENT_SOURCE_DIR}/src/FDTD_Engine ${CMAKE_CURRENT_SOURCE_DIR}/src/Factories )

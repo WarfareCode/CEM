@@ -14,7 +14,7 @@ namespace CEM
 
   std::shared_ptr<SourceControlInterface> SourceControlFactory::createSourceControl(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
    {
-     std::shared_ptr<SourceControlInterface> sourceControl (new GaussianSource(sourceDefinition));
+     std::shared_ptr<SourceControlInterface> sourceControl (new GaussianPulse(sourceDefinition));
      return sourceControl;
    }
 
