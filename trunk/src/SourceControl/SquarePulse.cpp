@@ -23,7 +23,10 @@ namespace CEM
 
   double SquarePulse::getInputSource(double time, double shift)
   {
-    return sourceAmplitude_  *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
+    if (time >= sourceDelay_ + shift && time <= sourceDelay_ + pulseWidth_ + shift)
+      return sourceAmplitude_;
+    else
+      return 0.0;
   }
 
 } //end namespace CEM

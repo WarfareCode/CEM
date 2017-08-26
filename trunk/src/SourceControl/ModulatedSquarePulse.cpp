@@ -23,7 +23,10 @@ namespace CEM
 
   double ModulatedSquarePulse::getInputSource(double time, double shift)
   {
-    return sourceAmplitude_  *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_)*sin(2*M_PI*frequency_*time);
+     if (time >= sourceDelay_ + shift && time <= sourceDelay_ + pulseWidth_ + shift)
+      return sourceAmplitude_*sin(2*M_PI*frequency_*time);
+    else
+      return 0.0;
   }
 
 } //end namespace CEM
