@@ -21,6 +21,7 @@ namespace CEM
      Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName);
 
      void WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName);
+     void WriteVectorToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
    }
 }
 

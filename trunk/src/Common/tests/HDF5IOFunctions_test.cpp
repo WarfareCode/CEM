@@ -70,6 +70,17 @@ namespace testing
       }
   }
 
+  TEST_F(HDF5IO_Test, write_matrix_test)
+  {
+    Eigen::MatrixXd temp(3,4);
+    temp << 1, 2, 3, 4,
+            5, 6, 7, 8,
+            9, 10, 11, 12;
+
+    HDF5IO::WriteVectorToFile(temp,"testmatrix.h5","matrix"); 
+   
+  }
+
 } // namespace testing
 } // namespace HDF5Reader_Test
 } // namespace CEM

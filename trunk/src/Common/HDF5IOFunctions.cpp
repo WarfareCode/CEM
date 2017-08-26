@@ -62,6 +62,23 @@ namespace CEM
      DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
      dataset.write(&data[0], PredType::NATIVE_DOUBLE,mspace);  
     
-   }    
+   }
+
+    void WriteVectorToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName)
+   {
+     //create the file
+     H5File file( fileName, H5F_ACC_TRUNC );
+     hsize_t dims[2];
+     //HDF5 treats data as X and Y rather than rows and columns
+     dims[0] = data.cols();
+     dims[1] = data.rows();
+     hsize_t msize = data.size();
+     DataSpace mspace(2, dims);
+ 
+     DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
+     dataset.write(&data(0), PredType::NATIVE_DOUBLE,mspace);  
+    
+   }
+    
   }//end namespace HDF5I0
 } //end namespace CEM
