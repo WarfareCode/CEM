@@ -7,7 +7,7 @@
 #ifndef GRID_CONTROL_H
 #define GRID_CONTROL_H
 
-#include "GridDefinitionInterface.h"
+#include "InputDataInterface.h"
 #include "CEMCommon.h"
 
 namespace CEM
@@ -16,7 +16,7 @@ namespace CEM
   {
   public:
     
-    GridControl(std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    GridControl(std::shared_ptr<InputDataInterface> input);
 
 
   private:

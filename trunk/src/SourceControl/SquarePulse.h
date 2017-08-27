@@ -8,7 +8,6 @@
 #define SQUARE_PULSE_H
 
 #include "SourceControlInterface.h"
-#include "SourceDefinitionInterface.h"
 #include "InputDataInterface.h"
 
 #include <math.h>
@@ -20,7 +19,7 @@ namespace CEM
   {
   public:
     
-    SquarePulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
+    SquarePulse(std::shared_ptr<InputDataInterface> sourceDefinition);
         //source
     virtual double getInputSource(double time, double shift);
     virtual std::string getSourceType(){return sourceType_;}

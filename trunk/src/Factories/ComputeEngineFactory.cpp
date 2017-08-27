@@ -12,9 +12,9 @@ namespace CEM
   {
   }
 
-  std::shared_ptr<ComputeEngineInterface> ComputeEngineFactory::createComputationalEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  std::shared_ptr<ComputeEngineInterface> ComputeEngineFactory::createComputationalEngine(std::shared_ptr<InputDataInterface> input)
    {
-     std::shared_ptr<ComputeEngineInterface> computeEngine (new FDTD_1D(input, gridDefinition));
+     std::shared_ptr<ComputeEngineInterface> computeEngine (new FDTD_1D(input));
      return computeEngine;
    }
 

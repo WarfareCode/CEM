@@ -9,7 +9,7 @@
 namespace CEM
 {
   
-  GaussianPulse::GaussianPulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
+  GaussianPulse::GaussianPulse(std::shared_ptr<InputDataInterface> sourceDefinition)
   {
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();

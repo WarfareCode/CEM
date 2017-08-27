@@ -28,29 +28,7 @@ namespace CEM
        return shared_from_this();
      else throw std::runtime_error("InputParser::getInputData()....Input File Not Loaded.");
    }
-  
-   /**
-   * \brief Get the Grid Definition Itnerface
-   *
-   */
-  std::shared_ptr<GridDefinitionInterface> InputParser::getGridDefinition()
-  {
-     if (fileLoaded_)
-       return shared_from_this();
-     else throw std::runtime_error("InputParser::getGridDefinition()....Input File Not Loaded.");
-  }
 
-   /**
-   * \brief Get the Source Control Itnerface
-   *
-   */
-  std::shared_ptr<SourceDefinitionInterface> InputParser::getSourceDefinition()
-  {
-     if (fileLoaded_)
-       return shared_from_this();
-     else throw std::runtime_error("InputParserYAML::getSourceDefinition()....Input File Not Loaded.");
-  }
-  
   void InputParser::ReadGridInfo()
   {
 

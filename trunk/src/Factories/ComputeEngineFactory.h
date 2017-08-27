@@ -18,7 +18,7 @@ namespace CEM
   public:
     ComputeEngineFactory();
     
-    std::shared_ptr<ComputeEngineInterface> createComputationalEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    std::shared_ptr<ComputeEngineInterface> createComputationalEngine(std::shared_ptr<InputDataInterface> input);
 
   };
 }

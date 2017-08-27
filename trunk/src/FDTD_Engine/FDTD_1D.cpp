@@ -17,11 +17,11 @@ namespace CEM
  * @param input The input data structure
  * @param gridDefinition The input definition of the grid
  */
-  FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition):
+  FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input):
     ABC(SimpleABC),
     dataSize_(0)
   {
-    InitializeEngine(input,gridDefinition);
+    InitializeEngine(input);
   }
 
   /**
@@ -30,9 +30,9 @@ namespace CEM
    * This function sets the size of the E and H vectors
    * @param input The input structure read in from the input file
    * @param gridDefinition The input definition of the grid*/
-  void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  void FDTD_1D::InitializeEngine(std::shared_ptr<InputDataInterface> input)
   {
-    dataSize_ = gridDefinition->getVectorZLength();
+    dataSize_ = input->getVectorZLength();
 		      
     ABC = SimpleABC;
     H.resize(dataSize_);
@@ -41,23 +41,23 @@ namespace CEM
     Cb.resize(dataSize_);
     Da.resize(dataSize_);
     Db.resize(dataSize_);
-    InitializeDielectric(input,gridDefinition);
+    InitializeDielectric(input);
 
-    computeConstants(input, gridDefinition);
+    computeConstants(input);
 
     sourceIndex_ = input->getSpatialIndex();
      
   }
 
-  void FDTD_1D::computeConstants(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  void FDTD_1D::computeConstants(std::shared_ptr<InputDataInterface> input)
   {
 
-    Eigen::VectorXd sigmaE = getSigmaE(input, gridDefinition);
-    Eigen::VectorXd sigmaH = getSigmaH(input, gridDefinition);
-    Eigen::VectorXd epsR = getEpsR(input, gridDefinition);
-    Eigen::VectorXd muR = getMuR(input, gridDefinition);
-    double deltaT = gridDefinition->getTimeStep();
-    double deltaZ = gridDefinition->getGridZStep();
+    Eigen::VectorXd sigmaE = getSigmaE(input);
+    Eigen::VectorXd sigmaH = getSigmaH(input);
+    Eigen::VectorXd epsR = getEpsR(input);
+    Eigen::VectorXd muR = getMuR(input);
+    double deltaT = input->getTimeStep();
+    double deltaZ = input->getGridZStep();
 
     double denE = 0;
     double denH = 0;
@@ -75,14 +75,14 @@ namespace CEM
       }
   }
 
-  Eigen::VectorXd FDTD_1D::getEpsR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  Eigen::VectorXd FDTD_1D::getEpsR(std::shared_ptr<InputDataInterface> input)
   {
 
     Eigen::VectorXd epsR;
     
-    if (gridDefinition->getDielectricSpecification() == "File")
+    if (input->getDielectricSpecification() == "File")
       {
-	epsR = HDF5IO::ReadVectorFromFile(gridDefinition->getDielectricFileName(),gridDefinition->getDielectricDatasetName());
+	epsR = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)
@@ -91,11 +91,11 @@ namespace CEM
             throw std::runtime_error(eString);
 	  }
       }
-    else if (gridDefinition->getDielectricSpecification() == "Constant")
+    else if (input->getDielectricSpecification() == "Constant")
       {
         epsR.resize(dataSize_);
 	for (int i = 0; i < dielectricConstant_.size();i++)
-	 epsR[i] = gridDefinition->getDielectricConstant();
+	 epsR[i] = input->getDielectricConstant();
       }
 
     return epsR;
@@ -103,7 +103,7 @@ namespace CEM
   }
 
   
-  Eigen::VectorXd FDTD_1D::getMuR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  Eigen::VectorXd FDTD_1D::getMuR(std::shared_ptr<InputDataInterface> input)
   {
 
     Eigen::VectorXd muR(dataSize_);
@@ -114,7 +114,7 @@ namespace CEM
     return muR;
   }
   
-  Eigen::VectorXd FDTD_1D::getSigmaH(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  Eigen::VectorXd FDTD_1D::getSigmaH(std::shared_ptr<InputDataInterface> input)
   {
 
     Eigen::VectorXd sigmaH(dataSize_);
@@ -125,7 +125,7 @@ namespace CEM
     return sigmaH;
   }
 
-    Eigen::VectorXd FDTD_1D::getSigmaE(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+    Eigen::VectorXd FDTD_1D::getSigmaE(std::shared_ptr<InputDataInterface> input)
   {
 
     Eigen::VectorXd sigmaE(dataSize_);
@@ -142,12 +142,12 @@ namespace CEM
    * This function sets up the dielectric
    * @param input The input structure read in from the input file
    * @param gridDefinition The input definition of the grid*/
-  void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  void FDTD_1D::InitializeDielectric(std::shared_ptr<InputDataInterface> input)
   {
 
-    if (gridDefinition->getDielectricSpecification() == "File")
+    if (input->getDielectricSpecification() == "File")
       {
-	dielectricConstant_ = HDF5IO::ReadVectorFromFile(gridDefinition->getDielectricFileName(),gridDefinition->getDielectricDatasetName());
+	dielectricConstant_ = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)
@@ -156,11 +156,11 @@ namespace CEM
             throw std::runtime_error(eString);
 	  }
       }
-    else if (gridDefinition->getDielectricSpecification() == "Constant")
+    else if (input->getDielectricSpecification() == "Constant")
       {
 	dielectricConstant_.resize(dataSize_);
 	for (int i = 0; i < dielectricConstant_.size();i++)
-	  dielectricConstant_[i] = gridDefinition->getDielectricConstant();
+	  dielectricConstant_[i] = input->getDielectricConstant();
       }
 
   }

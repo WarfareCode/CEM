@@ -14,7 +14,7 @@
   using ::testing::Test;
 using ::testing::TestWithParam;
 
-#include "MockSourceDefinitionInterface.h"
+#include "MockInputDataInterface.h"
 
 
 namespace CEM
@@ -31,7 +31,7 @@ namespace testing
 
       virtual void SetUp()
       {
-	sourceDefinition_ = std::make_shared<MockSourceDefinition>();
+	sourceDefinition_ = std::make_shared<MockInputData>();
 	EXPECT_CALL(*sourceDefinition_, getSourceAmplitude()).WillRepeatedly(::testing::Return(1200));
 	EXPECT_CALL(*sourceDefinition_, getSourceDelay()).WillRepeatedly(::testing::Return(0));
 	EXPECT_CALL(*sourceDefinition_, getPulseWidth()).WillRepeatedly(::testing::Return(10));
@@ -39,7 +39,7 @@ namespace testing
       }
       virtual void TearDown(){}
 
-       std::shared_ptr<MockSourceDefinition> sourceDefinition_;
+       std::shared_ptr<MockInputData> sourceDefinition_;
       
        std::shared_ptr<SourceControlInterface> source_ptr_;
        SourceControlFactory sourceFactory_;

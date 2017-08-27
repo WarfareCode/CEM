@@ -9,7 +9,7 @@
 namespace CEM
 {
   
-  GridControl::GridControl(std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  GridControl::GridControl(std::shared_ptr<InputDataInterface> input)
   {
  
   }

@@ -15,9 +15,7 @@
 
 #include "InputDataInterface.h"
 #include "SourceControlInterface.h"
-#include "SourceDefinitionInterface.h"
-#include "GridDefinitionInterface.h"
-
+ 
 #include "SourceControlFactory.h"
 #include "ComputeEngineFactory.h"
 #include "DataLoggerFactory.h"
@@ -41,9 +39,6 @@ namespace CEM
     
     std::shared_ptr<InputParser> ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
     std::shared_ptr<InputDataInterface> input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
-    std::shared_ptr<GridDefinitionInterface> gridDefinition_;  /*!< Grid Definitions from the Input Data. */
-    std::shared_ptr<SourceDefinitionInterface> sourceDefinition_;  /*!< Source Definitions from the Input Data. */
-
 
     std::shared_ptr<SourceControlInterface> source_ptr_;  /*!< Pointer to the source controller */
     std::shared_ptr<ComputeEngineInterface> compute_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/

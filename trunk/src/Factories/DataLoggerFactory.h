@@ -18,7 +18,7 @@ namespace CEM
   public:
     DataLoggerFactory();
 
-    std::shared_ptr<DataLoggerInterface> createDataLogger(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    std::shared_ptr<DataLoggerInterface> createDataLogger(std::shared_ptr<InputDataInterface> input);
 
   };
 }

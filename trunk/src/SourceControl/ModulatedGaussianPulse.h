@@ -8,7 +8,6 @@
 #define MODULATED_GAUSSIAN_PULSE_H
 
 #include "SourceControlInterface.h"
-#include "SourceDefinitionInterface.h"
 #include "InputDataInterface.h"
 #include "CEMCommon.h"
 
@@ -21,7 +20,7 @@ namespace CEM
   {
   public:
     
-    ModulatedGaussianPulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
+    ModulatedGaussianPulse(std::shared_ptr<InputDataInterface> sourceDefinition);
  
     virtual double getInputSource(double time, double shift);
     virtual std::string getSourceType(){return sourceType_;}

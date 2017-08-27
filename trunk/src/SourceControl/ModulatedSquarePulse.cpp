@@ -9,7 +9,7 @@
 namespace CEM
 {
   
-  ModulatedSquarePulse::ModulatedSquarePulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
+  ModulatedSquarePulse::ModulatedSquarePulse(std::shared_ptr<InputDataInterface> sourceDefinition)
   {
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();

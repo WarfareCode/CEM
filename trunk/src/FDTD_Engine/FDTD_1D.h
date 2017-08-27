@@ -13,7 +13,6 @@
 #include <vector>
 #include "ComputeEngineInterface.h"
 #include "InputDataInterface.h"
-#include "GridDefinitionInterface.h"
 #include "SourceControlInterface.h"
 #include "CEMCommon.h"
 
@@ -24,7 +23,7 @@ namespace CEM
   class FDTD_1D: public ComputeEngineInterface
   {
   public:
-    FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    FDTD_1D(std::shared_ptr<InputDataInterface> input);
 
     virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source);
     virtual double getEField(int index);
@@ -56,13 +55,13 @@ namespace CEM
     void applyBC_E();
     void applyBC_H();
 
-    void InitializeEngine(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    void InitializeDielectric(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    void computeConstants(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    Eigen::VectorXd getSigmaE(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    Eigen::VectorXd getSigmaH(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    Eigen::VectorXd getEpsR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
-    Eigen::VectorXd getMuR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    void InitializeEngine(std::shared_ptr<InputDataInterface>input);
+    void InitializeDielectric(std::shared_ptr<InputDataInterface>input);
+    void computeConstants(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getSigmaE(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getSigmaH(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getEpsR(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getMuR(std::shared_ptr<InputDataInterface> input);
 
     
   };

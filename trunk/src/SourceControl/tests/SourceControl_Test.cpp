@@ -14,7 +14,7 @@
   using ::testing::Test;
 using ::testing::TestWithParam;
 
-#include "MockSourceDefinitionInterface.h"
+#include "MockInputDataInterface.h"
 
 
 namespace CEM
@@ -31,7 +31,7 @@ namespace testing
 
       virtual void SetUp()
       {
-        sourceDefinition = std::make_shared<MockSourceDefinition>();
+        sourceDefinition = std::make_shared<MockInputData>();
 	tRate = 0.1;
 	shift = 5;
 	A = 1.0;
@@ -48,7 +48,7 @@ namespace testing
 
       std::vector<double> runTestCase(std::shared_ptr<SourceControlInterface> source);
 
-      std::shared_ptr<MockSourceDefinition> sourceDefinition;
+      std::shared_ptr<MockInputData> sourceDefinition;
       double tRate;
       double shift;
       double pw;

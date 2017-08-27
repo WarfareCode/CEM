@@ -22,20 +22,19 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //Read the input file and get the interfaces
   ip_->ReadInputFile(inputFileName);
   input_ = ip_->getInputData();
-  gridDefinition_ = ip_->getGridDefinition();
-  sourceDefinition_ = ip_->getSourceDefinition();
 
-  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
+
+  std::cout<<*input_ << std::endl;
 
   //create the pointers from the factories
-  source_ptr_ = sourceFactory_.createSourceControl(sourceDefinition_);
-  compute_ptr_ = computeFactory_.createComputationalEngine(input_, gridDefinition_);
-  dLogger_ptr_ = dlFactory_.createDataLogger(input_, gridDefinition_);
+  source_ptr_ = sourceFactory_.createSourceControl(input_);
+  compute_ptr_ = computeFactory_.createComputationalEngine(input_);
+  dLogger_ptr_ = dlFactory_.createDataLogger(input_);
 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
 
-  timeIncrement_ = gridDefinition_->getTimeStep();  
+  timeIncrement_ = input_->getTimeStep();  
 
 }
 
@@ -59,14 +58,14 @@ int SimManager::Run()
   try
     {
       bool done = false;
-      double time = gridDefinition_->getStartTime();
+      double time = input_->getStartTime();
 
-      int start = std::floor(time/gridDefinition_->getTimeStep());
-      int stop = std::round(gridDefinition_->getStopTime()/gridDefinition_->getTimeStep());
+      int start = std::floor(time/input_->getTimeStep());
+      int stop = std::round(input_->getStopTime()/input_->getTimeStep());
       for(int n = start; n < stop; n++)
 	{
          engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-	 time += gridDefinition_->getTimeStep();
+	 time += input_->getTimeStep();
         }
        
     }  // end of try block

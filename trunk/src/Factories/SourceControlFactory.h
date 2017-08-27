@@ -9,7 +9,7 @@
 
 #include "SourceControl.h"
 #include "SourceControlInterface.h"
-#include "SourceDefinitionInterface.h"
+#include "InputDataInterface.h"
 
 namespace CEM
 { 
@@ -18,7 +18,7 @@ namespace CEM
   public:
     SourceControlFactory();
 
-    std::shared_ptr<SourceControlInterface> createSourceControl(std::shared_ptr<SourceDefinitionInterface> sourceDefinition);
+    std::shared_ptr<SourceControlInterface> createSourceControl(std::shared_ptr<InputDataInterface> input);
 
   };
 }

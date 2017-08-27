@@ -9,8 +9,6 @@
 
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
-#include "GridDefinitionInterface.h"
-#include "SourceDefinitionInterface.h"
 
 #include "CEMCommon.h"
 
@@ -24,8 +22,6 @@ namespace CEM
   
   class InputParser: public InputParserInterface,
                      public InputDataInterface,
-                     public GridDefinitionInterface,
-                     public SourceDefinitionInterface,
                      public std::enable_shared_from_this<InputParser>
   {
   public:
@@ -50,7 +46,6 @@ namespace CEM
     virtual double getPulseWidth(){return pulseWidth_;}
     virtual int getSpatialIndex(){return spatialIndex_;}
     virtual double getSourceFrequency() {return sourceFrequency_;}
-    virtual std::shared_ptr<SourceDefinitionInterface> getSourceDefinition();
     
     //dielectric
     virtual std::string getDielectricFileName(){return dielectricFileName_;}
@@ -70,7 +65,6 @@ namespace CEM
     virtual int getVectorZLength(){return vectorZLength_;}
     virtual int getVectorYLength(){return vectorYLength_;}
     virtual int getVectorXLength(){return vectorXLength_;}
-    virtual std::shared_ptr<GridDefinitionInterface> getGridDefinition();
      
     //datalogging
     virtual std::string getOutputFileName(){return outputFileName_;}
