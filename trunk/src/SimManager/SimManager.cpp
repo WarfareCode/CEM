@@ -15,13 +15,17 @@ namespace CEM
 **/
 SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
-  ip_ = std::make_shared<InputParserYAML>();
+  inputFileName = CEM::FILE::FindInputFile(inputFileName);
+
+  ip_ = std::make_shared<InputParser>();
      
   //Read the input file and get the interfaces
   ip_->ReadInputFile(inputFileName);
   input_ = ip_->getInputData();
   gridDefinition_ = ip_->getGridDefinition();
   sourceDefinition_ = ip_->getSourceDefinition();
+
+  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
   //create the pointers from the factories
   source_ptr_ = sourceFactory_.createSourceControl(sourceDefinition_);
@@ -31,9 +35,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
 
-  timeIncrement_ = 1/input_->getTemporalSamplingRate();
-
-  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
+  timeIncrement_ = gridDefinition_->getTimeStep();  
 
 }
 
@@ -57,16 +59,14 @@ int SimManager::Run()
   try
     {
       bool done = false;
-      double time = input_->getStartTime();
-      
-      while (!done)
+      double time = gridDefinition_->getStartTime();
+
+      int start = std::floor(time/gridDefinition_->getTimeStep());
+      int stop = std::round(gridDefinition_->getStopTime()/gridDefinition_->getTimeStep());
+      for(int n = start; n < stop; n++)
 	{
          engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-	 time += timeIncrement_;
-
-	 if (time >= input_->getStopTime())
-	   done = true;
-	 
+	 time += gridDefinition_->getTimeStep();
         }
        
     }  // end of try block

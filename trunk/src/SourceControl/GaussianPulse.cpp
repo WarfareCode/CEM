@@ -11,7 +11,6 @@ namespace CEM
   
   GaussianPulse::GaussianPulse(std::shared_ptr<SourceDefinitionInterface> sourceDefinition)
   {
-      std::cout<<"Gaussian ..." << std::endl;
     sourceAmplitude_ = sourceDefinition->getSourceAmplitude();
     sourceType_ = sourceDefinition->getSourceType();
     pulseWidth_ = sourceDefinition->getPulseWidth();
@@ -24,7 +23,7 @@ namespace CEM
 
   double GaussianPulse::getInputSource(double time, double shift)
   {
-    return sourceAmplitude_  *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
+    return sourceAmplitude_ *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
   }
 
 } //end namespace CEM

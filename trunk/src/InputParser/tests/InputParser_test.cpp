@@ -1,4 +1,4 @@
-#include "InputParser_YAML.h"
+#include "InputParser.h"
 #include "CEMCommon.h"
 
 #include <string>
@@ -28,13 +28,13 @@ namespace testing
         getcwd(cwd, sizeof(cwd));
         std::cout<<"Current Directory: " << cwd << std::endl;
 	
-	 ip = std::make_shared<InputParserYAML>();
+	 ip = std::make_shared<InputParser>();
          testFileName = FILE::FindInputFile("CEMInputTestFile.yaml");
        }
       virtual void TearDown(){}
 
       std::string testFileName;
-      std::shared_ptr<InputParserYAML> ip;
+      std::shared_ptr<InputParser> ip;
       std::shared_ptr<InputDataInterface> input;
       std::shared_ptr<GridDefinitionInterface> gridDefinition;
     };
@@ -53,7 +53,7 @@ namespace testing
 	  eString = e.what();
 	}
 
-      EXPECT_THAT(eString,Eq("InputParserYAML::getInputData()....Input File Not Loaded."));
+      EXPECT_THAT(eString,Eq("InputParser::getInputData()....Input File Not Loaded."));
 
        try
 	{
@@ -64,7 +64,7 @@ namespace testing
 	{
 	  eString = e.what();
 	}
-      EXPECT_THAT(eString,Eq("InputParserYAML::getGridDefinition()....Input File Not Loaded."));
+      EXPECT_THAT(eString,Eq("InputParser::getGridDefinition()....Input File Not Loaded."));
       
     }
 
@@ -77,8 +77,8 @@ namespace testing
       EXPECT_THAT(input->getInputFileName(),Eq(testFileName));
       EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));
       EXPECT_THAT(input->getComputationType(), Eq("FDTD"));
-      EXPECT_THAT(input->getStartTime(),Eq(0.0));
-      EXPECT_THAT(input->getStopTime(),Eq(450.0));
+      EXPECT_THAT(gridDefinition->getStartTime(),Eq(0.0));
+      EXPECT_THAT(gridDefinition->getStopTime(),Eq( 7e-10));
       EXPECT_THAT(input->getAbsorbingBoundaryCondition(),Eq("None"));
       EXPECT_THAT(gridDefinition->getVectorZLength(),Eq(200));
     }

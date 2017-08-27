@@ -14,7 +14,12 @@ namespace CEM
    **/
   SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
   {
-    dataLogTime_ = 1/input->getOutputDataRate();
+    dataLogTime_ = input->getOutputDataRate();
+    if(dataLogTime_ == -1)
+      logEveryFrame_ = true;
+    else
+      logEveryFrame_ = false;
+   
     timeSinceLastDataLogged_ = dataLogTime_; //force a write on start
     previousTime_ = 0;
   }
@@ -31,7 +36,7 @@ namespace CEM
   {
     compute->UpdateFields(time, source);
 
-    if (timeSinceLastDataLogged_ >= dataLogTime_)
+    if (logEveryFrame_ || timeSinceLastDataLogged_ >= dataLogTime_)
     {
       dlogger->WriteDataArray(compute->getEField(),time,"/EField");
       timeSinceLastDataLogged_ = 0;

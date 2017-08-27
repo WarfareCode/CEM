@@ -18,9 +18,7 @@ namespace CEM
  * @param gridDefinition The input definition of the grid
  */
   FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition):
-    initialized(false),
     ABC(SimpleABC),
-    imp_(CEM::imp0),
     dataSize_(0)
   {
     InitializeEngine(input,gridDefinition);
@@ -39,14 +37,105 @@ namespace CEM
     ABC = SimpleABC;
     H.resize(dataSize_);
     E.resize(dataSize_);
-
+    Ca.resize(dataSize_);
+    Cb.resize(dataSize_);
+    Da.resize(dataSize_);
+    Db.resize(dataSize_);
     InitializeDielectric(input,gridDefinition);
+
+    computeConstants(input, gridDefinition);
 
     sourceIndex_ = input->getSpatialIndex();
      
-    initialized = true;
   }
 
+  void FDTD_1D::computeConstants(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  {
+
+    Eigen::VectorXd sigmaE = getSigmaE(input, gridDefinition);
+    Eigen::VectorXd sigmaH = getSigmaH(input, gridDefinition);
+    Eigen::VectorXd epsR = getEpsR(input, gridDefinition);
+    Eigen::VectorXd muR = getMuR(input, gridDefinition);
+    double deltaT = gridDefinition->getTimeStep();
+    double deltaZ = gridDefinition->getGridZStep();
+
+    double denE = 0;
+    double denH = 0;
+    
+    for (int i = 0; i < dataSize_; i++)
+      {
+	denE = 1 + (sigmaE[i]*deltaT)/(2*epsilon0*epsR[i]);
+	Ca[i] = 1 - (sigmaE[i] * deltaT)/(2*epsilon0*epsR[i])/denE;
+	Cb[i] = deltaT/(epsilon0*epsR(i)*deltaZ)/denE;
+
+	denH = 1 + sigmaH[i]*deltaT/(2*mu0*muR[i]);
+	Da[i] = (1 - sigmaH[i]*deltaT/(2*mu0*muR[i]))/denH;
+	Db[i] = (deltaT/(mu0*muR[i]*deltaZ))/denH;
+
+      }
+  }
+
+  Eigen::VectorXd FDTD_1D::getEpsR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  {
+
+    Eigen::VectorXd epsR;
+    
+    if (gridDefinition->getDielectricSpecification() == "File")
+      {
+	epsR = HDF5IO::ReadVectorFromFile(gridDefinition->getDielectricFileName(),gridDefinition->getDielectricDatasetName());
+
+	//check the size
+        if(dielectricConstant_.size() != dataSize_)
+	  {
+	    std::string eString = "FDTD_1D::Initialize Dielectric ... Dielectric read in from file invalid size: " + std::to_string(dielectricConstant_.size()) + " should be: " + std::to_string( dataSize_);
+            throw std::runtime_error(eString);
+	  }
+      }
+    else if (gridDefinition->getDielectricSpecification() == "Constant")
+      {
+        epsR.resize(dataSize_);
+	for (int i = 0; i < dielectricConstant_.size();i++)
+	 epsR[i] = gridDefinition->getDielectricConstant();
+      }
+
+    return epsR;
+
+  }
+
+  
+  Eigen::VectorXd FDTD_1D::getMuR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  {
+
+    Eigen::VectorXd muR(dataSize_);
+
+    for(int i = 0; i < dataSize_; i++)
+      muR[i] =1;
+    
+    return muR;
+  }
+  
+  Eigen::VectorXd FDTD_1D::getSigmaH(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  {
+
+    Eigen::VectorXd sigmaH(dataSize_);
+
+    for(int i = 0; i < dataSize_; i++)
+      sigmaH[i] = 0;
+    
+    return sigmaH;
+  }
+
+    Eigen::VectorXd FDTD_1D::getSigmaE(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition)
+  {
+
+    Eigen::VectorXd sigmaE(dataSize_);
+
+    for(int i = 0; i < dataSize_; i++)
+      sigmaE[i] = 0;
+    
+    return sigmaE;
+  }
+  
     /**
    * \brief Initialize the Dielectric
    *
@@ -59,8 +148,6 @@ namespace CEM
     if (gridDefinition->getDielectricSpecification() == "File")
       {
 	dielectricConstant_ = HDF5IO::ReadVectorFromFile(gridDefinition->getDielectricFileName(),gridDefinition->getDielectricDatasetName());
-
-	std::cout<<"dielectric ... " << dielectricConstant_[0]<<std::endl;
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)
@@ -86,24 +173,24 @@ namespace CEM
    * @param source The Source Control*/
   void FDTD_1D::UpdateFields(double time, std::shared_ptr<SourceControlInterface> source)
   {
-
-    applyBC_H();
-  
-    //update the H Field
-    for (int mm = 0; mm < dataSize_ - 1; mm++)
-      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
-
-    //correct H field --> TFSF
-    H[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
-
-    applyBC_E();
-   
+ 
     //Now update the E Field
     for (int mm = 1; mm < dataSize_; mm++)
-      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
+       E[mm] = Ca[mm] * E[mm] + Cb[mm]*(H[mm - 1] - H[mm]);
 
-    //update the source
-    E[sourceIndex_] += source->getInputSource(time,1.0);
+      //update the source
+    E[sourceIndex_] -= source->getInputSource(time,0.0);
+    
+    //update the H Field
+    for (int mm = 0; mm < dataSize_ - 1; mm++)
+      H[mm] = Da[mm]*H[mm] + Db[mm]*(E[mm] - E[mm + 1]);
+
+    //correct H field --> TFSF
+    //H[sourceIndex_ -1] -= source->getInputSource(time,0);
+
+    //applyBC_E();
+    //applyBC_H();
+  
   }
 
   /**

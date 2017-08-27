@@ -1,33 +1,35 @@
 /**
-* @file InputParser_YAML.h
-* @brief Header File for the InputParserYAML class
+* @file InputParser.h
+* @brief Header File for the InputParser class
 * @author Ben Frazier
-* @date 08/14/2017 */
+* @date 08/27/2017 */
 
-#ifndef InputParser_YAML_H
-#define InputParser_YAML_H
+#ifndef InputParser_H
+#define InputParser_H
 
 #include "InputParserInterface.h"
 #include "InputDataInterface.h"
 #include "GridDefinitionInterface.h"
 #include "SourceDefinitionInterface.h"
 
-#include "yaml-cpp/yaml.h"
+#include "CEMCommon.h"
 
+#include "yaml-cpp/yaml.h"
 #include <memory>
 
 #include <fstream>
-using namespace YAML;
+
 namespace CEM
 {
-  class InputParserYAML: public InputParserInterface,
-                         public InputDataInterface,
-                         public GridDefinitionInterface,
-                         public SourceDefinitionInterface,
-                         public std::enable_shared_from_this<InputParserYAML>
+  
+  class InputParser: public InputParserInterface,
+                     public InputDataInterface,
+                     public GridDefinitionInterface,
+                     public SourceDefinitionInterface,
+                     public std::enable_shared_from_this<InputParser>
   {
   public:
-    InputParserYAML();
+    InputParser();
 
     //define the virtual functions
     virtual void  ReadInputFile(std::string fileName);
@@ -38,7 +40,8 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
-    virtual double getTemporalSamplingRate(){return temporalSamplingRate_;}
+    virtual double getTimeStep(){return timeStep_;}
+    virtual double getTimeLength(){return timeLength_;}
 
     //Source Control Interface
     virtual std::string getSourceType(){return sourceType_;}
@@ -59,11 +62,11 @@ namespace CEM
     virtual std::string getGridSpecificationType(){return gridSpecificationType_;}
     virtual int getGridNumDimensions(){return gridNumDimensions_;}
     virtual double getGridZLength(){return gridZLength_;}
-    virtual double getGridZSamplingFrequency(){return gridZSamplingFrequency_;}
+    virtual double getGridZStep(){return gridZStep_;}
     virtual double getGridYLength(){return gridYLength_;}
-    virtual double getGridYSamplingFrequency(){return gridYSamplingFrequency_;}
+    virtual double getGridYStep(){return gridYStep_;}
     virtual double getGridXLength(){return gridXLength_;}
-    virtual double getGridXSamplingFrequency(){return gridXSamplingFrequency_;}
+    virtual double getGridXStep(){return gridXStep_;}
     virtual int getVectorZLength(){return vectorZLength_;}
     virtual int getVectorYLength(){return vectorYLength_;}
     virtual int getVectorXLength(){return vectorXLength_;}
@@ -82,12 +85,11 @@ namespace CEM
     void ReadTemporalDomainInfo();
     void ReadSpatialDomainInfo();
     void ReadDielectricInfo(YAML::Node dNode);
-    void ReadInputFile();
     void ReadGridInfo();		       
 	
   private:
-    YAML::Node basenode_; /*!<YAML basenode to traverse through the file*/
-	
+    YAML::Node basenode_;
+ 	
     bool fileLoaded_;
 
     std::string inputFileName_;               /*!< Input file name that was read from*/
@@ -95,7 +97,8 @@ namespace CEM
     std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/
-    double temporalSamplingRate_;              /*!< Sampling Rate in Hz*/
+    double timeStep_;              /*!< Sampling Rate in Hz*/
+    int timeLength_;
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
     
    
@@ -120,17 +123,21 @@ namespace CEM
     std::string gridSpecificationType_;     /*!< Indicates how the grid is specified*/
     int gridNumDimensions_;                 /*!< Number of dimensions in the grid*/
     double gridZLength_;                    /*!< Length of the grid along the Z axis in m*/
-    double gridZSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Z axis in m^-1*/
+    double gridZStep_;         /*!< Sampling Frequency of the grid along the Z axis in m^-1*/
     double gridXLength_;                    /*!< Length of the grid along the X axis in m*/
-    double gridXSamplingFrequency_;         /*!< Sampling Frequency of the grid along the X axis in m^-1*/
+    double gridXStep_;         /*!< Sampling Frequency of the grid along the X axis in m^-1*/
     double gridYLength_;                    /*!< Length of the grid along the Y axis in m*/
-    double gridYSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Y axis in m^-1*/
+    double gridYStep_;         /*!< Sampling Frequency of the grid along the Y axis in m^-1*/
     int vectorXLength_;                        /*!< Number of vector elements in the X dimension*/
     int vectorYLength_;                        /*!< Number of vector elements in the Y dimension*/
     int vectorZLength_;                        /*!< Number of vector elements in the Z dimension*/
     std::string gridFileName_;               /*!< Filename for the grid info*/
      
   };
+
+  YAML::Node OpenYAMLFile(std::string fileName);
+  YAML::Node FindYAMLSection(std::string inputString, YAML::Node basenode);
+  template <typename T> T GetYAMLInput(std::string inputString, YAML::Node node);
 }
 
 #endif
