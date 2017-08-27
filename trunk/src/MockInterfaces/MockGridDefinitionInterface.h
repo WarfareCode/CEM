@@ -20,13 +20,13 @@ namespace CEM
   
     MOCK_METHOD0(getGridNumDimensions, int());
     MOCK_METHOD0(getGridZLength, double());
-    MOCK_METHOD0(getGridZSamplingFrequency, double());
+    MOCK_METHOD0(getGridZStep, double());
     MOCK_METHOD0(getVectorZLength, int());
     MOCK_METHOD0(getGridXLength, double());
-    MOCK_METHOD0(getGridXSamplingFrequency, double());
+    MOCK_METHOD0(getGridXStep, double());
     MOCK_METHOD0(getVectorXLength, int());
     MOCK_METHOD0(getGridYLength, double());
-    MOCK_METHOD0(getGridYSamplingFrequency, double());
+    MOCK_METHOD0(getGridYStep, double());
     MOCK_METHOD0(getVectorYLength, int());
     MOCK_METHOD0(getGridSpecificationType,std::string());
     MOCK_METHOD0(getDielectricFileName, std::string());

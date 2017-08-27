@@ -35,7 +35,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
 
-  timeIncrement_ = 1/input_->getTemporalSamplingRate();  
+  timeIncrement_ = input_->getTimeStep();  
 
 }
 
@@ -60,15 +60,13 @@ int SimManager::Run()
     {
       bool done = false;
       double time = input_->getStartTime();
-      
-      while (!done)
+
+      int start = std::floor(time/input_->getTimeStep());
+      int stop = std::round(input_->getStopTime()/input_->getTimeStep());
+      for(int n = start; n < stop; n++)
 	{
          engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-	 time += 1;//timeIncrement_;
-
-	 if (time >= 100)//input_->getStopTime())
-	   done = true;
-	 
+	 time += input_->getTimeStep();
         }
        
     }  // end of try block

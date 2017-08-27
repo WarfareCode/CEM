@@ -1,5 +1,5 @@
 #*******************************************************************************
-#CEMInputFile.yaml
+#CEMInputTestFile.yaml
 #Contains all the information for running the simulation
 #Note: YAML files require spaces for indentation, NOT tabs
 #******************************************************************************
@@ -17,30 +17,46 @@ Simulation Spatial Domain:
 Grid Control:
   Specification: Input
   Number of Dimensions: 1
-  Z Length in meters: 0.5
-  Z Spatial Sampling Frequency in meters^-1: 100
+  Z Length in meters: 2.0
+  Z Spatial Step in meters: 0.01
   Dielectric Constant: 
-    Specification: Constant
+    Specification: File
     Value: 1
-    File Name: dielectric1.h5
-    Dataset Name: /EpsR 
+    File Name: grid2.h5
+    Dataset Name: /EpsR
+  Relative Permeability: 
+    Specification: File
+    Value: 1
+    File Name: grid1.h5
+    Dataset Name: /MuR
+  Electrical Conductivity:
+    Specification: File
+    Value: 0
+    File Name: grid1.h5
+    Dataset Name: /SigmaE
+  MagneticConductivity:
+    Specification: File
+    Value: 0
+    File Name: grid1.h5
+    Dataset Name: /SigmaH
+   
    
 #Define the Problem Temporal Domain
 Simulation Temporal Domain:
   Start Time: 0
-  Stop Time: 1.7e-9
-  Temporal Sampling Rate in Hz: 6e10
+  Stop Time: 7e-10
+  Time Step in Seconds: 3.33e-11
   
 #Define the Input Source
 Source Info:
   Type: Gaussian Pulse
   Frequency: 35e9
   Amplitude: 1
-  Delay in Seconds: 20
-  Pulse Width in Seconds: 8
+  Delay in Seconds: 6.66e-10
+  Pulse Width in Seconds: 2.6640e-10
   Spatial Index: 24
 
 #Define the Data Logging Options
 Data Logging Info:
   Output File Name: CEMOutput.h5
-  Output Rate in Hz: -1 
+  Output Log Time in Seconds: -1 

@@ -64,7 +64,7 @@ namespace CEM
     ReadGridInfo();
     fileLoaded_ = true;
 
-    courantNumber_ = speedOfLight*gridZSamplingFrequency_/temporalSamplingRate_;
+    courantNumber_ = speedOfLight*timeStep_/gridZStep_;
  
   }
 
@@ -77,9 +77,9 @@ namespace CEM
      gridSpecificationType_ = gridnode["Specification"].as<std::string>();
      gridNumDimensions_ = gridnode["Number of Dimensions"].as<int>();
      gridZLength_ = gridnode["Z Length in meters"].as<double>();
-     gridZSamplingFrequency_ = gridnode["Z Spatial Sampling Frequency in meters^-1"].as<double>();
+     gridZStep_ = gridnode["Z Spatial Step in meters"].as<double>();
 
-     vectorZLength_ = round(gridZLength_*gridZSamplingFrequency_);
+     vectorZLength_ = round(gridZLength_/gridZStep_);
       
      YAML::Node dielectricNode = gridnode["Dielectric Constant"];
      ReadDielectricInfo(dielectricNode);   
@@ -94,7 +94,7 @@ namespace CEM
 
     startTime_ = timenode["Start Time"].as<double>();
     stopTime_ = timenode["Stop Time"].as<double>();
-    temporalSamplingRate_ = timenode["Temporal Sampling Rate in Hz"].as<double>();
+    timeStep_ = timenode["Time Step in Seconds"].as<double>();
 
   }
   
@@ -154,7 +154,7 @@ namespace CEM
        throw std::runtime_error("InputParserYAML::ReadDataLoggingInfo ... Datanode is Null");
      
      outputFileName_ =  dataNode["Output File Name"].as<std::string>();
-     outputRate_ = dataNode["Output Rate in Hz"].as<double>();
+     outputRate_ = dataNode["Output Log Time in Seconds"].as<double>();
   }
 
   /**

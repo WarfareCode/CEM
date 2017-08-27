@@ -39,7 +39,7 @@ namespace CEM
     virtual std::string getAbsorbingBoundaryCondition(){return absorbingBoundaryCondition_;}
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
-    virtual double getTemporalSamplingRate(){return temporalSamplingRate_;}
+    virtual double getTimeStep(){return timeStep_;}
     virtual double getCourantNumber(){return courantNumber_;}
 
     //Source Control Interface
@@ -61,11 +61,11 @@ namespace CEM
     virtual std::string getGridSpecificationType(){return gridSpecificationType_;}
     virtual int getGridNumDimensions(){return gridNumDimensions_;}
     virtual double getGridZLength(){return gridZLength_;}
-    virtual double getGridZSamplingFrequency(){return gridZSamplingFrequency_;}
+    virtual double getGridZStep(){return gridZStep_;}
     virtual double getGridYLength(){return gridYLength_;}
-    virtual double getGridYSamplingFrequency(){return gridYSamplingFrequency_;}
+    virtual double getGridYStep(){return gridYStep_;}
     virtual double getGridXLength(){return gridXLength_;}
-    virtual double getGridXSamplingFrequency(){return gridXSamplingFrequency_;}
+    virtual double getGridXStep(){return gridXStep_;}
     virtual int getVectorZLength(){return vectorZLength_;}
     virtual int getVectorYLength(){return vectorYLength_;}
     virtual int getVectorXLength(){return vectorXLength_;}
@@ -97,8 +97,8 @@ namespace CEM
     std::string computationType_;             /*!< String containing the computation type to run (FDTD_1D, etc.)*/
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/
-    double temporalSamplingRate_;              /*!< Sampling Rate in Hz*/
-    double courantNumber_;
+    double timeStep_;              /*!< Time step in seconds*/
+    double courantNumber_;        /*!< General simulation courant number */
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
     
    
@@ -123,11 +123,11 @@ namespace CEM
     std::string gridSpecificationType_;     /*!< Indicates how the grid is specified*/
     int gridNumDimensions_;                 /*!< Number of dimensions in the grid*/
     double gridZLength_;                    /*!< Length of the grid along the Z axis in m*/
-    double gridZSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Z axis in m^-1*/
+    double gridZStep_;         /*!< Spatial step of the grid along the Z axis in m*/
     double gridXLength_;                    /*!< Length of the grid along the X axis in m*/
-    double gridXSamplingFrequency_;         /*!< Sampling Frequency of the grid along the X axis in m^-1*/
+    double gridXStep_;         /*!< Spatial step of the grid along the X axis in m*/
     double gridYLength_;                    /*!< Length of the grid along the Y axis in m*/
-    double gridYSamplingFrequency_;         /*!< Sampling Frequency of the grid along the Y axis in m^-1*/
+    double gridYStep_;         /*!< Spatial step of the grid along the Y axis in m*/
     int vectorXLength_;                        /*!< Number of vector elements in the X dimension*/
     int vectorYLength_;                        /*!< Number of vector elements in the Y dimension*/
     int vectorZLength_;                        /*!< Number of vector elements in the Z dimension*/

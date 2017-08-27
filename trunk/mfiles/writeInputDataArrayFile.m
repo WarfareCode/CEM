@@ -1,8 +1,13 @@
-function  writeInputDataArrayFile( fileName,datasetname, inputArray)
+function  writeInputDataArrayFile( fileName,datasetname, inputArray,varargin)
 %writeInputDataArrayFile( fileName,datasetname, inputArray)
 %writes an unchunked data set to the file
 
-if (exist(fileName))
+if (nargin == 4)
+    deleteFile = varargin{1}
+else
+    deleteFile = false;
+   
+if (deleteFile && exist(fileName))
     delete(fileName);
 end
 

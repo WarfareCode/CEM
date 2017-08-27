@@ -78,7 +78,7 @@ namespace testing
       EXPECT_THAT(input->getOutputFileName(),Eq("CEMOutput.h5"));
       EXPECT_THAT(input->getComputationType(), Eq("FDTD"));
       EXPECT_THAT(input->getStartTime(),Eq(0.0));
-      EXPECT_THAT(input->getStopTime(),Eq(450.0));
+      EXPECT_THAT(input->getStopTime(),Eq( 7e-10));
       EXPECT_THAT(input->getAbsorbingBoundaryCondition(),Eq("None"));
       EXPECT_THAT(gridDefinition->getVectorZLength(),Eq(200));
     }

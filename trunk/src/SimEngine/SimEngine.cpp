@@ -14,7 +14,7 @@ namespace CEM
    **/
   SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
   {
-    dataLogTime_ = 1/input->getOutputDataRate();
+    dataLogTime_ = input->getOutputDataRate();
     if(dataLogTime_ == -1)
       logEveryFrame_ = true;
     else

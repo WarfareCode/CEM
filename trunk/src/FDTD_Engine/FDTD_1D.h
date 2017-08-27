@@ -40,16 +40,14 @@ namespace CEM
 
     Eigen::VectorXd E;/*!< Electric Field Vector */
     Eigen::VectorXd H;/*!< Magnetic Field Vector */
+    Eigen::VectorXd Ca, Cb, Da, Db;
 
     Eigen::VectorXd dielectricConstant_;  /*!<Dielectric Constant Vector */
-    double imp_; /*!< Impedance Vector */
+    
     int dataSize_;  /*!< Length of the E and H vectors*/
     
     int sourceIndex_;  /*!< Spatial index where the source is applied*/
 
-    double courantNumber_;  /*!< Courant number for the simulation*/
-
-    bool initialized;
     AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
 
     void simpleABC_E();
@@ -60,6 +58,11 @@ namespace CEM
 
     void InitializeEngine(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
     void InitializeDielectric(std::shared_ptr<InputDataInterface>input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    void computeConstants(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    Eigen::VectorXd getSigmaE(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    Eigen::VectorXd getSigmaH(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    Eigen::VectorXd getEpsR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
+    Eigen::VectorXd getMuR(std::shared_ptr<InputDataInterface> input, std::shared_ptr<GridDefinitionInterface> gridDefinition);
 
     
   };
