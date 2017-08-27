@@ -99,7 +99,7 @@ namespace CEM
    os << "Start Time: " << input.getStartTime() << std::endl;
    os << "Stop Time: " << input.getStopTime() << std::endl;
    os << "Time Step: " << input.getTimeStep() << std::endl;
-   os << " Time Length: " << input.getTimeLength() << std::endl;
+   os << "Time Length: " << input.getTimeLength() << std::endl;
   return os;  
   }
  

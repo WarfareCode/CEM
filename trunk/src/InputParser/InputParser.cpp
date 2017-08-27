@@ -8,6 +8,7 @@
 #include "InputParser.h"
 namespace CEM
 {
+   //********************************************************************************************
   /**
    * \brief Standard Constructor
    *
@@ -39,8 +40,6 @@ namespace CEM
   {
 
     YAML::Node currentNode = FindYAMLSection("Grid Control", basenode_);
-
-    std::cout<<"ok ... " << std::endl;
     
     gridSpecificationType_ = GetYAMLInput<std::string>("Specification", currentNode);
     gridNumDimensions_ = GetYAMLInput<int>("Number of Dimensions", currentNode);
@@ -62,10 +61,41 @@ namespace CEM
   void InputParser::ReadTemporalDomainInfo()
   {
     YAML::Node timenode = FindYAMLSection("Simulation Temporal Domain",basenode_);
-
-    startTime_ = GetYAMLInput<double>("Start Time", timenode);
-    stopTime_ = GetYAMLInput<double>("Stop Time", timenode);
+ 
     timeStep_ = GetYAMLInput<double>("Time Step in Seconds",timenode);
+    startTime_ = GetYAMLTimeValue("Start Time", timenode);
+    stopTime_ = GetYAMLTimeValue("Stop Time", timenode);
+
+    timeLength_ = std::round((stopTime_ - startTime_)/timeStep_);
+    
+  }
+
+    //********************************************************************************************
+  /**
+   * \brief Get a time value in either Samples or Seconds
+   * @param input String to read the field from
+   * @param node Node that identifies the section
+   */
+  double InputParser::GetYAMLTimeValue(std::string input, YAML::Node node)
+  {
+    double outvalue;
+    std::string test1 = input + " in Seconds";
+    std::string test2 = input + " in Samples";
+
+    bool test = false;
+    test = CheckYAMLInput(test1, node);
+
+    if(test)
+      outvalue = GetYAMLInput<double>(test1,node);
+    else
+      {
+	if (timeStep_ == 0)
+	  throw std::runtime_error ("InputParser::GetTimeValue ... timeStep_ has not been set yet ...");
+
+	outvalue = timeStep_*GetYAMLInput<double>(test2,node);
+      }
+      
+    return outvalue;  
   }
 
   //********************************************************************************************
@@ -117,19 +147,8 @@ namespace CEM
      
      sourceType_ = GetYAMLInput<std::string>("Type",sourceNode);
      sourceAmplitude_ = GetYAMLInput<double>("Amplitude",sourceNode);
-
-     test = CheckYAMLInput("Delay in Seconds", sourceNode);
-     if (test)
-       sourceDelay_ = GetYAMLInput<double>("Delay in Seconds",sourceNode);
-     else
-         sourceDelay_ = timeStep_*GetYAMLInput<double>("Delay in Samples",sourceNode);
-
-     test = CheckYAMLInput("Pulse Width in Seconds",sourceNode);
-       if(test)
-	 pulseWidth_ = GetYAMLInput<double>("Pulse Width in Seconds",sourceNode);
-       else
-	 pulseWidth_ = timeStep_*GetYAMLInput<double>("Pulse Width in Samples",sourceNode);
-     
+     sourceDelay_ = GetYAMLTimeValue("Delay", sourceNode);
+     pulseWidth_ = GetYAMLTimeValue("Pulse Width", sourceNode);
      spatialIndex_ = GetYAMLInput<double>("Spatial Index",sourceNode);
      sourceFrequency_ = GetYAMLInput<double>("Frequency",sourceNode);  
   }
@@ -145,12 +164,7 @@ namespace CEM
     bool test;
     
     outputFileName_ =  GetYAMLInput<std::string>("Output File Name",dataNode);
-    
-    test = CheckYAMLInput("Output Log Time in Seconds",dataNode);
-       if(test)
-	 outputRate_ = GetYAMLInput<double>("Output Log Time in Seconds",dataNode);
-       else
-	 outputRate_ = timeStep_*GetYAMLInput<double>("Output Log Time in Seconds",dataNode);
+    outputRate_ = GetYAMLTimeValue("Output Log Time", dataNode);
   }
 
    //********************************************************************************************
@@ -219,7 +233,7 @@ namespace CEM
   {
     YAML::Node node = basenode[inputString];
 
-    if (node.IsNull())
+    if (!basenode[inputString])
     {
       std::string eString = "YAMLReaderFunctions::GetInput ... Can not find " + inputString;
       throw std::runtime_error(eString);
@@ -237,12 +251,11 @@ namespace CEM
    */
   bool  CheckYAMLInput(std::string inputString, YAML::Node basenode)
   {
-    YAML::Node node = basenode[inputString];
 
-    if (node.IsNull())
-      return false;
+    if (basenode[inputString].Type() == 2)
+      return true;
      else
-       return true;
+       return false;
   }
   
 }//end namespace CEM

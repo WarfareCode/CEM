@@ -40,11 +40,10 @@ Grid Control:
     File Name: grid1.h5
     Dataset Name: /SigmaH
    
-   
 #Define the Problem Temporal Domain
 Simulation Temporal Domain:
-  Start Time: 0
-  Stop Time: 7e-10
+  Start Time in Samples: 0 #Start Time in Seconds: 0
+  Stop Time in Samples: 500 #Stop Time in Seconds: 7e-10
   Time Step in Seconds: 3.33e-11
   
 #Define the Input Source

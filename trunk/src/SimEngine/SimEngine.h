@@ -12,6 +12,7 @@
 #include "SourceControlInterface.h"
 #include "ComputeEngineInterface.h"
 #include "DataLoggerInterface.h"
+#include "TimeControlInterface.h"
 
 #include <string>
 
@@ -22,14 +23,11 @@ namespace CEM
   public:
     SimEngine(std::shared_ptr<InputDataInterface> input);
 
-    void Update(double time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source);
+    void Update(std::shared_ptr<TimeControlInterface> time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source);
     
   private:
     //member functions
-    double timeSinceLastDataLogged_; /*!< Time tracking to handle data recording */
-    double dataLogTime_; /*!< Time step to record data */
-    double previousTime_; /*!< Last time the primary loop was executed */
-    bool logEveryFrame_; /*!< Flag to indicate if every time step is to be logged */
+
   };
 }
 

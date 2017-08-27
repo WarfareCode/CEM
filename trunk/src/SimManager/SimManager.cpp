@@ -35,6 +35,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
+  time_ptr_ = std::make_shared<TimeControl> (input_);
 }
 
 //****************************************************************************************
@@ -49,6 +50,18 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
     return simengine;
   }
 
+  //****************************************************************************************
+/**
+* @brief Update members
+*
+**/
+
+  void SimManager::Update()
+  {
+    engine_ptr_->Update(time_ptr_, compute_ptr_, dLogger_ptr_, source_ptr_);
+    time_ptr_->Update();
+  }
+  
 //****************************************************************************************
 /**
 * @brief Run the simulation
@@ -58,15 +71,10 @@ int SimManager::Run()
 {
   try
     {
-      bool done = false;
-      double time = input_->getStartTime();
 
-      int start = std::floor(time/input_->getTimeStep());
-      int stop = std::round(input_->getStopTime()/input_->getTimeStep());
-      for(int n = start; n < stop; n++)
+      while(time_ptr_->simComplete() == false)
 	{
-         engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-	 time += input_->getTimeStep();
+	  Update();
         }
        
     }  // end of try block

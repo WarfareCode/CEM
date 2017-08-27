@@ -79,7 +79,8 @@ namespace CEM
     void ReadTemporalDomainInfo();
     void ReadSpatialDomainInfo();
     void ReadDielectricInfo(YAML::Node dNode);
-    void ReadGridInfo();		       
+    void ReadGridInfo();
+    double GetYAMLTimeValue(std::string input, YAML::Node node);
 	
   private:
     YAML::Node basenode_;
@@ -134,6 +135,7 @@ namespace CEM
   YAML::Node FindYAMLSection(std::string inputString, YAML::Node basenode);
   template <typename T> T GetYAMLInput(std::string inputString, YAML::Node basenode);
   bool CheckYAMLInput(std::string inputString, YAML::Node basenode);
+  
 }
 
 #endif

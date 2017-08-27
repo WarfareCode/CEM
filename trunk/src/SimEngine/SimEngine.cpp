@@ -15,14 +15,7 @@ namespace CEM
    **/
   SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
   {
-    dataLogTime_ = input->getOutputDataRate();
-    if(dataLogTime_ == -1)
-      logEveryFrame_ = true;
-    else
-      logEveryFrame_ = false;
-   
-    timeSinceLastDataLogged_ = dataLogTime_; //force a write on start
-    previousTime_ = 0;
+
   }
 
   //************************************************************  
@@ -33,19 +26,12 @@ namespace CEM
    * @param dlogger The pointer to the data logger
    * @param source The pointer to the source controller
    **/
-  void SimEngine::Update(double time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source)
+  void SimEngine::Update(std::shared_ptr<TimeControlInterface> time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source)
   {
-    compute->UpdateFields(time, source);
+    compute->UpdateFields(time->getCurrentTime(), source);
 
-    if (logEveryFrame_ || timeSinceLastDataLogged_ >= dataLogTime_)
-    {
-      dlogger->WriteDataArray(compute->getEField(),time,"/EField");
-      timeSinceLastDataLogged_ = 0;
-    }
-    else
-      timeSinceLastDataLogged_ += time - previousTime_;
-
-   previousTime_ = time;
+    if (time->timeToLogData())
+      dlogger->WriteDataArray(compute->getEField(),time->getCurrentTime(),"/EField");
  }
 
 }//end namespace CEM

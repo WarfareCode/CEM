@@ -43,8 +43,8 @@ Grid Control:
    
 #Define the Problem Temporal Domain
 Simulation Temporal Domain:
-  Start Time: 0
-  Stop Time: 1.49e-8
+  Start Time in Seconds: 0
+  Stop Time in Seconds: 1.49e-8
   Time Step in Seconds: 3.33e-11
   
 #Define the Input Source

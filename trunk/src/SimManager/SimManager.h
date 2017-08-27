@@ -19,6 +19,7 @@
 #include "SourceControlFactory.h"
 #include "ComputeEngineFactory.h"
 #include "DataLoggerFactory.h"
+#include  "TimeControl.h"
 
 #include <string>
 
@@ -33,9 +34,11 @@ namespace CEM
   private:
     //member functions
     std::unique_ptr<SimEngine>createSimEngine(std::shared_ptr<InputDataInterface> input);
+    void Update();
     
     //member variables
     std::unique_ptr<SimEngine> engine_ptr_;  /*!< Simulation engine member variable for running the simulation */
+    std::shared_ptr<TimeControl> time_ptr_; /*!< Time Controller member */
 
     //input members
     std::shared_ptr<InputParser> ip_;  /*!< InputParser member variable for reading the input configuration file */
