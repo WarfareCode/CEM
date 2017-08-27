@@ -18,10 +18,7 @@ namespace CEM
     virtual std::string getInputFileName()=0;
     virtual std::string getComputationType()=0;
     virtual std::string getAbsorbingBoundaryCondition()=0;
-    virtual double getStopTime()=0;
-    virtual double getStartTime()=0;
-    virtual double getTemporalSamplingRate()=0;
-
+   
     //source
     virtual std::string getSourceType()=0;
     virtual double getSourceAmplitude()=0;
@@ -46,14 +43,8 @@ namespace CEM
  inline std::ostream& operator<<(std::ostream& os, InputDataInterface& input)  
  {  
    os << "InputFileName: " << input.getInputFileName() << std::endl;
-   os << "Spatial Domain: " << std::endl;
    os << "Computation Type: " << input.getComputationType() << std::endl;
    os << "Absorbing Boundary Condition: " << input.getAbsorbingBoundaryCondition()<< std::endl;
-
-   os << "Temporal Domain: " << std::endl;
-   os << "Start Time: " << input.getStartTime() << std::endl;
-   os << "Stop Time: " << input.getStopTime() << std::endl;
-   
    os << "Source Parameters: " << std::endl;
    os << "Source Type: " <<  input.getSourceType() << std::endl;
    os << "Source Amplitude: " <<  input.getSourceAmplitude() << std::endl;
@@ -63,7 +54,6 @@ namespace CEM
    os << "Data Logging Parameters: " << std::endl;
    os << "Output File Name: " << input.getOutputFileName() << std::endl;
    os << "Output Data Rate: " << input.getOutputDataRate() << std::endl;
-
   return os;  
   }
  
@@ -78,11 +68,6 @@ namespace CEM
    dataString = "InputFileName: " + input->getInputFileName() + "\n";
    dataString += "Computation Type: " + input->getComputationType() + "\n";
    dataString += "Absorbing Boundary Condition: " + input->getAbsorbingBoundaryCondition() + "\n";
- 
-   dataString += "Temporal Domain:\n"; 
-   dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
-   dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
-   
    dataString += "Source Parameters:\n";
    dataString += "Source Type: " + input->getSourceType() + "\n";
    dataString += "Source Amplitude: " + std::to_string(input->getSourceAmplitude()) + "\n";

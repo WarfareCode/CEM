@@ -32,7 +32,7 @@ namespace CEM
     MOCK_METHOD0(getDielectricFileName, std::string());
     MOCK_METHOD0(getDielectricConstant,double());
     MOCK_METHOD0(getDielectricSpecification,std::string());
-    MOCK_METHOD0(getDielectricDatasetName,std::string());
+    MOCK_METHOD0(getDielectricDatasetName,std::string()); 
     MOCK_METHOD0(getGridDefinition, std::shared_ptr<GridDefinitionInterface>());
   };
 

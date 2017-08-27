@@ -1,6 +1,7 @@
 /**
 * @file GridDefinitionInterface.h
 * @brief Abstract virtual class for the Grid Definition class, defines the interface
+* @detail The Grid definition interface contains information about the spatial and temporal sampling of the simulation
 * @details Required Interface functions:
 * @author Ben Frazier
 * @date 08/25/2017 */
@@ -17,6 +18,8 @@ namespace CEM
 
     //Grid Interface get functions
     virtual std::string getGridSpecificationType()=0;
+
+    //spatial items
     virtual int getGridNumDimensions()=0;
     virtual double getGridZLength()=0;
     virtual double getGridZSamplingFrequency()=0;
@@ -27,6 +30,12 @@ namespace CEM
     virtual int getVectorXLength()=0;
     virtual int getVectorYLength()=0;
     virtual int getVectorZLength()=0;
+
+    //temporal items
+    virtual double getTemporalSamplingRate()=0;
+    virtual double getStopTime()=0;
+    virtual double getStartTime()=0;
+    virtual double getTimeLength()=0;
 
     //dielectric
     virtual std::string getDielectricFileName()=0;
@@ -57,6 +66,10 @@ namespace CEM
    os << "Vector X Length: " << input.getVectorXLength() << std::endl;
    os << "Vector Y Length: " << input.getVectorYLength() << std::endl;
    os << "Vector Z Length: " << input.getVectorZLength() << std::endl;
+   os << "Temporal Domain: " << std::endl;
+   os << "Start Time: " << input.getStartTime() << std::endl;
+   os << "Stop Time: " << input.getStopTime() << std::endl;
+   os << " Time Length: " << input.getTimeLength() << std::endl;
   return os;  
   }
  
@@ -79,6 +92,10 @@ namespace CEM
    dataString += "Vector X Length: " + std::to_string(input->getVectorXLength()) + "\n";
    dataString += "Vector Y Length: " + std::to_string(input->getVectorYLength()) + "\n";
    dataString += "Vector Z Length: " + std::to_string(input->getVectorZLength()) + "\n";
+   dataString += "Temporal Domain:\n"; 
+   dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
+   dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
+   dataString += "Time Length: " + std::to_string(input->getTimeLength()) + "\n";
    return dataString;
  }
  
