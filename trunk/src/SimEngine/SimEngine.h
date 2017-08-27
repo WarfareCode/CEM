@@ -29,7 +29,7 @@ namespace CEM
     double timeSinceLastDataLogged_; /*!< Time tracking to handle data recording */
     double dataLogTime_; /*!< Time step to record data */
     double previousTime_; /*!< Last time the primary loop was executed */
-    bool logEveryFrame_;
+    bool logEveryFrame_; /*!< Flag to indicate if every time step is to be logged */
   };
 }
 

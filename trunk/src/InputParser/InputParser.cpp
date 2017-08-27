@@ -18,6 +18,7 @@ namespace CEM
  
   }
 
+  //********************************************************************************************
   /**
    * \brief Get the Input Data Interface
    *
@@ -29,6 +30,11 @@ namespace CEM
      else throw std::runtime_error("InputParser::getInputData()....Input File Not Loaded.");
    }
 
+    //********************************************************************************************
+  /**
+   * \brief Read the Grid Definition
+   *
+   */
   void InputParser::ReadGridInfo()
   {
 
@@ -48,6 +54,11 @@ namespace CEM
     
   }
 
+  //********************************************************************************************
+  /**
+   * \brief Read the time info
+   *
+   */
   void InputParser::ReadTemporalDomainInfo()
   {
     YAML::Node timenode = FindYAMLSection("Simulation Temporal Domain",basenode_);
@@ -56,7 +67,12 @@ namespace CEM
     stopTime_ = GetYAMLInput<double>("Stop Time", timenode);
     timeStep_ = GetYAMLInput<double>("Time Step in Seconds",timenode);
   }
-  
+
+  //********************************************************************************************
+  /**
+   * \brief Read the space info
+   *
+   */
   void InputParser::ReadSpatialDomainInfo()
   {
     YAML::Node spacenode = FindYAMLSection("Simulation Spatial Domain",basenode_);
@@ -65,6 +81,11 @@ namespace CEM
     absorbingBoundaryCondition_ = GetYAMLInput<std::string>("Absorbing Boundary Condition", spacenode);
   }
 
+    //********************************************************************************************
+  /**
+   * \brief Read the dielectric info
+   * @param dNode YAML node that defines the start of the section
+   */
   void InputParser::ReadDielectricInfo(YAML::Node dNode)
   {
     dielectricSpecification_ =  GetYAMLInput<std::string>("Specification", dNode);
@@ -84,26 +105,55 @@ namespace CEM
     
   }
 
+   //********************************************************************************************
+  /**
+   * \brief Read the source info
+   *
+   */
   void InputParser::ReadInputSourceInfo()
   {
-    YAML::Node sourceNode = FindYAMLSection("Source Info",basenode_);
+     YAML::Node sourceNode = FindYAMLSection("Source Info",basenode_);
+     bool test = false;
      
      sourceType_ = GetYAMLInput<std::string>("Type",sourceNode);
      sourceAmplitude_ = GetYAMLInput<double>("Amplitude",sourceNode);
-     sourceDelay_ = GetYAMLInput<double>("Delay in Seconds",sourceNode);
-     pulseWidth_ = GetYAMLInput<double>("Pulse Width in Seconds",sourceNode);
+
+     test = CheckYAMLInput("Delay in Seconds", sourceNode);
+     if (test)
+       sourceDelay_ = GetYAMLInput<double>("Delay in Seconds",sourceNode);
+     else
+         sourceDelay_ = timeStep_*GetYAMLInput<double>("Delay in Samples",sourceNode);
+
+     test = CheckYAMLInput("Pulse Width in Seconds",sourceNode);
+       if(test)
+	 pulseWidth_ = GetYAMLInput<double>("Pulse Width in Seconds",sourceNode);
+       else
+	 pulseWidth_ = timeStep_*GetYAMLInput<double>("Pulse Width in Samples",sourceNode);
+     
      spatialIndex_ = GetYAMLInput<double>("Spatial Index",sourceNode);
      sourceFrequency_ = GetYAMLInput<double>("Frequency",sourceNode);  
   }
 
+    //********************************************************************************************
+  /**
+   * \brief Get the data logging info
+   *
+   */
   void InputParser::ReadDataLoggingInfo()
   {
     YAML::Node dataNode = FindYAMLSection("Data Logging Info",basenode_);
-     
+    bool test;
+    
     outputFileName_ =  GetYAMLInput<std::string>("Output File Name",dataNode);
-    outputRate_ = GetYAMLInput<double>("Output Log Time in Seconds",dataNode);
+    
+    test = CheckYAMLInput("Output Log Time in Seconds",dataNode);
+       if(test)
+	 outputRate_ = GetYAMLInput<double>("Output Log Time in Seconds",dataNode);
+       else
+	 outputRate_ = timeStep_*GetYAMLInput<double>("Output Log Time in Seconds",dataNode);
   }
 
+   //********************************************************************************************
   /**
    * \brief read the input file
    *
@@ -113,15 +163,20 @@ namespace CEM
   {
     inputFileName_ = fileName;
     basenode_ = OpenYAMLFile(fileName);
+    ReadTemporalDomainInfo();
     ReadGridInfo();
-    ReadInputSourceInfo();
     ReadDataLoggingInfo();
     ReadSpatialDomainInfo();
-    ReadTemporalDomainInfo();
+    ReadInputSourceInfo();
 
     fileLoaded_ = true;
   }
 
+      //********************************************************************************************
+  /**
+   * \brief Open the YAML file
+   * @param fileName name of the file to open
+   */
     YAML::Node OpenYAMLFile(std::string fileName)
   {
     YAML::Node node = YAML::LoadFile(FILE::FindInputFile(fileName));
@@ -134,7 +189,13 @@ namespace CEM
 
     return node;
   }
-  
+
+  //********************************************************************************************
+  /**
+   * \brief Find the section in the YAML file
+   * @param inputString String that defines the section
+   * @param basenode YAML node to start from
+   */
   YAML::Node FindYAMLSection(std::string inputString, YAML::Node basenode)
   {
     YAML::Node node = basenode[inputString];
@@ -148,6 +209,12 @@ namespace CEM
      return node;
   }
 
+    //********************************************************************************************
+  /**
+   * \brief Get input field from YAML file
+   * @param inputString String that defines the field to retrieve
+   * @param basenode YAML node to start from
+   */
   template<typename T> T GetYAMLInput(std::string inputString, YAML::Node basenode)
   {
     YAML::Node node = basenode[inputString];
@@ -158,12 +225,24 @@ namespace CEM
       throw std::runtime_error(eString);
     }
 
-    std::cout<<"input string: " << inputString << std::endl;
     T output = node.as<T>();
-
-    std::cout<<"input string: " << inputString << " result: " << output << std::endl;
-
     return output;
+  }
+
+    //********************************************************************************************
+  /**
+   * \brief Check if a field exists in a YAML file
+   * @param inputString String that defines the field to check
+   * @param basenode YAML node to start from
+   */
+  bool  CheckYAMLInput(std::string inputString, YAML::Node basenode)
+  {
+    YAML::Node node = basenode[inputString];
+
+    if (node.IsNull())
+      return false;
+     else
+       return true;
   }
   
 }//end namespace CEM

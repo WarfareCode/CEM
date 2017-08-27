@@ -129,9 +129,11 @@ namespace CEM
      
   };
 
+  //Helper functions to read YAML
   YAML::Node OpenYAMLFile(std::string fileName);
   YAML::Node FindYAMLSection(std::string inputString, YAML::Node basenode);
-  template <typename T> T GetYAMLInput(std::string inputString, YAML::Node node);
+  template <typename T> T GetYAMLInput(std::string inputString, YAML::Node basenode);
+  bool CheckYAMLInput(std::string inputString, YAML::Node basenode);
 }
 
 #endif

@@ -36,19 +36,21 @@ namespace CEM
     
     //member variables
     std::unique_ptr<SimEngine> engine_ptr_;  /*!< Simulation engine member variable for running the simulation */
-    
-    std::shared_ptr<InputParser> ip_;  /*!< InputParserYAML member variable for reading the input configuration file */
+
+    //input members
+    std::shared_ptr<InputParser> ip_;  /*!< InputParser member variable for reading the input configuration file */
     std::shared_ptr<InputDataInterface> input_;  /*!< InputData used to retrieve the input from the InputParserYAML class. */
 
+    //control members
     std::shared_ptr<SourceControlInterface> source_ptr_;  /*!< Pointer to the source controller */
     std::shared_ptr<ComputeEngineInterface> compute_ptr_;/*!< FDTD member variable pointer for handling FDTD computations.*/
     std::shared_ptr<DataLoggerInterface> dLogger_ptr_; /*!< DataLogger member variable pointer for handling writing out to a file */
 
+    //factory members
     ComputeEngineFactory computeFactory_;  /*!< Factory to generate the FDTD type */
     DataLoggerFactory dlFactory_;  /*!< Factory to generate the Data Logger type */
     SourceControlFactory sourceFactory_;  /*!< Factory to generate the source */
 
-    double timeIncrement_; /*!< Value to increment at each time step */
   };
 }
 

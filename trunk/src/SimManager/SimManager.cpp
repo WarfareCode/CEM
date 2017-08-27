@@ -7,23 +7,25 @@
 
 namespace CEM
 {
-/**
+//****************************************************************************************
+/*
 * @brief Constructor with a file name
-*
 * @param inputFileName Name of the file to read as input
 * @param outputFileName Name of the file to be output
 **/
 SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
+  //need to find the input file in the various paths
   inputFileName = CEM::FILE::FindInputFile(inputFileName);
 
+  //get the shared pointer to the input parser
   ip_ = std::make_shared<InputParser>();
      
   //Read the input file and get the interfaces
   ip_->ReadInputFile(inputFileName);
   input_ = ip_->getInputData();
 
-
+  //Log out the input data
   std::cout<<*input_ << std::endl;
 
   //create the pointers from the factories
@@ -33,12 +35,10 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
-
-  timeIncrement_ = input_->getTimeStep();  
-
 }
 
- /**
+//****************************************************************************************
+/**
 * @brief Create the Simulation Engine
 *
 * @param input input data structure
@@ -49,6 +49,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
     return simengine;
   }
 
+//****************************************************************************************
 /**
 * @brief Run the simulation
 *

@@ -52,8 +52,8 @@ Source Info:
   Type: Gaussian Pulse
   Frequency: 35e9
   Amplitude: 1
-  Delay in Seconds: 6.66e-10
-  Pulse Width in Seconds: 2.6640e-10
+  Delay in Samples: 20 #Delay in Seconds: 6.66e-10
+  Pulse Width in Samples: 8 #Pulse Width in Seconds: 2.6640e-10
   Spatial Index: 24
 
 #Define the Data Logging Options

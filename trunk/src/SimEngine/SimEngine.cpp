@@ -7,6 +7,7 @@
 
 namespace CEM
 {
+  //************************************************************
   /**
    * @brief Constructor with file names
    *
@@ -24,7 +25,7 @@ namespace CEM
     previousTime_ = 0;
   }
 
-    
+  //************************************************************  
   /**
    * @brief Update the simulation
    * @param time The current time
