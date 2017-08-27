@@ -15,6 +15,8 @@ namespace CEM
 **/
 SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
+  inputFileName = CEM::FILE::FindInputFile(inputFileName);
+
   ip_ = std::make_shared<InputParserYAML>();
      
   //Read the input file and get the interfaces
@@ -22,6 +24,8 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   input_ = ip_->getInputData();
   gridDefinition_ = ip_->getGridDefinition();
   sourceDefinition_ = ip_->getSourceDefinition();
+
+  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
 
   //create the pointers from the factories
   source_ptr_ = sourceFactory_.createSourceControl(sourceDefinition_);
@@ -31,9 +35,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
 
-  timeIncrement_ = 1/input_->getTemporalSamplingRate();
-
-  std::cout<<*input_ << *gridDefinition_ << *sourceDefinition_<< std::endl;
+  timeIncrement_ = 1/input_->getTemporalSamplingRate();  
 
 }
 
@@ -62,9 +64,9 @@ int SimManager::Run()
       while (!done)
 	{
          engine_ptr_->Update(time, compute_ptr_, dLogger_ptr_, source_ptr_);
-	 time += timeIncrement_;
+	 time += 1;//timeIncrement_;
 
-	 if (time >= input_->getStopTime())
+	 if (time >= 100)//input_->getStopTime())
 	   done = true;
 	 
         }

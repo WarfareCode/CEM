@@ -43,6 +43,7 @@ namespace CEM
     InitializeDielectric(input,gridDefinition);
 
     sourceIndex_ = input->getSpatialIndex();
+    courantNumber_ = input->getCourantNumber();
      
     initialized = true;
   }
@@ -59,8 +60,6 @@ namespace CEM
     if (gridDefinition->getDielectricSpecification() == "File")
       {
 	dielectricConstant_ = HDF5IO::ReadVectorFromFile(gridDefinition->getDielectricFileName(),gridDefinition->getDielectricDatasetName());
-
-	std::cout<<"dielectric ... " << dielectricConstant_[0]<<std::endl;
 
 	//check the size
         if(dielectricConstant_.size() != dataSize_)
@@ -87,23 +86,23 @@ namespace CEM
   void FDTD_1D::UpdateFields(double time, std::shared_ptr<SourceControlInterface> source)
   {
 
-    applyBC_H();
-  
-    //update the H Field
-    for (int mm = 0; mm < dataSize_ - 1; mm++)
-      H[mm] = H[mm] + (E[mm + 1] - E[mm]) / imp_;
-
-    //correct H field --> TFSF
-    H[sourceIndex_ -1] -= source->getInputSource(time,0)/imp_;
-
-    applyBC_E();
-   
     //Now update the E Field
     for (int mm = 1; mm < dataSize_; mm++)
-      E[mm] = E[mm] + (H[mm] - H[mm - 1]) * imp_/dielectricConstant_[mm];
+      E[mm] = E[mm] + courantNumber_*(H[mm - 1] - H[mm]);// * imp_/dielectricConstant_[mm];
+    
+      //update the source
+    E[sourceIndex_] = source->getInputSource(time,0.0);
+    
+    //update the H Field
+    for (int mm = 0; mm < dataSize_ - 1; mm++)
+      H[mm] = H[mm] + courantNumber_*(E[mm] - E[mm + 1]);
 
-    //update the source
-    E[sourceIndex_] += source->getInputSource(time,1.0);
+    //correct H field --> TFSF
+    //H[sourceIndex_ -1] -= source->getInputSource(time,0);
+
+    //applyBC_E();
+    // applyBC_H();
+  
   }
 
   /**

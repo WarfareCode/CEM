@@ -24,7 +24,7 @@ namespace CEM
 
   double GaussianPulse::getInputSource(double time, double shift)
   {
-    return sourceAmplitude_  *exp(-(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
+    return sourceAmplitude_ *exp(-0.5*(time - sourceDelay_ + shift) * (time - sourceDelay_ + shift) / pulseWidth2_);
   }
 
 } //end namespace CEM

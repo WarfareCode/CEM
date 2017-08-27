@@ -11,6 +11,7 @@
 #include "InputDataInterface.h"
 #include "GridDefinitionInterface.h"
 #include "SourceDefinitionInterface.h"
+#include "CEMCommon.h"
 
 #include "yaml-cpp/yaml.h"
 
@@ -39,6 +40,7 @@ namespace CEM
     virtual double getStopTime(){return stopTime_;}
     virtual double getStartTime(){return startTime_;}
     virtual double getTemporalSamplingRate(){return temporalSamplingRate_;}
+    virtual double getCourantNumber(){return courantNumber_;}
 
     //Source Control Interface
     virtual std::string getSourceType(){return sourceType_;}
@@ -96,6 +98,7 @@ namespace CEM
     double startTime_;                        /*!< Start time for the simulation*/
     double stopTime_;                         /*!< Stop time for the simulation*/
     double temporalSamplingRate_;              /*!< Sampling Rate in Hz*/
+    double courantNumber_;
     std::string absorbingBoundaryCondition_;  /*!< String containing the type of absorbing boundary condition to use (Simple, None, etc.)*/
     
    

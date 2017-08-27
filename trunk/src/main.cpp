@@ -51,8 +51,7 @@ int main (int argc, char *argv[])
         std::cout<<"Current Directory: " << cwd << std::endl;
 #endif
 
-  inputFileName = CEM::FILE::FindInputFile(inputFileName);	
- 
+
   CEM::SimManager Sim(inputFileName, outputFileName);
   Sim.Run();
         

@@ -63,6 +63,9 @@ namespace CEM
     ReadDataLoggingInfo();
     ReadGridInfo();
     fileLoaded_ = true;
+
+    courantNumber_ = speedOfLight*gridZSamplingFrequency_/temporalSamplingRate_;
+ 
   }
 
   void InputParserYAML::ReadGridInfo()
@@ -76,7 +79,7 @@ namespace CEM
      gridZLength_ = gridnode["Z Length in meters"].as<double>();
      gridZSamplingFrequency_ = gridnode["Z Spatial Sampling Frequency in meters^-1"].as<double>();
 
-     vectorZLength_ = round(gridZLength_/gridZSamplingFrequency_);
+     vectorZLength_ = round(gridZLength_*gridZSamplingFrequency_);
       
      YAML::Node dielectricNode = gridnode["Dielectric Constant"];
      ReadDielectricInfo(dielectricNode);   
@@ -92,6 +95,7 @@ namespace CEM
     startTime_ = timenode["Start Time"].as<double>();
     stopTime_ = timenode["Stop Time"].as<double>();
     temporalSamplingRate_ = timenode["Temporal Sampling Rate in Hz"].as<double>();
+
   }
   
   void InputParserYAML::ReadSpatialDomainInfo()

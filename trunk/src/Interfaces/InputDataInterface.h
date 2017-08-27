@@ -21,6 +21,7 @@ namespace CEM
     virtual double getStopTime()=0;
     virtual double getStartTime()=0;
     virtual double getTemporalSamplingRate()=0;
+    virtual double getCourantNumber()=0;
 
     //source
     virtual std::string getSourceType()=0;
@@ -53,6 +54,8 @@ namespace CEM
    os << "Temporal Domain: " << std::endl;
    os << "Start Time: " << input.getStartTime() << std::endl;
    os << "Stop Time: " << input.getStopTime() << std::endl;
+   os << "Temporal Sampling Rate: " << input.getTemporalSamplingRate() << std::endl;
+   os << "Courant Number: " << input.getCourantNumber() << std::endl;
    
    os << "Source Parameters: " << std::endl;
    os << "Source Type: " <<  input.getSourceType() << std::endl;
@@ -82,6 +85,8 @@ namespace CEM
    dataString += "Temporal Domain:\n"; 
    dataString += "Start Time: " + std::to_string(input->getStartTime()) + "\n";
    dataString += "Stop Time: " + std::to_string(input->getStopTime()) + "\n";
+   dataString += "Temporal Sampling Rate: " + std::to_string(input->getTemporalSamplingRate()) + "\n";
+   dataString += "Courant Number: " + std::to_string(input->getCourantNumber()) + "\n";
    
    dataString += "Source Parameters:\n";
    dataString += "Source Type: " + input->getSourceType() + "\n";
