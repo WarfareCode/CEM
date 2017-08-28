@@ -32,7 +32,7 @@ add_custom_target(build-time-make-bin-test-directory ALL
 
 #add the common and interface headers to the include path
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/Common ${CMAKE_CURRENT_SOURCE_DIR}/src/Interfaces ${CMAKE_CURRENT_SOURCE_DIR}/src/MockInterfaces)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/SourceControl ${CMAKE_CURRENT_SOURCE_DIR}/src/DataLogger ${CMAKE_CURRENT_SOURCE_DIR}/src/FDTD_Engine ${CMAKE_CURRENT_SOURCE_DIR}/src/Factories )
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/SourceControl ${CMAKE_CURRENT_SOURCE_DIR}/src/DataLogger ${CMAKE_CURRENT_SOURCE_DIR}/src/FDTD ${CMAKE_CURRENT_SOURCE_DIR}/src/Factories )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/TimeControl)
     
 #find the additional libraries needed
