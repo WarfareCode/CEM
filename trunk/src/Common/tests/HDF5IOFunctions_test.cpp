@@ -1,5 +1,6 @@
 #include "CEMCommon.h"
 
+#include <tuple>
 #include <string>
   using std::string;
 
@@ -10,13 +11,14 @@
 using ::testing::TestWithParam;
 
 
+
 namespace CEM
 {
 namespace HDF5IOFunction_Test
 {
 namespace testing
 {
-  class HDF5IO_Test : public Test
+  class HDF5IO_Test : public TestWithParam<std::tr1::tuple<int, int> >
     {
     protected:
        HDF5IO_Test(){}
@@ -70,16 +72,47 @@ namespace testing
       }
   }
 
-  TEST_F(HDF5IO_Test, write_matrix_test)
+  TEST_P(HDF5IO_Test, write_read_matrix_variable_sizes)
   {
-    Eigen::MatrixXd temp(3,4);
-    temp << 1, 2, 3, 4,
-            5, 6, 7, 8,
-            9, 10, 11, 12;
+    int const rows = std::tr1::get<0>(GetParam());
+    int const cols = std::tr1::get<1>(GetParam());
 
-    HDF5IO::WriteVectorToFile(temp,"testmatrix.h5","matrix"); 
-   
+    Eigen::MatrixXd wMatrix(rows,cols);
+    for(int i = 0; i < rows; i++)
+      for(int j = 0;j < cols ;j++)
+	wMatrix(i,j) = rand();
+
+    HDF5IO::WriteMatrixToFile(wMatrix,"testmatrix.h5","matrix");
+    Eigen::MatrixXd rMatrix = HDF5IO::ReadMatrixFromFile("testmatrix.h5","matrix");
+
+    EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
+    EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
+    for(int i = 0; i < rows; i++)
+      for(int j = 0;j < cols ;j++)
+        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
+
   }
+
+    std::tr1::tuple<int,int> const FormulaTable[] = {
+    std::tr1::make_tuple( 1, 10),
+    std::tr1::make_tuple( 10,  1),
+    std::tr1::make_tuple(5, 4),
+    std::tr1::make_tuple(17, 27),
+    std::tr1::make_tuple(50,50 ),
+    std::tr1::make_tuple(500,750),
+};
+
+  //INSTANTIATE_TEST_CASE_P(NewVectorSizes, HDF5IO_Test,::testing::Values(5,7,10,30,50,100,250,500));
+
+  /* INSTANTIATE_TEST_CASE_P(TestWithParameters,  
+                        HDF5IO,  
+                        testing::Combine( testing::Range(1.0, 3.0), // C
+                                          testing::Range(1.0, 4.0), // A 
+                                          testing::Range(1.0, 11.0) // B
+                                          ));*/
+  
+  INSTANTIATE_TEST_CASE_P(TestWithParameters, HDF5IO_Test, ::testing::ValuesIn(FormulaTable));
+ 
 
 } // namespace testing
 } // namespace HDF5Reader_Test

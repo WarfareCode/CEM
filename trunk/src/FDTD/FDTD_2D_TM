@@ -29,8 +29,8 @@ namespace CEM
     virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source);
     virtual double getEField(int index);
     virtual double getHField(int index);
-    virtual Eigen::MatrixXd getEField() {return E;}
-    virtual Eigen::MatrixXd getHField() {return H;}
+    virtual Eigen::VectorXd getEField() {return E;}
+    virtual Eigen::VectorXd getHField() {return H;}
     
     //get functions
     AbsorbingBoundaryCondition getABC(){return ABC;};
@@ -38,9 +38,11 @@ namespace CEM
   private:
     char HDirection, EDirection;
 
-    Eigen::MatrixXd E;/*!< Electric Field Vector */
-    Eigen::MatrixXd H;/*!< Magnetic Field Vector */
-    Eigen::MatrixXd Ca, Cb, Da, Db;
+    Eigen::VectorXd E;/*!< Electric Field Vector */
+    Eigen::VectorXd H;/*!< Magnetic Field Vector */
+    Eigen::VectorXd Ca, Cb, Da, Db;
+
+    Eigen::VectorXd dielectricConstant_;  /*!<Dielectric Constant Vector */
     
     int dataSize_;  /*!< Length of the E and H vectors*/
     
@@ -55,11 +57,12 @@ namespace CEM
     void applyBC_H();
 
     void InitializeEngine(std::shared_ptr<InputDataInterface>input);
+    void InitializeDielectric(std::shared_ptr<InputDataInterface>input);
     void computeConstants(std::shared_ptr<InputDataInterface> input);
-    Eigen::MatrixXd getSigmaE(std::shared_ptr<InputDataInterface> input);
-    Eigen::MatrixXd getSigmaH(std::shared_ptr<InputDataInterface> input);
-    Eigen::MatrixXd getEpsR(std::shared_ptr<InputDataInterface> input);
-    Eigen::MatrixXd getMuR(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getSigmaE(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getSigmaH(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getEpsR(std::shared_ptr<InputDataInterface> input);
+    Eigen::VectorXd getMuR(std::shared_ptr<InputDataInterface> input);
 
     
   };

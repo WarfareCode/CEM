@@ -120,7 +120,7 @@ namespace CEM
     datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
   }
 
- void DataLoggerHDF5:: WriteDataArray(Eigen::VectorXd data, double time, std::string datasetName)
+ void DataLoggerHDF5:: WriteDataArray(Eigen::MatrixXd data, double time, std::string datasetName)
     {
     DataSet dataset;
     if (datasetName.compare("EField"))
@@ -137,7 +137,7 @@ namespace CEM
      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
      
     //now get the memory size, the new dataset size, and the offset
-    hsize_t msize = data.size();
+    hsize_t msize = data.cols();
     hsize_t offset = currentSize; 
     hsize_t dsize = offset + data.size();
 
@@ -152,7 +152,7 @@ namespace CEM
     //select the hyperslab
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
 
-    dataset.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
+    dataset.write( &data(0), PredType::NATIVE_DOUBLE, mspace, fspace);
 
     //update the time vector
     hsize_t tSize = 1;

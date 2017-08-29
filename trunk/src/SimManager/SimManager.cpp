@@ -30,9 +30,12 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 
   //create the pointers from the factories
   source_ptr_ = sourceFactory_.createSourceControl(input_);
+  std::cout<<"Creating FDTD" << std::endl;
   compute_ptr_ = computeFactory_.createComputationalEngine(input_);
+  std::cout<<"done ... " << std::endl;
   dLogger_ptr_ = dlFactory_.createDataLogger(input_);
 
+ 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine(input_);
   time_ptr_ = std::make_shared<TimeControl> (input_);

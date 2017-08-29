@@ -23,8 +23,9 @@ namespace CEM
     virtual void UpdateFields(double time, std::shared_ptr<SourceControlInterface> source) = 0;
     virtual double getEField(int index)=0;
     virtual double getHField(int index)=0;
-    virtual Eigen::VectorXd getEField()=0;
-    virtual Eigen::VectorXd getHField()=0;
+
+    virtual Eigen::MatrixXd getEField()=0;
+    virtual Eigen::MatrixXd getHField()=0;
 	
   };
 }

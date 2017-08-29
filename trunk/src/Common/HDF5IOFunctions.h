@@ -15,13 +15,11 @@ namespace CEM
 {
    namespace HDF5IO
    {
-  
-     //std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName);
-
      Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName);
+     Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName);
 
      void WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName);
-     void WriteVectorToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
+     void WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
    }
 }
 
