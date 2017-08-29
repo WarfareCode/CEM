@@ -102,16 +102,7 @@ namespace testing
     std::tr1::make_tuple(500,750),
 };
 
-  //INSTANTIATE_TEST_CASE_P(NewVectorSizes, HDF5IO_Test,::testing::Values(5,7,10,30,50,100,250,500));
-
-  /* INSTANTIATE_TEST_CASE_P(TestWithParameters,  
-                        HDF5IO,  
-                        testing::Combine( testing::Range(1.0, 3.0), // C
-                                          testing::Range(1.0, 4.0), // A 
-                                          testing::Range(1.0, 11.0) // B
-                                          ));*/
-  
-  INSTANTIATE_TEST_CASE_P(TestWithParameters, HDF5IO_Test, ::testing::ValuesIn(FormulaTable));
+ INSTANTIATE_TEST_CASE_P(TestWithParameters, HDF5IO_Test, ::testing::ValuesIn(FormulaTable));
  
 
 } // namespace testing

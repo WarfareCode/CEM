@@ -20,7 +20,7 @@ namespace DataLogger_Test
 {
 namespace testing
 {
-  class DataLogger_Test : public TestWithParam<int>
+  class DataLogger_Test : public TestWithParam<std::tr1::tuple<int, int> >
     {
     protected:
        DataLogger_Test(){}
@@ -31,6 +31,8 @@ namespace testing
 	input = std::make_shared<MockInputData>();
 
 	EXPECT_CALL(*input, getOutputFileName()).WillRepeatedly(::testing::Return("CEMTest.h5"));
+	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
+      dl = new DataLoggerHDF5(input);
 	
       }
       virtual void TearDown(){ delete dl;}
@@ -43,76 +45,76 @@ namespace testing
 
     };
 
-
+ 
     TEST_F(DataLogger_Test, write_read_efield_vector_fixed_size)
     {
       std::string datasetname = "/EField";
-      EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
-      dl = new DataLoggerHDF5(input);
-      Eigen::VectorXd in;
-      in.resize(15);
+      Eigen::MatrixXd in;
+      in.resize(1,15);
       in << 1, 5.87, 7.993, 8, 10.2, 2.0190, 30, 50, 100, 150, -100, -20, -30.5, 3.4, 5.776;
-      dl->WriteDataArray(in,1,datasetname);
-      std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),datasetname, 0);
+      dl->WriteMatrixToFileWithTime(in,datasetname,1);
+      Eigen::MatrixXd out = dl->ReadMatrixFromFile(input->getOutputFileName(),datasetname);
 
       EXPECT_THAT(in.size(),Eq(out.size()));
       
       for (int counter = 0; counter < in.size();counter++)
 	{
-	  EXPECT_THAT(in[counter], Eq(out[counter]));
-	}
+	  EXPECT_THAT(in(counter), Eq(out(counter)));
+	  }
     
     }
 
-
   TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
-     size = GetParam();
-     EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(size));
-     dl = new DataLoggerHDF5(input);
+    int const size = std::tr1::get<0>(GetParam());
 
-     std::vector<double>(in);
-     in.resize(size);
-     for (int i = 0; i < size; i++)
-       {
-	 in[i] = rand();
-       }
+    std::vector<double> wVector(size);
+    for(int i = 0; i < size; i++)
+	wVector[i] = rand();
 
-     dl->WriteDataArray(in, 1, "/EField");
+    dl->WriteVectorToFile(wVector,"testmatrix.h5","vector");
+    std::vector<double> rVector = dl->ReadVectorFromFile("testmatrix.h5","vector");
 
-     std::vector<double> out = dl->ReadDataArray(input->getOutputFileName(),"/EField", 0);
-
-      EXPECT_THAT(in.size(),Eq(out.size()));
-      
-      for (int counter = 0; counter < in.size();counter++)
-	{
-	  EXPECT_THAT(in[counter], Eq(out[counter]));
-	}
+    EXPECT_THAT(wVector.size(), Eq(rVector.size()));
+    for(int i = 0; i < size; i++)
+    EXPECT_THAT(wVector[i], Eq(rVector[i]));
   
   }
 
-    TEST_F(DataLogger_Test, read_test_dielectric_file)
+  TEST_P( DataLogger_Test, write_read_matrix_variable_sizes)
   {
-     char cwd[1024];
-     getcwd(cwd, sizeof(cwd));
-     std::cout<<"Current Directory: " << cwd << std::endl;
+    std::cout<<"testing ... " << std::endl;
+    int const rows = std::tr1::get<0>(GetParam());
+    int const cols = std::tr1::get<1>(GetParam());
 
-     EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
-      
-     dl = new DataLoggerHDF5(input);
-     std::string testFileName = "dielectric1.h5";
-     Eigen::VectorXd er = dl->ReadVectorFromFile(testFileName,"/EpsR");
-     for (int i = 0; i < 100; i++)
-      {
-	EXPECT_THAT(er[i], Eq(1));
-      }
-     for (int i = 100; i < 200; i++)
-      {
-	EXPECT_THAT(er[i], Eq(9));
-      }
+    Eigen::MatrixXd wMatrix(rows,cols);
+    for(int i = 0; i < rows; i++)
+      for(int j = 0;j < cols ;j++)
+	wMatrix(i,j) = rand();
+
+    dl->WriteMatrixToFile(wMatrix,"testmatrix.h5","matrix");
+    Eigen::MatrixXd rMatrix = dl->ReadMatrixFromFile("testmatrix.h5","matrix");
+
+    EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
+    EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
+    for(int i = 0; i < rows; i++)
+      for(int j = 0;j < cols ;j++)
+        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
+
   }
 
-  INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7,10,30,50,100,250,500));
+    std::tr1::tuple<int,int> const FormulaTable[] = {
+    std::tr1::make_tuple( 1, 10),
+    std::tr1::make_tuple( 10,  1),
+    std::tr1::make_tuple(5, 4),
+    std::tr1::make_tuple(17, 27),
+    std::tr1::make_tuple(50,50 ),
+    std::tr1::make_tuple(500,750),
+};
+
+ INSTANTIATE_TEST_CASE_P(TestWithParameters, DataLogger_Test, ::testing::ValuesIn(FormulaTable));
+ 
+  //INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7,10,30,50,100,250,500));
 
 } // namespace testing
 } // namespace DataLogger_Test

@@ -27,15 +27,22 @@ namespace CEM
   public:
     DataLoggerHDF5(std::shared_ptr<InputDataInterface> input);
     DataLoggerHDF5() = delete;
+
+      
+    virtual Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName);
+    virtual Eigen::MatrixXd ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index);
+
+    virtual void WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
+    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string fileName, std::string datasetName, double time);
+    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string datasetName, double time);
     
-    virtual void WriteDataArray(std::vector<double>data);
-    virtual void WriteDataArray(double *data, int s);
-    virtual void WriteDataArray(std::vector<double>data, double time, std::string datasetName);
-    virtual void WriteDataArray(Eigen::MatrixXd data, double time, std::string datasetName);
+    virtual std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName);
+    virtual std::vector<double> ReadVectorFromFileAtTime(std::string fileName, std::string datasetName, double time);
+
+    virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
+    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string fileName, std::string datasetName, double time);
+    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string datasetName, double time);
      
-    virtual std::vector<double> ReadDataArray(std::string fileName, std::string datasetName, int timeIndex);
-    virtual Eigen::VectorXd ReadVectorFromFile(std::string fileName, std::string datasetName);
-    virtual void WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName);
 
   private:
     void WriteDataHeader(std::shared_ptr<InputDataInterface> input);

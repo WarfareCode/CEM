@@ -21,13 +21,194 @@ namespace CEM
     WriteDataHeader(input);
   }
 
+       /**
+     * @brief Read an Input Array from a file
+     * @details This function uses an "unchunked" layout to directly read in an input vector from a file
+     * @param fileName The fileName to read from
+     * @param datasetName The name of the dataset to read */
+     Eigen::MatrixXd  DataLoggerHDF5::ReadMatrixFromFile(std::string fileName, std::string datasetName)
+     {
+      Eigen::MatrixXd data_out;
+
+      fileName = FILE::FindInputFile(fileName);
+
+      //open the file and get the requested dataset
+      H5File file( fileName, H5F_ACC_RDONLY);
+      DataSet dataset = file.openDataSet( datasetName);
+
+      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+
+      //get the dataspace and determine the size and rank
+      DataSpace filespace = dataset.getSpace();
+      int rank = filespace.getSimpleExtentNdims();
+
+      hsize_t *dims = new hsize_t[rank];
+      rank = filespace.getSimpleExtentDims( dims );
+
+      DataSpace mspace( rank , dims);
+
+      data_out.resize(dims[1],dims[0]);
+      dataset.read( &data_out(0), PredType::NATIVE_DOUBLE, mspace, filespace );
+
+      delete [] dims;
+      
+      return data_out;
+     }
+
+  
+
   /**
+     * @brief Read an Input Array from a file
+     * @details This function uses an "unchunked" layout to directly read in an input vector from a file
+     * @param fileName The fileName to read from
+     * @param datasetName The name of the dataset to read
+     * @param index The time index to read from */
+    Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index)
+    {
+       Eigen::MatrixXd data_out;
+
+      fileName = FILE::FindInputFile(fileName);
+
+      //open the file and get the requested dataset
+      H5File file( fileName, H5F_ACC_RDONLY);
+      DataSet dataset = file.openDataSet( datasetName);
+
+      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+
+      //get the dataspace and determine the size and rank
+      DataSpace filespace = dataset.getSpace();
+      int rank = filespace.getSimpleExtentNdims();
+
+      hsize_t *dims = new hsize_t[rank];
+      rank = filespace.getSimpleExtentDims( dims );
+
+      DataSpace mspace( rank , dims);
+
+      data_out.resize(dims[1],dims[0]);
+      dataset.read( &data_out(0), PredType::NATIVE_DOUBLE, mspace, filespace );
+
+      delete [] dims;
+      
+      return data_out;
+    }
+
+    /**
+     * @brief Write an Input Array from a file
+     * @details This function uses an "unchunked" layout to directly write an input vector from a file
+     * @param data The data to write
+     * @param fileName The name of the file to write to
+     * @param datasetName The name of the dataset to write */
+   void  DataLoggerHDF5::WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName)
+   {
+     //create the file
+     H5File file( fileName, H5F_ACC_TRUNC );
+     hsize_t dims[2];
+     //HDF5 treats data as X and Y rather than rows and columns
+     dims[0] = data.cols();
+     dims[1] = data.rows();
+     hsize_t msize = data.size();
+     DataSpace mspace(2, dims);
+ 
+     DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
+     dataset.write(&data(0), PredType::NATIVE_DOUBLE,mspace);  
+    
+   }
+
+
+    void DataLoggerHDF5::WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string fileName, std::string datasetName, double time)
+    {
+
+    }
+  
+    void DataLoggerHDF5::WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string datasetName, double time)
+    {
+         DataSet dataset;
+    if (datasetName.compare("EField"))
+      {
+	dataset = datasetE_;
+      }
+    else if (datasetName.compare("HField"))
+      {
+        dataset = datasetH_;
+      }
+    else
+      throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
+		 
+     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
+     
+    //now get the memory size, the new dataset size, and the offset
+      hsize_t dims[2];
+     dims[0] = data.cols();
+     dims[1] = data.rows();
+     hsize_t msize = data.size();
+    
+    hsize_t offset = currentSize; 
+    hsize_t dsize = offset + data.size();
+
+    //create the memory space
+    DataSpace mspace( 2, &msize);
+    
+    //extend the data set
+    dataset.extend( &dsize );
+	
+    //get the file space
+    DataSpace fspace = dataset.getSpace();
+    //select the hyperslab
+    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
+
+    dataset.write( &data(0), PredType::NATIVE_DOUBLE, mspace, fspace);
+
+    //update the time vector
+    hsize_t tSize = 1;
+    hsize_t toffset = datasetT_.getStorageSize()/8;
+    hsize_t dTsize = toffset + tSize;
+    DataSpace mTspace( 1, &tSize);
+    datasetT_.extend(&dTsize);
+
+    DataSpace tspace = datasetT_.getSpace();
+    tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
+    datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
+    }
+    
+    std::vector<double> DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
+    {
+      std::vector<double>data_out;
+
+      fileName = FILE::FindInputFile(fileName);
+
+      //open the file and get the requested dataset
+      H5File file( fileName, H5F_ACC_RDONLY);
+      DataSet dataset = file.openDataSet( datasetName);
+
+      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+
+      //get the dataspace and determine the size and rank
+      DataSpace filespace = dataset.getSpace();
+      int rank = filespace.getSimpleExtentNdims();
+      hsize_t dims;    // dataset dimensions
+      rank = filespace.getSimpleExtentDims( &dims );
+
+      DataSpace mspace( rank , &dims);
+
+      data_out.resize(dims);
+      dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
+
+      return data_out;
+    }
+    std::vector<double> DataLoggerHDF5::ReadVectorFromFileAtTime(std::string fileName, std::string datasetName, double time)
+    {
+      std::vector<double> data_out;
+
+      return data_out;
+    }
+
+   /**
    * \brief Write a std::vector to the File
    *
    * This function writes a data array from a std::vector of data and converts
    * the std::vector to an array of pointers first and then calls the overloaded WriteDataArray function
    * @param data The data to write*/
-  void DataLoggerHDF5::WriteDataArray(std::vector<double>data)
+  void DataLoggerHDF5::WriteVectorToFile(std::vector<double>data, std::string fileName, std::string datasetName)
   {
 
     hsize_t currentSize = datasetE_.getStorageSize()/8; //Assume 64-bit double values
@@ -48,24 +229,16 @@ namespace CEM
     fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
     
     datasetE_.write( &data[0], PredType::NATIVE_DOUBLE, mspace, fspace);
-    
-    //Old way by converting to an array of pointers - keep if needed for 2D
-    //the data array is an N x 1 vector of doubles
-    //get the size and copy over to a temporary pointer array
-    /* int s = data.size();
-    double *tempData = new double[s];
-    
-    for(int i = 0; i < s; i++)
-      {
-        tempData[i] = data[i];
-      }
-
-      WriteDataArray(tempData,s);
-
-    delete[] tempData;*/
+ 
     
   }
-
+  
+    void DataLoggerHDF5::WriteVectorToFileWithTime(std::vector<double> data, std::string fileName, std::string datasetName, double time)
+    {
+      
+    }
+  
+  
     /**
    * \brief Write a std::vector to the File
    *
@@ -74,7 +247,7 @@ namespace CEM
    * @param data The data to write
    * @param time The time to append to the data vector
    * @param datasetName The dataset to write ("/EField" or "/HField")*/
-  void  DataLoggerHDF5::WriteDataArray(std::vector<double>data, double time, std::string datasetName)
+  void  DataLoggerHDF5::WriteVectorToFileWithTime(std::vector<double>data, std::string datasetName, double time)
   {
     DataSet dataset;
     if (datasetName.compare("EField"))
@@ -119,82 +292,7 @@ namespace CEM
     tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
     datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
   }
-
- void DataLoggerHDF5:: WriteDataArray(Eigen::MatrixXd data, double time, std::string datasetName)
-    {
-    DataSet dataset;
-    if (datasetName.compare("EField"))
-      {
-	dataset = datasetE_;
-      }
-    else if (datasetName.compare("HField"))
-      {
-        dataset = datasetH_;
-      }
-    else
-      throw std::runtime_error("DataLoggerHDF5::WriteDataArray ... Invalid dataset name requested");
-		 
-     hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double values
-     
-    //now get the memory size, the new dataset size, and the offset
-    hsize_t msize = data.cols();
-    hsize_t offset = currentSize; 
-    hsize_t dsize = offset + data.size();
-
-    //create the memory space
-    DataSpace mspace( 1, &msize);
-    
-    //extend the data set
-    dataset.extend( &dsize );
-	
-    //get the file space
-    DataSpace fspace = dataset.getSpace();
-    //select the hyperslab
-    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
-
-    dataset.write( &data(0), PredType::NATIVE_DOUBLE, mspace, fspace);
-
-    //update the time vector
-    hsize_t tSize = 1;
-    hsize_t toffset = datasetT_.getStorageSize()/8;
-    hsize_t dTsize = toffset + tSize;
-    DataSpace mTspace( 1, &tSize);
-    datasetT_.extend(&dTsize);
-
-    DataSpace tspace = datasetT_.getSpace();
-    tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
-    datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
-  }
-
-  /**
-   * \brief Write an array to the File
-   *
-   * This function writes a data array from an array of pointers
-   * @param data The data to write
-   * @param s The size of the data to write*/
-  void DataLoggerHDF5::WriteDataArray(double *data, int s)
-  {
-
-    hsize_t currentSize = datasetE_.getStorageSize()/8; //Assume 64-bit double values
-    //now get the memory size, the new dataset size, and the offset
-    hsize_t msize = s;
-    hsize_t offset = currentSize; 
-    hsize_t dsize = offset + s; 
-
-    //create the memory space
-    DataSpace mspace( 1, &msize);
-    
-    //extend the data set
-    datasetE_.extend( &dsize );
-	
-    //get the file space
-    DataSpace fspace = datasetE_.getSpace();
-    //select the hyperslab
-    fspace.selectHyperslab( H5S_SELECT_SET, &msize, &offset);
-    
-    datasetE_.write( data, PredType::NATIVE_DOUBLE, mspace, fspace);
-  }
-
+  
   /**
    * \brief Create an HDF5 file
    *
@@ -252,74 +350,5 @@ namespace CEM
   
   }
 
-    /**
-   * \brief Read a Data array from a file
-   *
-   * @param fileName The fileName to read from
-   * @param datasetName The name of the dataset to read
-   * @param timeIndex the offset in time to read from */
-  std::vector<double>  DataLoggerHDF5::ReadDataArray(std::string fileName, std::string datasetName, int timeIndex)
-  {
-    //open the file and get the requested dataset
-    H5File file( fileName, H5F_ACC_RDONLY);
-    DataSet dataset = file.openDataSet( datasetName);
-
-    hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
-
-    //get the dataspace and determine the size and rank
-    DataSpace filespace = dataset.getSpace();
-    int rank = filespace.getSimpleExtentNdims();
-    hsize_t dims;    // dataset dimensions
-    rank = filespace.getSimpleExtentDims( &dims );
-
-    //get the dataset properties to look at the chunk size
-    DSetCreatPropList cparms = dataset.getCreatePlist();
-
-    //get the chunk size to determine how big the array is
-    hsize_t cd;
-    int rc;
-    rc = cparms.getChunk( 1, &cd);
-     
-    //get the memory space to read in
-    DataSpace mspace( rc, &cd );
-    //determine the offset into the file  
-    hsize_t offset = timeIndex*cd;
-    
-    //make sure the offset is within the file, otherwise throw and exception
-    if (offset <= currentSize - cd)
-      {
-	//get the hyperslab to read
-	filespace.selectHyperslab( H5S_SELECT_SET, &cd, &offset );
-      
-	std::vector<double>data_out;
-	data_out.resize(cd);
-	dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
-
-	return data_out;
-      }
-    else
-      throw std::runtime_error("DataLoggerHDF5::ReadDataArray ... Attempting to read beyond the max size of the file");
-  }
-
-   /**
-   * @brief Read an Input Array from a file
-   * @details This function uses an "unchunked" layout to directly read in an input vector from a file
-   * @param fileName The fileName to read from
-   * @param datasetName The name of the dataset to read */
-  Eigen::VectorXd DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
-  {
-    return HDF5IO::ReadVectorFromFile(fileName, datasetName);
-  }
-
-   /**
-   * @brief Write an Output Array to a file
-   * @details This function uses an "unchunked" layout to directly write an output vector to a file
-   * @param data The data to be written
-   * @param fileName The fileName to be written to
-   * @param datasetName The name of the dataset to be written */
-  void  DataLoggerHDF5::WriteVectorToFile(Eigen::VectorXd data, std::string fileName, std::string datasetName)
-  {
-    HDF5IO::WriteVectorToFile(data, fileName, datasetName);
-  }
-
+ 
 }//end namespace CEM
