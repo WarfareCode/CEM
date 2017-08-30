@@ -161,7 +161,7 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
 
     //create the memory space
     DataSpace mspace(rank, dims);
-    
+
     //extend the data set
     dataset.extend( dsize );
 
