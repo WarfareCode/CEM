@@ -21,10 +21,9 @@ totalSize = info.Dataspace.Size;
 totalEntries = totalSize./chunkSize;
 
 
-
 if (timeIndex > totalEntries)
     error('Requested Index exceeds data file length, Requested = %s, Recorded = %s',timeIndex,totalEntries);
-else
+end
     
 offsetIndex = find(totalEntries ~= 1);
 if (length(offsetIndex) ~=1)
@@ -32,16 +31,8 @@ if (length(offsetIndex) ~=1)
 end
 
 dataIndex = find(totalEntries == 1);
+offset(dataIndex) = 1;
+offset(offsetIndex) = timeIndex;
+data = h5read(fileName,group,offset,chunkSize);
+tt = h5read(fileName,tGroup,timeIndex,1);
 
-tt = zeros(totalEntries(dataIndex),1);
-
-    offset(offsetIndex) = timeIndex;
-    offset(dataIndex) = 1;
-    data = h5read(fileName,group,offset,chunkSize);
-    tt = h5read(fileName,tGroup,timeIndex,1);
-    plot(data);
-    tstring = sprintf('Time: %0.3f, Index: %d',tt,timeIndex);
-    title(tstring);
-    xlabel('Spatial Index (m)');
-    ylabel('E Field');
-end

@@ -16,18 +16,15 @@ info = h5info(fileName,group);
 tinfo = h5info(fileName,tGroup);
 data =[];
 tt = [];
-timeLength = info.Dataspace.Size/info.ChunkSize;
+timeLength = info.Dataspace.Size./info.ChunkSize;
 
-tt = zeros(timeLength,1);
 
-for counter = 1:timeLength
-    offset = 1 + (counter-1)*info.ChunkSize;
-    tempData = h5read(fileName,group,offset,info.ChunkSize);
-    tt(counter) = h5read(fileName,tGroup,1,1);
-    data = [data tempData];
+for counter = 1:timeLength(1)
+    [tempData,tt] = readData(counter,fileName,group);
+    data = [data; tempData];
 end
 
-y = linspace(0,info.ChunkSize);
+y = linspace(0,info.ChunkSize(2));
 
 figure
 imagesc(tt,y,data);
