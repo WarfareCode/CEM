@@ -35,11 +35,21 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   std::cout<<"done ... " << std::endl;
   dLogger_ptr_ = dlFactory_.createDataLogger(input_);
 
- 
   //get the unique pointer to the simulation engine
-  engine_ptr_ = createSimEngine(input_);
+  engine_ptr_ = createSimEngine();
   time_ptr_ = std::make_shared<TimeControl> (input_);
 }
+
+//****************************************************************************************
+/*
+* @brief Initialize all the submodules
+**/
+void SimManager::Initialize()
+{
+  dLogger_ptr_->InitializeDataLogger(input_);
+
+}
+ 
 
 //****************************************************************************************
 /**
@@ -47,9 +57,9 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 *
 * @param input input data structure
 **/
-  std::unique_ptr<SimEngine>SimManager::createSimEngine(std::shared_ptr<InputDataInterface> input)
+  std::unique_ptr<SimEngine>SimManager::createSimEngine()
   {
-    std::unique_ptr<SimEngine> simengine (new SimEngine(input));
+    std::unique_ptr<SimEngine> simengine (new SimEngine());
     return simengine;
   }
 

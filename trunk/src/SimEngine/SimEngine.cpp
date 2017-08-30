@@ -9,11 +9,9 @@ namespace CEM
 {
   //************************************************************
   /**
-   * @brief Constructor with file names
-   *
-   * @param input Pointer to the input data structure
+   * @brief Standard Constructor
    **/
-  SimEngine::SimEngine(std::shared_ptr<InputDataInterface> input)
+  SimEngine::SimEngine()
   {
 
   }

@@ -21,7 +21,7 @@ namespace CEM
   class SimEngine
   {
   public:
-    SimEngine(std::shared_ptr<InputDataInterface> input);
+    SimEngine();
 
     void Update(std::shared_ptr<TimeControlInterface> time, std::shared_ptr<ComputeEngineInterface> compute, std::shared_ptr<DataLoggerInterface> dlogger, std::shared_ptr<SourceControlInterface> source);
     

@@ -25,10 +25,10 @@ namespace CEM
   class DataLoggerHDF5: public DataLoggerInterface
   {
   public:
-    DataLoggerHDF5(std::shared_ptr<InputDataInterface> input);
-    DataLoggerHDF5() = delete;
+    DataLoggerHDF5();
 
-      
+    virtual void InitializeDataLogger(std::shared_ptr<InputDataInterface> input);
+    
     virtual Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName);
     virtual Eigen::MatrixXd ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index);
 
@@ -46,7 +46,7 @@ namespace CEM
 
   private:
     void WriteDataHeader(std::shared_ptr<InputDataInterface> input);
-    void CreateFile();
+    void CreateFile(std::shared_ptr<InputDataInterface> input);
 	
   private:
     DataSet datasetE_;

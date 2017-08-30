@@ -23,6 +23,8 @@ namespace CEM
   class DataLoggerInterface
   {
   public:
+    virtual void InitializeDataLogger(std::shared_ptr<InputDataInterface> input) = 0;
+     
     virtual Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName)=0;
     virtual Eigen::MatrixXd ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index)=0;
 

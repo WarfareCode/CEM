@@ -32,7 +32,7 @@ namespace testing
 
 	EXPECT_CALL(*input, getOutputFileName()).WillRepeatedly(::testing::Return("CEMTest.h5"));
 	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
-      dl = new DataLoggerHDF5(input);
+        dl = new DataLoggerHDF5();
 	
       }
       virtual void TearDown(){ delete dl;}
@@ -46,21 +46,41 @@ namespace testing
     };
 
  
-    TEST_F(DataLogger_Test, write_read_efield_vector_fixed_size)
+    TEST_P(DataLogger_Test, write_read_efield_vector_fixed_size)
     {
-      std::string datasetname = "/EField";
-      Eigen::MatrixXd in;
-      in.resize(1,15);
-      in << 1, 5.87, 7.993, 8, 10.2, 2.0190, 30, 50, 100, 150, -100, -20, -30.5, 3.4, 5.776;
-      dl->WriteMatrixToFileWithTime(in,datasetname,1);
-      Eigen::MatrixXd out = dl->ReadMatrixFromFile(input->getOutputFileName(),datasetname);
-
-      EXPECT_THAT(in.size(),Eq(out.size()));
+      int const rows = std::tr1::get<0>(GetParam());
+      int const cols = std::tr1::get<1>(GetParam());
       
-      for (int counter = 0; counter < in.size();counter++)
+      EXPECT_CALL(*input, getGridNumDimensions()).WillRepeatedly(::testing::Return(2));
+      EXPECT_CALL(*input, getVectorXLength()).WillRepeatedly(::testing::Return(cols));
+      EXPECT_CALL(*input, getVectorYLength()).WillRepeatedly(::testing::Return(rows));
+      
+      dl->InitializeDataLogger(input);
+      std::string datasetname = "/EField";
+      double time = 0.1;
+
+      Eigen::MatrixXd wMatrix(rows,cols);
+      Eigen::MatrixXd rMatrix;
+      int counter = 0;
+      for (int t = 0; t < 10; t ++)
 	{
-	  EXPECT_THAT(in(counter), Eq(out(counter)));
-	  }
+    
+        for(int i = 0; i < rows; i++)
+          for(int j = 0;j < cols ;j++)
+	    {
+	    wMatrix(i,j) = counter;//rand();
+	    counter++;
+	    }
+      
+      dl->WriteMatrixToFileWithTime(wMatrix,datasetname,t*time);
+      rMatrix = dl->ReadMatrixFromFileAtTime(input->getOutputFileName(),datasetname,t);
+
+      EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
+      EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
+      for(int i = 0; i < rows; i++)
+       for(int j = 0;j < cols ;j++)
+         EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
+	}
     
     }
 
@@ -83,7 +103,6 @@ namespace testing
 
   TEST_P( DataLogger_Test, write_read_matrix_variable_sizes)
   {
-    std::cout<<"testing ... " << std::endl;
     int const rows = std::tr1::get<0>(GetParam());
     int const cols = std::tr1::get<1>(GetParam());
 
@@ -113,8 +132,7 @@ namespace testing
 };
 
  INSTANTIATE_TEST_CASE_P(TestWithParameters, DataLogger_Test, ::testing::ValuesIn(FormulaTable));
- 
-  //INSTANTIATE_TEST_CASE_P(NewVectorSizes, DataLogger_Test,::testing::Values(5,7,10,30,50,100,250,500));
+
 
 } // namespace testing
 } // namespace DataLogger_Test

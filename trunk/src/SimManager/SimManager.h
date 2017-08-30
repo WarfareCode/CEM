@@ -33,8 +33,9 @@ namespace CEM
 
   private:
     //member functions
-    std::unique_ptr<SimEngine>createSimEngine(std::shared_ptr<InputDataInterface> input);
+    std::unique_ptr<SimEngine>createSimEngine();
     void Update();
+    void Initialize();
     
     //member variables
     std::unique_ptr<SimEngine> engine_ptr_;  /*!< Simulation engine member variable for running the simulation */
