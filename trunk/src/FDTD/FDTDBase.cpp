@@ -41,7 +41,6 @@ namespace CEM
     Cb.resize(1,dataSize_);
     Da.resize(1,dataSize_);
     Db.resize(1,dataSize_);
-    InitializeDielectric(input);
 
     computeConstants(input);
 
@@ -83,19 +82,19 @@ namespace CEM
     
     if (input->getDielectricSpecification() == "File")
       {
-	epsR = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
+	epsR = HDF5IO::ReadMatrixFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
 
 	//check the size
-        if(dielectricConstant_.size() != dataSize_)
+        if(epsR.size() != dataSize_)
 	  {
-	    std::string eString = "FDTD_Base::Initialize Dielectric ... Dielectric read in from file invalid size: " + std::to_string(dielectricConstant_.size()) + " should be: " + std::to_string( dataSize_);
+	    std::string eString = "FDTD_Base::Initialize Dielectric ... Dielectric read in from file invalid size: " + std::to_string(epsR.size()) + " should be: " + std::to_string( dataSize_);
             throw std::runtime_error(eString);
 	  }
       }
     else if (input->getDielectricSpecification() == "Constant")
       {
         epsR.resize(1,dataSize_);
-	for (int i = 0; i < dielectricConstant_.cols();i++)
+	for (int i = 0; i < epsR.cols();i++)
 	  epsR(1,i) = input->getDielectricConstant();
       }
 
@@ -135,35 +134,6 @@ namespace CEM
       sigmaE(1,i) = 0;
     
     return sigmaE;
-  }
-  
-    /**
-   * \brief Initialize the Dielectric
-   *
-   * This function sets up the dielectric
-   * @param input The input structure read in from the input file
-   * @param gridDefinition The input definition of the grid*/
-  void FDTDBase::InitializeDielectric(std::shared_ptr<InputDataInterface> input)
-  {
-
-    if (input->getDielectricSpecification() == "File")
-      {
-	dielectricConstant_ = HDF5IO::ReadVectorFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
-
-	//check the size
-        if(dielectricConstant_.size() != dataSize_)
-	  {
-	    std::string eString = "FDTD_1D::Initialize Dielectric ... Dielectric read in from file invalid size: " + std::to_string(dielectricConstant_.size()) + " should be: " + std::to_string( dataSize_);
-            throw std::runtime_error(eString);
-	  }
-      }
-    else if (input->getDielectricSpecification() == "Constant")
-      {
-	dielectricConstant_.resize(1,dataSize_);
-	for (int i = 0; i < dielectricConstant_.cols();i++)
-	  dielectricConstant_(1,i) = input->getDielectricConstant();
-      }
-
   }
 
   /**

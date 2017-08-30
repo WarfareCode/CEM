@@ -46,7 +46,7 @@ namespace testing
     };
 
  
-    TEST_P(DataLogger_Test, write_read_efield_vector_fixed_size)
+    TEST_P(DataLogger_Test, write_read_efield_2D)
     {
       int const rows = std::tr1::get<0>(GetParam());
       int const cols = std::tr1::get<1>(GetParam());
@@ -68,7 +68,44 @@ namespace testing
         for(int i = 0; i < rows; i++)
           for(int j = 0;j < cols ;j++)
 	    {
-	    wMatrix(i,j) = counter;//rand();
+	    wMatrix(i,j) = rand();
+	    counter++;
+	    }
+      
+      dl->WriteMatrixToFileWithTime(wMatrix,datasetname,t*time);
+      rMatrix = dl->ReadMatrixFromFileAtTime(input->getOutputFileName(),datasetname,t);
+
+      EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
+      EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
+      for(int i = 0; i < rows; i++)
+       for(int j = 0;j < cols ;j++)
+         EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
+	}
+    
+    }
+
+   TEST_P(DataLogger_Test, write_read_efield_1D)
+    {
+      int const rows = 1;
+      int const cols = std::tr1::get<1>(GetParam());
+      
+      EXPECT_CALL(*input, getGridNumDimensions()).WillRepeatedly(::testing::Return(1));
+      EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(rows*cols));
+      
+      dl->InitializeDataLogger(input);
+      std::string datasetname = "/EField";
+      double time = 0.1;
+
+      Eigen::MatrixXd wMatrix(rows,cols);
+      Eigen::MatrixXd rMatrix;
+      int counter = 0;
+      for (int t = 0; t < 10; t ++)
+	{
+    
+        for(int i = 0; i < rows; i++)
+          for(int j = 0;j < cols ;j++)
+	    {
+	    wMatrix(i,j) = rand();
 	    counter++;
 	    }
       

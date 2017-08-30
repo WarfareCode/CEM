@@ -37,31 +37,9 @@ void DataLoggerHDF5::InitializeDataLogger(std::shared_ptr<InputDataInterface> in
   * @param datasetName The name of the dataset to read */
   Eigen::MatrixXd  DataLoggerHDF5::ReadMatrixFromFile(std::string fileName, std::string datasetName)
   {
-   Eigen::MatrixXd data_out;
-
-   fileName = FILE::FindInputFile(fileName);
-
-   //open the file and get the requested dataset
-   H5File file( fileName, H5F_ACC_RDONLY);
-   DataSet dataset = file.openDataSet( datasetName);
-
-   hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
-
-   //get the dataspace and determine the size and rank
-   DataSpace filespace = dataset.getSpace();
-   int rank = filespace.getSimpleExtentNdims();
-
-   hsize_t *dims = new hsize_t[rank];
-   rank = filespace.getSimpleExtentDims( dims );
-
-   DataSpace mspace( rank , dims);
-
-   data_out.resize(dims[1],dims[0]);
-   dataset.read( &data_out(0), PredType::NATIVE_DOUBLE, mspace, filespace );
-
-   delete [] dims;
-      
-   return data_out;
+   
+    Eigen::MatrixXd data_out = HDF5IO::ReadMatrixFromFile(fileName,datasetName);
+    return data_out;
   }
 
   
@@ -127,18 +105,8 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
   * @param datasetName The name of the dataset to write */
   void  DataLoggerHDF5::WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName)
   {
-   //create the file
-   H5File file( fileName, H5F_ACC_TRUNC );
-   hsize_t dims[2];
-   //HDF5 treats data as X and Y rather than rows and columns
-   dims[0] = data.cols();
-   dims[1] = data.rows();
-   hsize_t msize = data.size();
-   DataSpace mspace(2, dims);
- 
-   DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
-   dataset.write(&data(0), PredType::NATIVE_DOUBLE,mspace);  
- }
+    HDF5IO::WriteMatrixToFile(data,fileName,datasetName);
+  }
 
   //************************************************************************************************************
   /**
@@ -180,15 +148,16 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
       
     //now get the memory size, the new dataset size, and the offset
      hsize_t dims[2];
+     hsize_t offset[2];
+     hsize_t dsize[2];
+
      dims[0] = data.cols();
      dims[1] = data.rows();
 
-    hsize_t dsize[2];
-    hsize_t offset[2];
-    offset[0] = 0;
-    offset[1] = std::round(currentSize/dims[0]);
-    dsize[0] = offset[0] + data.cols();
-    dsize[1] = offset[1] + data.rows();
+     offset[0] = 0;
+     offset[1] = std::round(currentSize/dims[0]);
+     dsize[0] = offset[0] + data.cols();
+     dsize[1] = offset[1] + data.rows();
 
     //create the memory space
     DataSpace mspace(rank, dims);
@@ -212,34 +181,13 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
     DataSpace tspace = datasetT_.getSpace();
     tspace.selectHyperslab( H5S_SELECT_SET, &tSize, &toffset);
     datasetT_.write(&time, PredType::NATIVE_DOUBLE, mTspace,tspace);
-
     }
 
   //************************************************************************************************************
   
     std::vector<double> DataLoggerHDF5::ReadVectorFromFile(std::string fileName, std::string datasetName)
     {
-      std::vector<double>data_out;
-
-      fileName = FILE::FindInputFile(fileName);
-
-      //open the file and get the requested dataset
-      H5File file( fileName, H5F_ACC_RDONLY);
-      DataSet dataset = file.openDataSet( datasetName);
-
-      hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
-
-      //get the dataspace and determine the size and rank
-      DataSpace filespace = dataset.getSpace();
-      int rank = filespace.getSimpleExtentNdims();
-      hsize_t dims;    // dataset dimensions
-      rank = filespace.getSimpleExtentDims( &dims );
-
-      DataSpace mspace( rank , &dims);
-
-      data_out.resize(dims);
-      dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, filespace );
-
+      std::vector<double>data_out = HDF5IO::ReadVectorFromFile(fileName,datasetName);
       return data_out;
     }
 
@@ -260,16 +208,7 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
    * @param data The data to write*/
   void DataLoggerHDF5::WriteVectorToFile(std::vector<double>data, std::string fileName, std::string datasetName)
   {
-
-   //create the file
-   H5File file( fileName, H5F_ACC_TRUNC );
-   //HDF5 treats data as X and Y rather than rows and columns
-   hsize_t dims  = data.size();
-   hsize_t msize = data.size();
-   DataSpace mspace(1, &dims);
- 
-   DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
-   dataset.write(&data[0], PredType::NATIVE_DOUBLE,mspace); 
+    HDF5IO::WriteVectorToFile(data,fileName,datasetName);
   }
 
   //************************************************************************************************************
@@ -341,10 +280,13 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
   void DataLoggerHDF5::CreateFile(std::shared_ptr<InputDataInterface> input)
   {
    
-    hsize_t *dims  = new hsize_t[input->getGridNumDimensions()];
+    hsize_t dims[2];
     
     if (input->getGridNumDimensions() == 1)
-      *dims = input->getVectorZLength();
+      {
+      dims[0] = input->getVectorZLength();
+      dims[1] = 1;
+      }
     else if (input->getGridNumDimensions() == 2)
       {
       dims[0] = input->getVectorXLength();
@@ -357,15 +299,13 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
     }
     
     hsize_t      maxdims = H5S_UNLIMITED;
-    DataSpace mspace( input->getGridNumDimensions(), dims, &maxdims);
+    DataSpace mspace( 2, dims, &maxdims);
    
     H5File file(input->getOutputFileName(), H5F_ACC_TRUNC );
     DSetCreatPropList cparms;
         
-    hsize_t *chunk_dims = new hsize_t[input->getGridNumDimensions()];
-
-      
-    cparms.setChunk( input->getGridNumDimensions(), dims);
+    hsize_t chunk_dims[2];
+    cparms.setChunk( 2, dims);
         
     int fill_val = 0;
     cparms.setFillValue( PredType::NATIVE_DOUBLE, &fill_val);
@@ -380,8 +320,6 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
     tparms.setFillValue( PredType::NATIVE_DOUBLE, &fill_val);
    
     datasetT_ = file.createDataSet( "Time", PredType::NATIVE_DOUBLE, tspace, tparms);
-
-    delete [] dims;
   }
 
   //************************************************************************************************************

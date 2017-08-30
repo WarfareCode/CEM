@@ -36,8 +36,6 @@ namespace CEM
     Eigen::MatrixXd E;/*!< Electric Field Vector */
     Eigen::MatrixXd H;/*!< Magnetic Field Vector */
     Eigen::MatrixXd Ca, Cb, Da, Db;
-
-    Eigen::MatrixXd dielectricConstant_;  /*!<Dielectric Constant Vector */
     
     int dataSize_;  /*!< Length of the E and H vectors*/
     
@@ -52,7 +50,6 @@ namespace CEM
     void applyBC_H();
 
     void InitializeEngine(std::shared_ptr<InputDataInterface>input);
-    void InitializeDielectric(std::shared_ptr<InputDataInterface>input);
     void computeConstants(std::shared_ptr<InputDataInterface> input);
     Eigen::MatrixXd getSigmaE(std::shared_ptr<InputDataInterface> input);
     Eigen::MatrixXd getSigmaH(std::shared_ptr<InputDataInterface> input);

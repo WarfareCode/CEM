@@ -84,6 +84,7 @@ int SimManager::Run()
 {
   try
     {
+      Initialize();
 
       while(time_ptr_->simComplete() == false)
 	{
