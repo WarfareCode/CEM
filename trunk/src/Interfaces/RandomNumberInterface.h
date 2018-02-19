@@ -16,17 +16,17 @@ namespace CEM
   {
   public:
     virtual double normal()=0;
-    virtual double normal(double mean, double variance) = 0;
+    virtual double normal(double mean, double stdDev) = 0;
     virtual std::vector<double> normal(int size)=0;
-    virtual std::vector<double> normal(int size, double mean, double variance)=0;
+    virtual std::vector<double> normal(int size, double mean, double stDev)=0;
     
-    virtual double uniform()=0;
+    virtual double uniform() = 0;
+    virtual double uniform(double lowerBound, double upperBound) = 0;
     virtual std::vector<double> uniform(int size) = 0;
-    virtual double uniform(double mean, double variance)=0;
-    virtual std::vector<double> uniform(int size,double mean, double variance)=0;
+    virtual std::vector<double> uniform(int size, double lowerBound, double upperBound) = 0;
     
-    virtual double chisquare(int degree)=0;
-    virtual std::vector<double> chisquare(int size, int degree)=0;
+    virtual double chisquare(double degree)=0;
+    virtual std::vector<double> chisquare(int size, double degree)=0;
     
     virtual void setSeed(long seed) = 0;
     virtual long getSeed() = 0;

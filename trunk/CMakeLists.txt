@@ -64,9 +64,9 @@ else()
   set(GPERFTOOLS_LIBRARIES "")
 endif()
 
-#FFTW - placeholder, not currently used
-#find_package (FFTW)
-#message("FFTW Found: " ${FFTW_FOUND})
+#FFTW
+find_package (FFTW)
+message("FFTW Found: " ${FFTW_FOUND})
 
 #External libraries contain YAML-CPP and GOOGLE_TEST, these are explicitly included in the
 #repository due to conflicts when building/linking
@@ -160,15 +160,6 @@ set_property(
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
 endif()
-endif()
-
-#add the Valgrind test (if enabled)
-if(RUN_VALGRIND)
-	add_test(NAME Valgrind_cem
-	         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-	         COMMAND valgrind --leak-check=full  --show-leak-kinds=all --track-origins=yes
-	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
-		 CEMInputTestFile.yaml)
 endif()
 
 

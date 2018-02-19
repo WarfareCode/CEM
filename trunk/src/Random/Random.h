@@ -9,6 +9,9 @@
 #define RANDOM_H
 
 #include "RandomNumberInterface.h"
+#include <Eigen/Dense>
+#include <fftw3.h>
+
 #include <random>
 
 namespace CEM
@@ -18,22 +21,23 @@ class Random: public RandomNumberInterface
 public:
 	Random();
     virtual double normal();
-    virtual double normal(double mean, double variance);
+    virtual double normal(double mean, double stdDev);
     virtual std::vector<double> normal(int size);
-    virtual std::vector<double> normal(int size, double mean, double variance);
+    virtual std::vector<double> normal(int size, double mean, double stdDev);
     
     virtual double uniform();
+    virtual double uniform(double lowerBound, double upperBound);
     virtual std::vector<double> uniform(int size);
-    virtual double uniform(double mean, double variance);
-    virtual std::vector<double> uniform(int size,double mean, double variance);
-    
-    virtual double chisquare(int degree);
-    virtual std::vector<double> chisquare(int size, int degree);
+    virtual std::vector<double> uniform(int size, double lowerBound, double upperBound);
+
+    virtual double chisquare(double degree);
+    virtual std::vector<double> chisquare(int size, double degree);
     
     virtual void setSeed(long seed);
     virtual long getSeed(){return seed_;}
     
     virtual bool generatorInitialized(){return initialized_;}
+    
     
 private:
     long seed_;
@@ -42,7 +46,6 @@ private:
     
     std::normal_distribution<double> normal_;
     std::uniform_real_distribution<double> uniform_;
-    std::chi_squared_distribution<double> chi_square_;
     
 };
 }
