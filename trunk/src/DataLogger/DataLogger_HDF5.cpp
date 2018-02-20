@@ -205,10 +205,26 @@ Eigen::MatrixXd DataLoggerHDF5::ReadMatrixFromFileAtTime(std::string fileName, s
    *
    * This function writes a data array from a std::vector of data and converts
    * the std::vector to an array of pointers first and then calls the overloaded WriteDataArray function
-   * @param data The data to write*/
+   * @param data The data to write
+   *@param fileName The file name to write to
+   * @param datasetName The dataset to use*/
   void DataLoggerHDF5::WriteVectorToFile(std::vector<double>data, std::string fileName, std::string datasetName)
   {
     HDF5IO::WriteVectorToFile(data,fileName,datasetName);
+  }
+  
+  //************************************************************************************************************
+   /**
+   * \brief Add a std::vector to the File
+   *
+   * This function writes a data array from a std::vector of data and converts
+   * the std::vector to an array of pointers first and then calls the overloaded WriteDataArray function
+   * @param data The data to write
+   * @param fileName The file name to write to (must already exist)
+   * @datasetName The dataset to use*/
+  void DataLoggerHDF5::AddVectorToFile(std::vector<double>data, std::string fileName, std::string datasetName)
+  {
+    HDF5IO::AddVectorToFile(data,fileName,datasetName);
   }
 
   //************************************************************************************************************

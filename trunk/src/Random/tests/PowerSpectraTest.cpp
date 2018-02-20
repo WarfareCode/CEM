@@ -61,9 +61,11 @@ namespace testing
 	double testKp = 9.81*age*age/(U10*U10);
 	
 	std::vector<double> S = Elfouhaily(k,U10,age,phi);
+	std::string fileName = "ElfouhailySpectra.h5";
 	
-	dl->WriteVectorToFile(S, "EflouhailySpectra.h5", "Elfouhaily");
-
+	dl->WriteVectorToFile(S, fileName, "S");
+	dl->AddVectorToFile(k, fileName, "k");
+	
   }
   
 

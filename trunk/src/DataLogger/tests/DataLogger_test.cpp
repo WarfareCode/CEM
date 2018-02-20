@@ -129,8 +129,8 @@ namespace testing
     for(int i = 0; i < size; i++)
 	wVector[i] = rand();
 
-    dl->WriteVectorToFile(wVector,"testmatrix.h5","vector");
-    std::vector<double> rVector = dl->ReadVectorFromFile("testmatrix.h5","vector");
+    dl->WriteVectorToFile(wVector,"testvector.h5","vector");
+    std::vector<double> rVector = dl->ReadVectorFromFile("testvector.h5","vector");
 
     EXPECT_THAT(wVector.size(), Eq(rVector.size()));
     for(int i = 0; i < size; i++)

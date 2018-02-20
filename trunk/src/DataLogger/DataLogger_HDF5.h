@@ -40,6 +40,7 @@ namespace CEM
     virtual std::vector<double> ReadVectorFromFileAtTime(std::string fileName, std::string datasetName, double time);
 
     virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
+    virtual void AddVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
     virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string fileName, std::string datasetName, double time);
     virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string datasetName, double time);
      

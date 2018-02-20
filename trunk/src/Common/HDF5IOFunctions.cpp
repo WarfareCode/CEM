@@ -104,6 +104,25 @@ namespace CEM
      DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
      dataset.write(&data[0], PredType::NATIVE_DOUBLE,mspace);  
    }
+   
+   //************************************************************************************************************
+  /**
+   * @brief Add std::vector to a file
+   * @details This function uses an "unchunked" layout to directly write an additional output vector to a file
+   * @param data The data to be written
+   * @param fileName The fileName to be written to (must already exist)
+   * @param datasetName The name of the dataset to be written */
+    void AddVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)
+   {
+     //create the file
+     H5File file;
+     file.openFile( fileName, H5F_ACC_RDWR );
+     hsize_t msize = data.size();
+     DataSpace mspace(1, &msize );
+ 
+     DataSet dataset = file.createDataSet( datasetName, PredType::NATIVE_DOUBLE, mspace);
+     dataset.write(&data[0], PredType::NATIVE_DOUBLE,mspace);  
+   }
 
    //************************************************************************************************************
   /**
