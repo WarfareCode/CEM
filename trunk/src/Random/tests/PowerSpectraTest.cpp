@@ -3,6 +3,8 @@
 #include <iterator>
 #include <math.h>
 
+#include "DataLogger_HDF5.h"
+
 #include <string>
   using std::string;
 
@@ -29,9 +31,10 @@ namespace testing
     virtual void SetUp()
       {
 	 	eps = 1e-10;
+	 	dl = new CEM::DataLoggerHDF5();
       }
-      virtual void TearDown(){  }
-
+      virtual void TearDown(){ delete dl; }
+	  CEM::DataLoggerHDF5* dl;
 	  double dk;
 	  double eps;
 
@@ -59,27 +62,7 @@ namespace testing
 	
 	std::vector<double> S = Elfouhaily(k,U10,age,phi);
 	
-	auto maxVal = std::max_element(S.begin(),S.end());
-	auto maxInd = std::distance(S.begin(),maxVal);
-	
-	
-	EXPECT_LE(fabs(testKp - k[maxInd]),eps);
-	
-	std::cout<<"*************************" << std::endl;
-	
-	for(int i = 0; i < N/2 + 1; i++)
-	std::cout<<k[i] << "          " << S[i] << std::endl;
-	
-	//std::cout<<maxInd << " " << *maxVal << " " << S[maxInd] << std::endl;
-	//std::cout<<testKp << " " << k[maxInd] << " " << k[maxInd + 1] << std::endl;
-	//std::cout<<"max: " << *maxVal << " ind: " << maxInd << std::endl;
-	//
-	
-	//std::distance(sampleArray.begin(), std::max_element(sampleArray.begin(), sampleArray.end())
-	//EXPECT_LE(std::fabs(testKp),eps);
-	//for(int i = 0; i < N/2 + 1; i++)
-	//std::cout<<"i: " << i << " k: " << k[i] << " S: " << S[i] << std::endl;
-
+	dl->WriteVectorToFile(S, "EflouhailySpectra.h5", "Elfouhaily");
 
   }
   

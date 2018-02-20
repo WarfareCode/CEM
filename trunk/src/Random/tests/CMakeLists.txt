@@ -142,7 +142,7 @@ include_directories( ${SOURCE_DIRECTORY}/Random
                      ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable (${EXE_NAME} PowerSpectraTest.cpp)
-target_link_libraries (${EXE_NAME} PowerSpectra gmock_main ${GPERFTOOLS_LIBRARIES})
+target_link_libraries (${EXE_NAME} PowerSpectra DataLogger gmock_main ${HDF5_LIBRARIES}  ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
