@@ -8,8 +8,9 @@
 #define RANDOM_NUMBER_INTERFACE_H
 
 #include <vector>
+#include <complex>
 
-namespace CEM
+namespace RandomVector
 {
   
   class RandomNumberInterface
@@ -32,6 +33,8 @@ namespace CEM
     virtual long getSeed() = 0;
     
     virtual bool generatorInitialized() = 0;
+    
+    virtual std::vector<std::complex<double> > computeRandomSpectrum(int N, std::vector<double> S, double dk) = 0;
   };
 }
 

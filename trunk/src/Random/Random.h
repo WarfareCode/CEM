@@ -14,7 +14,7 @@
 
 #include <random>
 
-namespace CEM
+namespace RandomVector
 {
 class Random: public RandomNumberInterface
 {
@@ -37,6 +37,8 @@ public:
     virtual long getSeed(){return seed_;}
     
     virtual bool generatorInitialized(){return initialized_;}
+    
+    virtual std::vector<std::complex<double> > computeRandomSpectrum(int N, std::vector<double> S, double dk);
     
     
 private:

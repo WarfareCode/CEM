@@ -10,6 +10,7 @@ endif()
 
 #create the Random test suite
 
+#********************************** Random Test Suite **********************
 #first need to configure the executable test
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   set(EXE_NAME dRandomTest)
@@ -69,12 +70,124 @@ set_property(
 endif()
 endif()
 
-#Finally we have the Valgrind test (if enabled)
-if(RUN_VALGRIND)
-	add_test(NAME Valgrind_RandomTest
-	         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-	         COMMAND valgrind --leak-check=full
-	         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+#********************************** Random Vector Test Suite **********************
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dRandomVectorTest)
+else()
+  set(EXE_NAME RandomVectorTest)
+endif()
+
+include_directories( ${SOURCE_DIRECTORY}/Random
+                     ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable (${EXE_NAME} Random_Vector_Test.cpp)
+target_link_libraries (${EXE_NAME} Random gmock_main ${GPERFTOOLS_LIBRARIES})
+
+#make sure to include math defines for Windows Visual Studio
+target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
+
+		   
+#Now add the tests
+#First is the Build Test
+add_test(NAME Build_RandomVectorTest
+         COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --config $<CONFIGURATION> --target ${EXE_NAME})
+         
+#Next is the Run Tests
+add_test(NAME Run_Random_Vector_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
+
+#Next is the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_Random_Vector_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+set_property(
+             TEST
+	      MemCheck_Random_Vector_Test
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_test)
+set_property(
+             TEST
+	      MemCheck_Random_Vector_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_Random_Vector_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_test)
+set_property(
+             TEST
+	      MemCheck_Random_Vector_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+
+endif()
+endif()
+
+#********************************** Power Spectra Test Suite **********************
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dPowerSpectraTest)
+else()
+  set(EXE_NAME PowerSpectraTest)
+endif()
+
+include_directories( ${SOURCE_DIRECTORY}/Random
+                     ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable (${EXE_NAME} PowerSpectraTest.cpp)
+target_link_libraries (${EXE_NAME} PowerSpectra gmock_main ${GPERFTOOLS_LIBRARIES})
+
+#make sure to include math defines for Windows Visual Studio
+target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
+
+		   
+#Now add the tests
+#First is the Build Test
+add_test(NAME Build_PowerSpectraTest
+         COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --config $<CONFIGURATION> --target ${EXE_NAME})
+         
+#Next is the Run Tests
+add_test(NAME Run_PowerSpectra_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
+
+#Next is the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_PowerSpectra_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+set_property(
+             TEST
+	      MemCheck_PowerSpectra_Test
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_test)
+set_property(
+             TEST
+	      MemCheck_PowerSpectra_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_PowerSpectra_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_test)
+set_property(
+             TEST
+	      MemCheck_PowerSpectra_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+
+endif()
 endif()
 
 

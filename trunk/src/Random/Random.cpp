@@ -6,7 +6,7 @@
 
 #include "Random.h"
 
-namespace CEM
+namespace RandomVector
 {
  /** \brief Random Constructor
  *
@@ -193,4 +193,4 @@ namespace CEM
 
   }
   
-}//end namespace CEM
+}//end namespace RandomVector

@@ -9,7 +9,7 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-namespace CEM
+namespace RandomVector
 {
 
 namespace Random_Test
@@ -284,4 +284,4 @@ double computeVariance(std::vector<double> input)
   
 } // namespace testing
 } // namespace Random_Test
-} //namespace CEM
+} //namespace RandomVector
