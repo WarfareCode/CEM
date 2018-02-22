@@ -29,7 +29,7 @@ namespace CEM
     compute->UpdateFields(time->getCurrentTime(), source);
 
     if (time->timeToLogData())
-      dlogger->WriteMatrixToFileWithTime(compute->getEField(),"/EField",time->getCurrentTime());
+      dlogger->WriteData(compute->getEField(),time->getCurrentTime(),"/EField");
  }
 
 }//end namespace CEM

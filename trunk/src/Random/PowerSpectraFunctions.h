@@ -7,8 +7,5 @@
 #include <vector>
 #include <math.h>
 
-namespace RandomVector
-{
-  std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, double phi);
 
-}
+std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, double phi);

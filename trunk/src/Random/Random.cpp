@@ -6,8 +6,6 @@
 
 #include "Random.h"
 
-namespace RandomVector
-{
  /** \brief Random Constructor
  *
  *  Standard Constructor
@@ -192,5 +190,3 @@ namespace RandomVector
   	return value;
 
   }
-  
-}//end namespace RandomVector

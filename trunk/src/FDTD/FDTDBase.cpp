@@ -82,7 +82,7 @@ namespace CEM
     
     if (input->getDielectricSpecification() == "File")
       {
-	epsR = HDF5IO::ReadMatrixFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
+	//epsR = HDF5IO::ReadMatrixFromFile(input->getDielectricFileName(),input->getDielectricDatasetName());
 
 	//check the size
         if(epsR.size() != dataSize_)

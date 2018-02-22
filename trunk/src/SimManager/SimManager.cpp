@@ -31,7 +31,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
   //create the pointers from the factories
   source_ptr_ = sourceFactory_.createSourceControl(input_);
   compute_ptr_ = computeFactory_.createComputationalEngine(input_);
-  dLogger_ptr_ = dlFactory_.createDataLogger(input_);
+  dLogger_ptr_ = dlFactory_.createDataLogger(input_->getOutputFileName());
 
   //get the unique pointer to the simulation engine
   engine_ptr_ = createSimEngine();
@@ -44,7 +44,7 @@ SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 **/
 void SimManager::Initialize()
 {
-  dLogger_ptr_->InitializeDataLogger(input_);
+
 
 }
  

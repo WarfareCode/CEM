@@ -13,9 +13,6 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
-namespace RandomVector
-{
-
 namespace Power_Spectra_Test
 {
 namespace testing
@@ -31,10 +28,10 @@ namespace testing
     virtual void SetUp()
       {
 	 	eps = 1e-10;
-	 	dl = new CEM::DataLoggerHDF5();
+	 	dl = new DataLoggerHDF5();
       }
       virtual void TearDown(){ delete dl; }
-	  CEM::DataLoggerHDF5* dl;
+	  DataLoggerHDF5* dl;
 	  double dk;
 	  double eps;
 
@@ -63,8 +60,12 @@ namespace testing
 	std::vector<double> S = Elfouhaily(k,U10,age,phi);
 	std::string fileName = "ElfouhailySpectra.h5";
 	
-	dl->WriteVectorToFile(S, fileName, "S");
-	dl->AddVectorToFile(k, fileName, "k");
+	dl->CreateFile(fileName);
+	
+	dl->WriteData(S, "S");
+	dl->WriteData(S, "S");
+	dl->WriteData(k, "k");
+	dl->WriteData(k, "k");
 	
   }
   
@@ -72,4 +73,3 @@ namespace testing
   
 } // namespace testing
 } // namespace Power_Spectra_Test
-} //namespace RandomVector

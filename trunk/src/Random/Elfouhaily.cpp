@@ -6,9 +6,6 @@
 
 #include "PowerSpectraFunctions.h"
 
-namespace RandomVector
-{
-
     /**
    * \brief generate the Elfouhaily wave spectrum
    *
@@ -78,5 +75,3 @@ std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, do
 	
 	return S;
 }
-
-}//end namespace RandomVector

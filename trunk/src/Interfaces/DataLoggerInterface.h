@@ -1,12 +1,6 @@
 /**
 * @file DataLoggerInterface.h
 * @brief Virtual class definition for DataLogger, defines the interface
-* @details Required Interface functions:
-* <pre>
-*    WriteDataArray (overloaded to take either a std::vector or an array)
-*    CreateFile
-*    WriteDataHeader
-* </pre>
 * @author Ben Frazier
 * @date 08/12/2017 */
 
@@ -14,32 +8,42 @@
 #define DATALOGGER_INTERFACE_H
 #include <iostream>
 #include <vector>
-#include "CEMCommon.h"
+#include <Eigen/Dense>
 
-namespace CEM
-{
-  class InputDataInterface;
   
-  class DataLoggerInterface
+class DataLoggerInterface
   {
   public:
-    virtual void InitializeDataLogger(std::shared_ptr<InputDataInterface> input) = 0;
-     
-    virtual Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName)=0;
-    virtual Eigen::MatrixXd ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index)=0;
-
-    virtual void WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName)=0;
-    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string fileName, std::string datasetName, double time)=0;
-    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string datasetName, double time)=0;
+  
+  	//CreateFile
+    virtual void CreateFile(std::string fileName) = 0;
     
-    virtual std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName)=0;
-    virtual std::vector<double> ReadVectorFromFileAtTime(std::string fileName, std::string datasetName, double time)=0;
-
-    virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName)=0;
-    virtual void AddVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName) = 0;
-    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string fileName, std::string datasetName, double time)=0;
-    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string datasetName, double time)=0;
+    //WriteData overloaded types
+     virtual void WriteData(std::vector<double> data, std::string fileName, std::string datasetName)=0;
+     virtual void WriteData(std::vector<double>data, std::string datasetName) = 0;
+     virtual void WriteData(std::vector<double> data, double time, std::string fileName, std::string datasetName)=0;
+     virtual void WriteData(std::vector<double>data, double time, std::string datasetName) = 0;
+     
+     virtual void WriteData(Eigen::MatrixXd data, std::string fileName, std::string datasetName)=0;
+     virtual void WriteData(Eigen::MatrixXd data, std::string datasetName)=0;
+     virtual void WriteData(Eigen::MatrixXd data, double time, std::string fileName, std::string datasetName )=0;
+     virtual void WriteData(Eigen::MatrixXd data, double time, std::string datasetName)=0;
+    
+    //ReadData overloaded types
+    virtual std::vector<double> ReadVector(std::string fileName, std::string datasetName)=0;
+    virtual std::vector<double> ReadVector(std::string datasetName)=0;
+    virtual std::vector<double> ReadVector(int index, std::string fileName, std::string datasetName)=0;
+    virtual std::vector<double> ReadVector(int index, std::string datasetName)=0;
+    
+    virtual Eigen::MatrixXd ReadMatrix(std::string fileName, std::string datasetName)=0;
+    virtual Eigen::MatrixXd ReadMatrix(std::string datasetName)=0;
+    virtual Eigen::MatrixXd ReadMatrix(int index, std::string fileName, std::string datasetName)=0;
+    virtual Eigen::MatrixXd ReadMatrix(int index, std::string datasetName)=0;
+    
+    //Get functions
+    virtual bool getInitialized() = 0;
+    virtual std::string getFileName() = 0;    
   };
-}
+
 
 #endif

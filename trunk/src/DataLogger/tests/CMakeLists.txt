@@ -12,9 +12,9 @@ endif()
 
 #first need to configure the executable test
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-  set(EXE_NAME dDataLogger_Test)
+  set(EXE_NAME dDataLoggerHDF5Test)
 else()
-  set(EXE_NAME DataLogger_Test)
+  set(EXE_NAME DataLoggerHDF5Test)
 endif()
 
 include_directories( ${SOURCE_DIRECTORY}/DataLogger

@@ -13,9 +13,9 @@ namespace CEM
   {
   }
 
-  std::shared_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(std::shared_ptr<InputDataInterface> input)
+  std::shared_ptr<DataLoggerInterface> DataLoggerFactory::createDataLogger(std::string fileName)
   {
-    std::shared_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5());
+    std::shared_ptr<DataLoggerInterface> dataLogger (new DataLoggerHDF5(fileName));
     return dataLogger;
   }
 }

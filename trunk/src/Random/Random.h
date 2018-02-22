@@ -14,8 +14,6 @@
 
 #include <random>
 
-namespace RandomVector
-{
 class Random: public RandomNumberInterface
 {
 public:
@@ -50,7 +48,5 @@ private:
     std::uniform_real_distribution<double> uniform_;
     
 };
-}
-
 
 #endif

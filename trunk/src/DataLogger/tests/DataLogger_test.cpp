@@ -9,13 +9,7 @@
   using ::testing::Test;
 using ::testing::TestWithParam;
 
-#include "MockInputDataInterface.h"
 
-#include "CEMCommon.h"
-
-
-namespace CEM
-{
 namespace DataLogger_Test
 {
 namespace testing
@@ -28,32 +22,119 @@ namespace testing
 
       virtual void SetUp()
       {
-	input = std::make_shared<MockInputData>();
-
-	EXPECT_CALL(*input, getOutputFileName()).WillRepeatedly(::testing::Return("CEMTest.h5"));
-	EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(15));
-        dl = new DataLoggerHDF5();
+		fileName = "test.h5";
+        dl = new DataLoggerHDF5(fileName);
+        size = 10;
 	
       }
       virtual void TearDown(){ delete dl;}
 
       DataLoggerHDF5* dl;
-      std::shared_ptr<MockInputData> input;
-      std::string outputFileName;
+      std::string fileName;
 
       int size;
 
     };
+    
+    //creation and initialization test
+    TEST_F(DataLogger_Test,create_init)
+    {
+    	EXPECT_THAT(dl->getInitialized(),Eq(true));
+    	
+    	DataLoggerHDF5 dl2;
+    	EXPECT_THAT(dl2.getInitialized(),Eq(false));
+    	dl2.CreateFile("test2.h5");
+    	EXPECT_THAT(dl2.getInitialized(),Eq(true));
+    }
+    
+    //test the write and read for std::vectors using a single operation and only the dataset
+    TEST_F(DataLogger_Test,write_read_vector1)
+    {
+    	std::vector<double> wVector(size);
+    	for(int i = 0; i < size; i++)
+			wVector[i] = rand();
 
- 
+    	dl->WriteData(wVector,"vector");
+    	
+    	std::vector<double> rVector = dl->ReadVector("vector");
+	
+    	EXPECT_THAT(wVector.size(), Eq(rVector.size()));
+    	for(int i = 0; i < size; i++)
+    		EXPECT_THAT(wVector[i], Eq(rVector[i]));
+    }
+    
+     //test the write and read for std::vectors using a single operation and both the dataset and file name
+    TEST_F(DataLogger_Test,write_read_vector2)
+    {
+    	std::vector<double> wVector(size);
+    	for(int i = 0; i < size; i++)
+			wVector[i] = rand();
+
+    	dl->WriteData(wVector,fileName,"vector");
+    	
+    	std::vector<double> rVector = dl->ReadVector(fileName,"vector");
+	
+    	EXPECT_THAT(wVector.size(), Eq(rVector.size()));
+    	for(int i = 0; i < size; i++)
+    		EXPECT_THAT(wVector[i], Eq(rVector[i]));
+    }
+    
+   //test the write and read for std::vectors using two operations and only the dataset
+   TEST_P(DataLogger_Test,write_read_vector_multiple1)
+    {
+    	std::vector<double> wVector1(size);
+    	for(int i = 0; i < size; i++)
+			wVector1[i] = rand();
+    	dl->WriteData(wVector1,"vector");
+    	
+    	std::vector<double> wVector2(size);
+    	for(int i = 0; i < size; i++)
+			wVector2[i] = rand();
+    	dl->WriteData(wVector2,"vector");
+    	
+    	std::vector<double> rVector1 = dl->ReadVector(0,"vector");
+    	std::vector<double> rVector2 = dl->ReadVector(1,"vector");
+	
+    	EXPECT_THAT(wVector1.size(), Eq(rVector1.size()));
+    	EXPECT_THAT(wVector2.size(), Eq(rVector2.size()));
+    	for(int i = 0; i < size; i++)
+    	{
+    		EXPECT_THAT(wVector1[i], Eq(rVector1[i]));
+    		EXPECT_THAT(wVector2[i], Eq(rVector2[i]));
+    	}
+    }
+
+    //test the write and read for std::vectors using two operations and both the dataset and file name
+   TEST_P(DataLogger_Test,write_read_vector_multiple2)
+    {
+    	std::vector<double> wVector1(size);
+    	for(int i = 0; i < size; i++)
+			wVector1[i] = rand();
+    	dl->WriteData(wVector1,fileName,"vector");
+    	
+    	std::vector<double> wVector2(size);
+    	for(int i = 0; i < size; i++)
+			wVector2[i] = rand();
+    	dl->WriteData(wVector2,fileName,"vector");
+    	
+    	std::vector<double> rVector1 = dl->ReadVector(0,fileName,"vector");
+    	std::vector<double> rVector2 = dl->ReadVector(1,fileName,"vector");
+	
+    	EXPECT_THAT(wVector1.size(), Eq(rVector1.size()));
+    	EXPECT_THAT(wVector2.size(), Eq(rVector2.size()));
+    	for(int i = 0; i < size; i++)
+    	{
+    		EXPECT_THAT(wVector1[i], Eq(rVector1[i]));
+    		EXPECT_THAT(wVector2[i], Eq(rVector2[i]));
+    	}
+    }
+    
     TEST_P(DataLogger_Test, write_read_efield_2D)
     {
-      int const rows = std::tr1::get<0>(GetParam());
+    /*  int const rows = std::tr1::get<0>(GetParam());
       int const cols = std::tr1::get<1>(GetParam());
       
-      EXPECT_CALL(*input, getGridNumDimensions()).WillRepeatedly(::testing::Return(2));
-      EXPECT_CALL(*input, getVectorXLength()).WillRepeatedly(::testing::Return(cols));
-      EXPECT_CALL(*input, getVectorYLength()).WillRepeatedly(::testing::Return(rows));
+
       
       dl->InitializeDataLogger(input);
       std::string datasetname = "/EField";
@@ -80,13 +161,13 @@ namespace testing
       for(int i = 0; i < rows; i++)
        for(int j = 0;j < cols ;j++)
          EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
-	}
+	}*/
     
     }
 
    TEST_P(DataLogger_Test, write_read_efield_1D)
     {
-      int const rows = 1;
+    /*  int const rows = 1;
       int const cols = std::tr1::get<1>(GetParam());
       
       EXPECT_CALL(*input, getGridNumDimensions()).WillRepeatedly(::testing::Return(1));
@@ -117,30 +198,30 @@ namespace testing
       for(int i = 0; i < rows; i++)
        for(int j = 0;j < cols ;j++)
          EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
-	}
+	}*/
     
     }
 
   TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
-    int const size = std::tr1::get<0>(GetParam());
+   /* int const size = std::tr1::get<0>(GetParam());
 
     std::vector<double> wVector(size);
     for(int i = 0; i < size; i++)
 	wVector[i] = rand();
 
-    dl->WriteVectorToFile(wVector,"testvector.h5","vector");
-    std::vector<double> rVector = dl->ReadVectorFromFile("testvector.h5","vector");
+    dl->WriteData(wVector,"testvector.h5","vector");
+    std::vector<double> rVector = dl->ReadVector("testvector.h5","vector");
 
     EXPECT_THAT(wVector.size(), Eq(rVector.size()));
     for(int i = 0; i < size; i++)
-    EXPECT_THAT(wVector[i], Eq(rVector[i]));
+    EXPECT_THAT(wVector[i], Eq(rVector[i]));*/
   
   }
 
   TEST_P( DataLogger_Test, write_read_matrix_variable_sizes)
   {
-    int const rows = std::tr1::get<0>(GetParam());
+  /*  int const rows = std::tr1::get<0>(GetParam());
     int const cols = std::tr1::get<1>(GetParam());
 
     Eigen::MatrixXd wMatrix(rows,cols);
@@ -148,14 +229,14 @@ namespace testing
       for(int j = 0;j < cols ;j++)
 	wMatrix(i,j) = rand();
 
-    dl->WriteMatrixToFile(wMatrix,"testmatrix.h5","matrix");
-    Eigen::MatrixXd rMatrix = dl->ReadMatrixFromFile("testmatrix.h5","matrix");
+    dl->WriteData(wMatrix,"testmatrix.h5","matrix");
+    Eigen::MatrixXd rMatrix = dl->ReadMatrix("testmatrix.h5","matrix");
 
     EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
     EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
     for(int i = 0; i < rows; i++)
       for(int j = 0;j < cols ;j++)
-        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
+        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));*/
 
   }
 
@@ -173,4 +254,3 @@ namespace testing
 
 } // namespace testing
 } // namespace DataLogger_Test
-} // namespace CEM

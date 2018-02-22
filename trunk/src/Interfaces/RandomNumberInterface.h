@@ -10,9 +10,6 @@
 #include <vector>
 #include <complex>
 
-namespace RandomVector
-{
-  
   class RandomNumberInterface
   {
   public:
@@ -36,6 +33,5 @@ namespace RandomVector
     
     virtual std::vector<std::complex<double> > computeRandomSpectrum(int N, std::vector<double> S, double dk) = 0;
   };
-}
 
 #endif

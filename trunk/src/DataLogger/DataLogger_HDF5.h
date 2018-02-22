@@ -14,52 +14,47 @@
 #include "H5Cpp.h"
 
 #include "DataLoggerInterface.h"
-#include "InputDataInterface.h"
-
-#include "CEMCommon.h"
 
 using namespace H5;
 
-namespace CEM
-{
   class DataLoggerHDF5: public DataLoggerInterface
   {
   public:
     DataLoggerHDF5();
-
-    virtual void InitializeDataLogger(std::shared_ptr<InputDataInterface> input);
+    DataLoggerHDF5(std::string fileName);
     
-    virtual Eigen::MatrixXd ReadMatrixFromFile(std::string fileName, std::string datasetName);
-    virtual Eigen::MatrixXd ReadMatrixFromFileAtTime(std::string fileName, std::string datasetName, int index);
+    virtual void CreateFile(std::string fileName);
 
-    virtual void WriteMatrixToFile(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
-    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string fileName, std::string datasetName, double time);
-    virtual void WriteMatrixToFileWithTime(Eigen::MatrixXd data, std::string datasetName, double time);
-    
-    virtual std::vector<double> ReadVectorFromFile(std::string fileName, std::string datasetName);
-    virtual std::vector<double> ReadVectorFromFileAtTime(std::string fileName, std::string datasetName, double time);
-
-    virtual void WriteVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
-    virtual void AddVectorToFile(std::vector<double> data, std::string fileName, std::string datasetName);
-    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string fileName, std::string datasetName, double time);
-    virtual void WriteVectorToFileWithTime(std::vector<double> data, std::string datasetName, double time);
+    //WriteData overloaded types
+     virtual void WriteData(std::vector<double> data, std::string fileName, std::string datasetName);
+     virtual void WriteData(std::vector<double>data, std::string datasetName);
+     virtual void WriteData(std::vector<double> data, double time, std::string fileName, std::string datasetName);
+     virtual void WriteData(std::vector<double>data, double time, std::string datasetName);
      
-
-  private:
-    void WriteDataHeader(std::shared_ptr<InputDataInterface> input);
-    void CreateFile(std::shared_ptr<InputDataInterface> input);
-	
-  private:
-    DataSet datasetE_;
-    DataSet datasetH_;
-    DataSet datasetT_;
+     virtual void WriteData(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
+     virtual void WriteData(Eigen::MatrixXd data, std::string datasetName);
+     virtual void WriteData(Eigen::MatrixXd data, double time, std::string fileName, std::string datasetName );
+     virtual void WriteData(Eigen::MatrixXd data, double time, std::string datasetName);  
     
-    std::string fileName_;
-    int chunkSize_;
+     virtual std::vector<double> ReadVector(std::string fileName, std::string datasetName);
+     virtual std::vector<double> ReadVector(std::string datasetName);
+     virtual std::vector<double> ReadVector(int index, std::string fileName, std::string datasetName);
+     virtual std::vector<double> ReadVector(int index, std::string datasetName);
+    
+     virtual Eigen::MatrixXd ReadMatrix(std::string fileName, std::string datasetName);
+     virtual Eigen::MatrixXd ReadMatrix(std::string datasetName);
+     virtual Eigen::MatrixXd ReadMatrix(int index, std::string fileName, std::string datasetName);
+     virtual Eigen::MatrixXd ReadMatrix(int index, std::string datasetName);
+    
+     virtual std::string getFileName() {return fileName_;}  
+     virtual bool getInitialized() {return initialized_;}
 
+  private:
+
+    H5File file_;
+    std::string fileName_;
     bool initialized_;
 
   };
-}
 
 #endif

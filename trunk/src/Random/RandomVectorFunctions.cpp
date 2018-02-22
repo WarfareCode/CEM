@@ -6,9 +6,6 @@
 
 #include "Random.h"
 
-namespace RandomVector
-{
-
 /**
    * \brief compute a random vector that follows a given spectrum
    *
@@ -42,5 +39,3 @@ std::vector<std::complex<double> >  Random::computeRandomSpectrum(int N, std::ve
 
 		return V;
 }
-
-}//end namespace Random
