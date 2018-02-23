@@ -102,6 +102,7 @@ namespace testing
     		EXPECT_THAT(wVector1[i], Eq(rVector1[i]));
     		EXPECT_THAT(wVector2[i], Eq(rVector2[i]));
     	}
+    	
     }
 
     //test the write and read for std::vectors using two operations and both the dataset and file name
@@ -129,99 +130,27 @@ namespace testing
     	}
     }
     
-    TEST_P(DataLogger_Test, write_read_efield_2D)
-    {
-    /*  int const rows = std::tr1::get<0>(GetParam());
-      int const cols = std::tr1::get<1>(GetParam());
-      
 
-      
-      dl->InitializeDataLogger(input);
-      std::string datasetname = "/EField";
-      double time = 0.1;
-
-      Eigen::MatrixXd wMatrix(rows,cols);
-      Eigen::MatrixXd rMatrix;
-      int counter = 0;
-      for (int t = 0; t < 10; t ++)
-	{
-    
-        for(int i = 0; i < rows; i++)
-          for(int j = 0;j < cols ;j++)
-	    {
-	    wMatrix(i,j) = rand();
-	    counter++;
-	    }
-      
-      dl->WriteMatrixToFileWithTime(wMatrix,datasetname,t*time);
-      rMatrix = dl->ReadMatrixFromFileAtTime(input->getOutputFileName(),datasetname,t);
-
-      EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
-      EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
-      for(int i = 0; i < rows; i++)
-       for(int j = 0;j < cols ;j++)
-         EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
-	}*/
-    
-    }
-
-   TEST_P(DataLogger_Test, write_read_efield_1D)
-    {
-    /*  int const rows = 1;
-      int const cols = std::tr1::get<1>(GetParam());
-      
-      EXPECT_CALL(*input, getGridNumDimensions()).WillRepeatedly(::testing::Return(1));
-      EXPECT_CALL(*input, getVectorZLength()).WillRepeatedly(::testing::Return(rows*cols));
-      
-      dl->InitializeDataLogger(input);
-      std::string datasetname = "/EField";
-      double time = 0.1;
-
-      Eigen::MatrixXd wMatrix(rows,cols);
-      Eigen::MatrixXd rMatrix;
-      int counter = 0;
-      for (int t = 0; t < 10; t ++)
-	{
-    
-        for(int i = 0; i < rows; i++)
-          for(int j = 0;j < cols ;j++)
-	    {
-	    wMatrix(i,j) = rand();
-	    counter++;
-	    }
-      
-      dl->WriteMatrixToFileWithTime(wMatrix,datasetname,t*time);
-      rMatrix = dl->ReadMatrixFromFileAtTime(input->getOutputFileName(),datasetname,t);
-
-      EXPECT_THAT(wMatrix.rows(), Eq(rMatrix.rows()));
-      EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
-      for(int i = 0; i < rows; i++)
-       for(int j = 0;j < cols ;j++)
-         EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
-	}*/
-    
-    }
-
-  TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
+TEST_P(DataLogger_Test, write_read_vector_variable_sizes)
   {
-   /* int const size = std::tr1::get<0>(GetParam());
+    int const size = std::tr1::get<0>(GetParam());
 
     std::vector<double> wVector(size);
     for(int i = 0; i < size; i++)
-	wVector[i] = rand();
+		wVector[i] = rand();
 
     dl->WriteData(wVector,"testvector.h5","vector");
     std::vector<double> rVector = dl->ReadVector("testvector.h5","vector");
 
     EXPECT_THAT(wVector.size(), Eq(rVector.size()));
     for(int i = 0; i < size; i++)
-    EXPECT_THAT(wVector[i], Eq(rVector[i]));*/
+    	EXPECT_THAT(wVector[i], Eq(rVector[i]));
   
   }
 
-  TEST_P( DataLogger_Test, write_read_matrix_variable_sizes)
+  /*TEST_P( DataLogger_Test, write_read_matrix_variable_sizes)
   {
-  /*  int const rows = std::tr1::get<0>(GetParam());
+    int const rows = std::tr1::get<0>(GetParam());
     int const cols = std::tr1::get<1>(GetParam());
 
     Eigen::MatrixXd wMatrix(rows,cols);
@@ -236,9 +165,9 @@ namespace testing
     EXPECT_THAT(wMatrix.cols(), Eq(rMatrix.cols()));
     for(int i = 0; i < rows; i++)
       for(int j = 0;j < cols ;j++)
-        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));*/
+        EXPECT_THAT(wMatrix(i,j), Eq(rMatrix(i,j)));
 
-  }
+  }*/
 
     std::tr1::tuple<int,int> const FormulaTable[] = {
     std::tr1::make_tuple( 1, 10),

@@ -66,40 +66,38 @@
   	 //open the file and get the requested dataset
   	 DataSet dataset = file.openDataSet( datasetName);
   
-  	hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+  	 hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
 
-    //get the dataspace and determine the size and rank
-  	DataSpace filespace = dataset.getSpace();
-  	int rank = filespace.getSimpleExtentNdims();
+     //get the dataspace and determine the size and rank
+  	 DataSpace filespace = dataset.getSpace();
+  	 int rank = filespace.getSimpleExtentNdims();
 
-  	DSetCreatPropList plist = dataset.getCreatePlist();
+  	 DSetCreatPropList plist = dataset.getCreatePlist();
   
-  	//now get the memory size, the new dataset size, and the offset
-   	hsize_t dims[2];
-   	rank = filespace.getSimpleExtentDims( dims );
-   	rank = plist.getChunk(2,dims);
+  	 //now get the memory size, the new dataset size, and the offset
+   	 hsize_t dims[2];
+   	 rank = filespace.getSimpleExtentDims( dims );
+   	 rank = plist.getChunk(2,dims);
+   	
 
-   	hsize_t dsize[2];
-   	hsize_t offset[2];
-   	offset[0] = 0;
-   	offset[1] = index * dims[1];
+   	 hsize_t dsize;
+   	 hsize_t offset;
+   	 offset = index * dims[0];
 
    	//create the memory space
-   	DataSpace mspace(rank, dims);
+   	DataSpace mspace(rank, &dims[0]);
     
-  	if (rank == 1)
-   	 	data_out.resize(1,dims[0]);
-  	else
-    	data_out.resize(dims[1],dims[0]);
+   	data_out.resize(dims[0]);
 
    	//get the file space
    	DataSpace fspace = dataset.getSpace();
    	//select the hyperslabs
-   	fspace.selectHyperslab( H5S_SELECT_SET, dims,  offset);
+   	fspace.selectHyperslab( H5S_SELECT_SET, &dims[0],  &offset);
     
   	dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, fspace );
-    
+
   	return data_out;
+  	
     }
     
      //************************************************************************************************************
@@ -110,39 +108,36 @@
   	 //open the file and get the requested dataset
   	 DataSet dataset = file_.openDataSet( datasetName);
   
-  	hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
+  	 hsize_t currentSize = dataset.getStorageSize()/8; //Assume 64-bit double value
 
-    //get the dataspace and determine the size and rank
-  	DataSpace filespace = dataset.getSpace();
-  	int rank = filespace.getSimpleExtentNdims();
+     //get the dataspace and determine the size and rank
+  	 DataSpace filespace = dataset.getSpace();
+  	 int rank = filespace.getSimpleExtentNdims();
 
-  	DSetCreatPropList plist = dataset.getCreatePlist();
+  	 DSetCreatPropList plist = dataset.getCreatePlist();
   
-  	//now get the memory size, the new dataset size, and the offset
-   	hsize_t dims[2];
-   	rank = filespace.getSimpleExtentDims( dims );
-   	rank = plist.getChunk(2,dims);
+  	 //now get the memory size, the new dataset size, and the offset
+   	 hsize_t dims[2];
+   	 rank = filespace.getSimpleExtentDims( dims );
+   	 rank = plist.getChunk(2,dims);
+   	
 
-   	hsize_t dsize[2];
-   	hsize_t offset[2];
-   	offset[0] = 0;
-   	offset[1] = index * dims[1];
+   	 hsize_t dsize;
+   	 hsize_t offset;
+   	 offset = index * dims[0];
 
    	//create the memory space
-   	DataSpace mspace(rank, dims);
+   	DataSpace mspace(rank, &dims[0]);
     
-  	if (rank == 1)
-   	 	data_out.resize(1,dims[0]);
-  	else
-    	data_out.resize(dims[1],dims[0]);
+   	data_out.resize(dims[0]);
 
    	//get the file space
    	DataSpace fspace = dataset.getSpace();
    	//select the hyperslabs
-   	fspace.selectHyperslab( H5S_SELECT_SET, dims,  offset);
+   	fspace.selectHyperslab( H5S_SELECT_SET, &dims[0],  &offset);
     
   	dataset.read( &data_out[0], PredType::NATIVE_DOUBLE, mspace, fspace );
-    
+
   	return data_out;
   
     }
