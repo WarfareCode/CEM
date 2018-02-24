@@ -19,16 +19,9 @@ class DataLoggerInterface
     virtual void CreateFile(std::string fileName) = 0;
     
     //WriteData overloaded types
-     virtual void WriteData(std::vector<double> data, std::string fileName, std::string datasetName)=0;
      virtual void WriteData(std::vector<double>data, std::string datasetName) = 0;
-     virtual void WriteData(std::vector<double> data, double time, std::string fileName, std::string datasetName)=0;
-     virtual void WriteData(std::vector<double>data, double time, std::string datasetName) = 0;
-     
-     virtual void WriteData(Eigen::MatrixXd data, std::string fileName, std::string datasetName)=0;
      virtual void WriteData(Eigen::MatrixXd data, std::string datasetName)=0;
-     virtual void WriteData(Eigen::MatrixXd data, double time, std::string fileName, std::string datasetName )=0;
-     virtual void WriteData(Eigen::MatrixXd data, double time, std::string datasetName)=0;
-    
+
     //ReadData overloaded types
     virtual std::vector<double> ReadVector(std::string fileName, std::string datasetName)=0;
     virtual std::vector<double> ReadVector(std::string datasetName)=0;

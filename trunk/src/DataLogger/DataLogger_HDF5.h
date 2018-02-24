@@ -26,15 +26,8 @@ using namespace H5;
     virtual void CreateFile(std::string fileName);
 
     //WriteData overloaded types
-     virtual void WriteData(std::vector<double> data, std::string fileName, std::string datasetName);
      virtual void WriteData(std::vector<double>data, std::string datasetName);
-     virtual void WriteData(std::vector<double> data, double time, std::string fileName, std::string datasetName);
-     virtual void WriteData(std::vector<double>data, double time, std::string datasetName);
-     
-     virtual void WriteData(Eigen::MatrixXd data, std::string fileName, std::string datasetName);
      virtual void WriteData(Eigen::MatrixXd data, std::string datasetName);
-     virtual void WriteData(Eigen::MatrixXd data, double time, std::string fileName, std::string datasetName );
-     virtual void WriteData(Eigen::MatrixXd data, double time, std::string datasetName);  
     
      virtual std::vector<double> ReadVector(std::string fileName, std::string datasetName);
      virtual std::vector<double> ReadVector(std::string datasetName);
@@ -50,6 +43,11 @@ using namespace H5;
      virtual bool getInitialized() {return initialized_;}
 
   private:
+
+	std::vector<double> ReadVector(int index, H5File file, std::string datasetName);
+	void WriteData(std::vector<double>data, H5File file, std::string datasetName);
+	
+	Eigen::MatrixXd ReadMatrix(int index, H5File file, std::string datasetName);
 
     H5File file_;
     std::string fileName_;

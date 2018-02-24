@@ -29,7 +29,12 @@ namespace CEM
     compute->UpdateFields(time->getCurrentTime(), source);
 
     if (time->timeToLogData())
-      dlogger->WriteData(compute->getEField(),time->getCurrentTime(),"/EField");
+    {
+      std::vector<double>t;
+      t.push_back(time->getCurrentTime());
+      dlogger->WriteData(compute->getEField(),"EField");
+      dlogger->WriteData(t,"time");
+    }
  }
 
 }//end namespace CEM

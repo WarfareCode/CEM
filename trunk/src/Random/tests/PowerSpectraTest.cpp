@@ -3,6 +3,7 @@
 #include <iterator>
 #include <math.h>
 
+#include <gperftools/heap-profiler.h>
 #include "DataLogger_HDF5.h"
 
 #include <string>
@@ -40,7 +41,7 @@ namespace testing
 //Test 1 - Elfouhaily power spectra
   TEST_F(PowerSpectraTest, Elfouhaily)
   {
-  
+  HeapProfilerStart("prefix.000") ;
   	double L = 20000;
   	double N = 40000;
   	double phi = 0.0;
@@ -66,6 +67,8 @@ namespace testing
 	dl->WriteData(S, "S");
 	dl->WriteData(k, "k");
 	dl->WriteData(k, "k");
+	HeapProfilerDump("done");
+	HeapProfilerStop(); 
 	
   }
   

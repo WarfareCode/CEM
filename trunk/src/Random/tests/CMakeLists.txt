@@ -106,11 +106,16 @@ add_test(NAME MemCheck_Random_Vector_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
+#set_property(
+ #            TEST
+#	      MemCheck_Random_Vector_Test
+#	      PROPERTY
+#	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_vector_test)
 set_property(
              TEST
 	      MemCheck_Random_Vector_Test
 	      PROPERTY
-	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_test)
+	      ENVIRONMENT HEAPCHECK=normal)
 set_property(
              TEST
 	      MemCheck_Random_Vector_Test
@@ -120,7 +125,7 @@ set_property(
              TEST
 	      MemCheck_Random_Vector_Test
 	      APPEND PROPERTY
-	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_test)
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_vector_test)
 set_property(
              TEST
 	      MemCheck_Random_Vector_Test
@@ -170,7 +175,7 @@ set_property(
              TEST
 	      MemCheck_PowerSpectra_Test
 	      PROPERTY
-	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_test)
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_power_spectra_test)
 set_property(
              TEST
 	      MemCheck_PowerSpectra_Test
@@ -180,7 +185,7 @@ set_property(
              TEST
 	      MemCheck_PowerSpectra_Test
 	      APPEND PROPERTY
-	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_test)
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_power_spectra_test)
 set_property(
              TEST
 	      MemCheck_PowerSpectra_Test
