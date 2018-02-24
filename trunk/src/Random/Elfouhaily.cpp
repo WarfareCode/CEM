@@ -69,7 +69,7 @@ std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, do
 		a0 = log(2)/2.0;
 		am = 0.13*ustar/cm;
 		Delk = tanh(a0 + ap*pow(c/cp,2.5) + am*pow(cm/c,2.5));
-		//S[i]= 1*S[i]*1/(2.)*(1 + Delk*cos(2*phi));
+		S[i]= 1*S[i]*1/(2.)*(1 + Delk*cos(2*phi));
 
 	}
 	

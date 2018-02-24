@@ -32,6 +32,7 @@
     virtual bool generatorInitialized() = 0;
     
     virtual std::vector<std::complex<double> > computeRandomSpectrum(int N, std::vector<double> S, double dk) = 0;
+    virtual std::vector<double> computeSeaSurface(int L, int N, double U10, double age, double phi, std::vector<double> &x) = 0;
   };
 
 #endif

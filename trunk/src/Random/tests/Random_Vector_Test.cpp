@@ -1,6 +1,8 @@
 #include "Random.h"
 #include <algorithm>
 
+#include "DataLogger_HDF5.h"
+
 #include <string>
   using std::string;
 
@@ -8,9 +10,6 @@
   using ::testing::Eq;
 #include <gtest/gtest.h>
   using ::testing::Test;
-
-namespace RandomVector
-{
 
 namespace Random_Test
 {
@@ -69,7 +68,24 @@ TEST_F(RandomTest, symmetry)
 	}
 }
   
+//Test 2 - generate random sea suface
+TEST_F(RandomTest, sea_surface)
+{
+    random->setSeed(initialSeed);
+    EXPECT_THAT(random->generatorInitialized(), Eq(true));
+    EXPECT_THAT(random->getSeed(), Eq(initialSeed));
+
+	int L = 20000;
+	int N = 40000;
+	double age = 0.84;
+	double U10 = 10.0;
+	double phi = 0.0;
+	std::vector<double> x;
+	std::vector<double> h = random->computeSeaSurface(L, N, U10, age, phi, x);
+	DataLoggerHDF5 dl("SeaSurface.h5");
+	dl.WriteData(h, "h");
+	dl.WriteData(x, "x");
+}
   
 } // namespace testing
 } // namespace Random_Test
-} //namespace RandomVector

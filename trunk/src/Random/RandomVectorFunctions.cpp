@@ -5,6 +5,7 @@
 * @date 02/17/2018 */
 
 #include "Random.h"
+#include "PowerSpectraFunctions.h"
 
 /**
    * \brief compute a random vector that follows a given spectrum
@@ -38,4 +39,45 @@ std::vector<std::complex<double> >  Random::computeRandomSpectrum(int N, std::ve
 		}
 
 		return V;
+}
+
+/**
+   * \brief compute a random sea surface
+   *
+   * This function returns a vector of random numbers with Hermitian symmetry that follows
+   * a random spectrum in k-space
+   *  @param L The spatial domain length to use
+    * @param N The size of the vector, must be an even integer
+    * @param U10 The wind speed at 10 m altitude
+    * @param age The inverse age parameter to use
+    * @param phi The angle relative to the downwind direction
+    * @param x A reference to a standard vector containing the spatial points*/
+std::vector<double> Random::computeSeaSurface(int L, int N, double U10, double age, double phi, std::vector<double> &x)
+{
+
+    std::vector<double> output(N,0);
+    x.resize(N);
+	double dk = 2*M_PI/(double)L;
+	std::vector<double> k;
+	
+		
+	for(int i = 0; i < N/2 + 1; i++)
+	{
+		k.push_back(i*dk);
+	}
+	
+	
+	std::vector<double> S = Elfouhaily(k,U10,age,phi);
+	std::vector<std::complex<double> > V = computeRandomSpectrum(N,S,dk);
+
+	fftw_plan p = fftw_plan_dft_c2r_1d(N, reinterpret_cast<fftw_complex*>(&V[0]),
+ 						 &output[0],FFTW_ESTIMATE);
+
+    fftw_execute(p);
+    
+    for (int i = 0; i < N; i++)
+    	x[i] = i*(double)L/(double)N;
+    	
+    return output;
+    
 }

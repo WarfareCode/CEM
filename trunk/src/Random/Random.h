@@ -38,6 +38,8 @@ public:
     
     virtual std::vector<std::complex<double> > computeRandomSpectrum(int N, std::vector<double> S, double dk);
     
+    virtual std::vector<double> computeSeaSurface(int L, int N, double U10, double age, double phi, std::vector<double> &x);
+    
     
 private:
     long seed_;

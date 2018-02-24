@@ -29,7 +29,7 @@ namespace testing
     virtual void SetUp()
       {
 	 	eps = 1e-10;
-	 	dl = new DataLoggerHDF5();
+	 	dl = new DataLoggerHDF5("PowerSpectra.h5");
       }
       virtual void TearDown(){ delete dl; }
 	  DataLoggerHDF5* dl;
@@ -59,20 +59,12 @@ namespace testing
 	double testKp = 9.81*age*age/(U10*U10);
 	
 	std::vector<double> S = Elfouhaily(k,U10,age,phi);
-	std::string fileName = "ElfouhailySpectra.h5";
-	
-	dl->CreateFile(fileName);
-	
-	dl->WriteData(S, "S");
-	dl->WriteData(S, "S");
-	dl->WriteData(k, "k");
+	dl->WriteData(S, "Elfouhaily");
 	dl->WriteData(k, "k");
 	HeapProfilerDump("done");
-	HeapProfilerStop(); 
-	
+	HeapProfilerStop(); 	
   }
   
-
   
 } // namespace testing
 } // namespace Power_Spectra_Test
