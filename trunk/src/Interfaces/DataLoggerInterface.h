@@ -21,6 +21,7 @@ class DataLoggerInterface
     //WriteData overloaded types
      virtual void WriteData(std::vector<double>data, std::string datasetName) = 0;
      virtual void WriteData(Eigen::MatrixXd data, std::string datasetName)=0;
+     virtual void WriteData(double data, std::string datasetName) = 0;
 
     //ReadData overloaded types
     virtual std::vector<double> ReadVector(std::string fileName, std::string datasetName)=0;
@@ -32,6 +33,11 @@ class DataLoggerInterface
     virtual Eigen::MatrixXd ReadMatrix(std::string datasetName)=0;
     virtual Eigen::MatrixXd ReadMatrix(int index, std::string fileName, std::string datasetName)=0;
     virtual Eigen::MatrixXd ReadMatrix(int index, std::string datasetName)=0;
+    
+    virtual double ReadDouble(std::string fileName, std::string datasetName)=0;
+    virtual double ReadDouble(std::string datasetName)=0;
+    virtual double ReadDouble(int index, std::string fileName, std::string datasetName)=0;
+    virtual double ReadDouble(int index, std::string datasetName)=0;
     
     //Get functions
     virtual bool getInitialized() = 0;

@@ -35,4 +35,3 @@
      file_ = H5File( fileName, H5F_ACC_TRUNC );
 	 initialized_ = true;
 	}
-	
