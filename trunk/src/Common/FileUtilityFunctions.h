@@ -9,14 +9,10 @@
 
 #include <string>
 
-namespace CEM
+namespace FILEUTILITIES
 {
-   namespace FILE
-   {
-
      std::string FindInputFile(std::string requestedFileName);
-
-   }
 }
+
 
 #endif

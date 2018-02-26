@@ -16,7 +16,7 @@ namespace CEM
 SimManager::SimManager(std::string inputFileName, std::string outputFileName)
 {
   //need to find the input file in the various paths
-  inputFileName = CEM::FILE::FindInputFile(inputFileName);
+  inputFileName = FILEUTILITIES::FindInputFile(inputFileName);
 
   //get the shared pointer to the input parser
   ip_ = std::make_shared<InputParser>();

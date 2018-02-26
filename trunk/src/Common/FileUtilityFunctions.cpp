@@ -9,12 +9,17 @@
 #include<iostream>
 #include <vector>
 
-namespace CEM
+namespace FILEUTILITIES
 {
-  namespace FILE
-  {
-      std::string FindInputFile(std::string requestedFileName)
-      {
+    /**
+   * \brief FindInputFIle function
+   *
+   * This function searches for a named file in possible "Input_Data" directories and
+   * returns a string with the full path name to the file
+   * @param requestedFileName The file name to look for
+   */
+ std::string FindInputFile(std::string requestedFileName)
+ {
 	std::string fileName;
 	bool fileFound = false;
 	std::fstream fs;
@@ -37,13 +42,12 @@ namespace CEM
 
 	if (!fileFound)
 	  {
-	    std::string eString = "FILE::FindInputFile ... File: " + requestedFileName + " not found";
+	    std::string eString = "FILEUTILITIES::FindInputFile ... File: " + requestedFileName + " not found";
 	    throw std::runtime_error(eString);
 	  }
 	
 	return fileName;
-      }
+ }
 
     
-  }//end namespace FILE
-}//end namespace CEM
+}//end namespace FILE

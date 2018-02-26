@@ -2,8 +2,6 @@
 * @file DataLogger_HDF5.h
 * @brief Header File for the DataLogger_HDF5 class
 * @author Ben Frazier
-* @todo Clean up reading/writing for both EField and HField vectors
-* @todo Add support for 2D and 3D data sets
 * @date 08/12/2017 */
 
 #ifndef DATALOGGER_HDF5_H

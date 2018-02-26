@@ -10,7 +10,7 @@
 #include <Eigen/Dense>
 #include <vector>
 
-namespace CEM
+namespace ABC
 {
   /**
    * @brief enumeration for the Absorbing Boundary Condition (ABC)
@@ -22,6 +22,6 @@ namespace CEM
     TFSF_ABC
   };
 
-}// end namespace CEM
+}// end namespace ABC
 
 #endif

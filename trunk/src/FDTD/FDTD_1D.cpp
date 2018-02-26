@@ -18,7 +18,7 @@ namespace CEM
  * @param gridDefinition The input definition of the grid
  */
   FDTD_1D::FDTD_1D(std::shared_ptr<InputDataInterface> input):
-    ABC(SimpleABC),
+    ABC(ABC::SimpleABC),
     dataSize_(0)
   {
     InitializeEngine(input);
@@ -34,7 +34,7 @@ namespace CEM
   {
     dataSize_ = input->getVectorZLength();
 		      
-    ABC = SimpleABC;
+    ABC = ABC::SimpleABC;
     H.resize(1,dataSize_);
     E.resize(1,dataSize_);
     Ca.resize(1,dataSize_);
@@ -64,13 +64,13 @@ namespace CEM
     
     for (int i = 0; i < dataSize_; i++)
       {
-	denE = 1 + (sigmaE(0,i)*deltaT)/(2*epsilon0*epsR(0,i));
-	Ca(0,i) = 1 - (sigmaE(0,i) * deltaT)/(2*epsilon0*epsR(0,i))/denE;
-	Cb(0,i) = deltaT/(epsilon0*epsR(0,i)*deltaZ)/denE;
+	denE = 1 + (sigmaE(0,i)*deltaT)/(2*CONSTANT::epsilon0*epsR(0,i));
+	Ca(0,i) = 1 - (sigmaE(0,i) * deltaT)/(2*CONSTANT::epsilon0*epsR(0,i))/denE;
+	Cb(0,i) = deltaT/(CONSTANT::epsilon0*epsR(0,i)*deltaZ)/denE;
 
-	denH = 1 + sigmaH(0,i)*deltaT/(2*mu0*muR(0,i));
-	Da(0,i) = (1 - sigmaH(0,i)*deltaT/(2*mu0*muR(0,i)))/denH;
-	Db(0,i) = (deltaT/(mu0*muR(0,i)*deltaZ))/denH;
+	denH = 1 + sigmaH(0,i)*deltaT/(2*CONSTANT::mu0*muR(0,i));
+	Da(0,i) = (1 - sigmaH(0,i)*deltaT/(2*CONSTANT::mu0*muR(0,i)))/denH;
+	Db(0,i) = (deltaT/(CONSTANT::mu0*muR(0,i)*deltaZ))/denH;
 
       }
   }
@@ -207,14 +207,14 @@ namespace CEM
   {
     switch (ABC)
       {
-      case NoABC:
+      case ABC::NoABC:
 	break;
       
-      case SimpleABC:
+      case ABC::SimpleABC:
 	simpleABC_E();
 	break;
       
-      case TFSF_ABC:
+      case ABC::TFSF_ABC:
 	break;
       default:
 	break;
@@ -225,14 +225,14 @@ namespace CEM
   {
     switch (ABC)
       {
-      case NoABC:
+      case ABC::NoABC:
 	break;
       
-      case SimpleABC:
+      case ABC::SimpleABC:
 	simpleABC_H();
 	break;
       
-      case TFSF_ABC:
+      case ABC::TFSF_ABC:
 	break;
       default:
 	break;

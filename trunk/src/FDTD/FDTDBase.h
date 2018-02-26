@@ -41,7 +41,7 @@ namespace CEM
     
     int sourceIndex_;  /*!< Spatial index where the source is applied*/
 
-    AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
+    ABC::AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
 
     void simpleABC_E();
     void simpleABC_H();

@@ -29,7 +29,7 @@ namespace testing
         std::cout<<"Current Directory: " << cwd << std::endl;
 	
 	 ip = std::make_shared<InputParser>();
-         testFileName = FILE::FindInputFile("CEMInputTestFile.yaml");
+         testFileName = FILEUTILITIES::FindInputFile("CEMInputTestFile.yaml");
        }
       virtual void TearDown(){}
 

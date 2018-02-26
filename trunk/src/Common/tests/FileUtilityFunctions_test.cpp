@@ -10,8 +10,6 @@
 using ::testing::TestWithParam;
 
 
-namespace CEM
-{
 namespace FileUtilityFunction_Test
 {
 namespace testing
@@ -35,11 +33,11 @@ namespace testing
   {
 
     std::string requestedFileName = "InvalidName.xyz";
-    std::string testString = "FILE::FindInputFile ... File: " + requestedFileName + " not found";
+    std::string testString = "FILEUTILITIES::FindInputFile ... File: " + requestedFileName + " not found";
     try
       {
 
-	std::string testName1 = FILE::FindInputFile(requestedFileName);
+	std::string testName1 = FILEUTILITIES::FindInputFile(requestedFileName);
       }
 
     catch(std::runtime_error error)
@@ -53,11 +51,10 @@ namespace testing
   {
 
 	std::string requestedFileName = "CEMInputFile.yaml";
-	std::string testName1 = FILE::FindInputFile(requestedFileName);
+	std::string testName1 = FILEUTILITIES::FindInputFile(requestedFileName);
 
   }
 
 
 } // namespace testing
-} // namespace HDF5Reader_Test
-} // namespace CEM
+} // namespace FileUtilityFunction_Test

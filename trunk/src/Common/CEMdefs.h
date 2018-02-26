@@ -7,7 +7,7 @@
 #ifndef CEMDEFS_H
 #define CEMDEFS_H
 
-namespace CEM
+namespace CONSTANT
 {
   const double speedOfLight = 299792458; /*!< speed of light in \f[\frac{m}{s}\f] */
   const double epsilon0 = 8.85418782E-12;  /*!< permittivity of free space in \f[\frac{s^4A^2}{m^3kg}\f] */

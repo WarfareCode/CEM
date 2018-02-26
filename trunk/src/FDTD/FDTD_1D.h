@@ -33,7 +33,7 @@ namespace CEM
     virtual Eigen::MatrixXd getHField() {return H;}
     
     //get functions
-    AbsorbingBoundaryCondition getABC(){return ABC;};
+    ABC::AbsorbingBoundaryCondition getABC(){return ABC;};
 
   private:
     char HDirection, EDirection;
@@ -46,7 +46,7 @@ namespace CEM
     
     int sourceIndex_;  /*!< Spatial index where the source is applied*/
 
-    AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
+    ABC::AbsorbingBoundaryCondition ABC; /*!< Selection to use for absorbing boundary condition */
 
     void simpleABC_E();
     void simpleABC_H();

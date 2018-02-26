@@ -193,7 +193,7 @@ namespace CEM
    */
     YAML::Node OpenYAMLFile(std::string fileName)
   {
-    YAML::Node node = YAML::LoadFile(FILE::FindInputFile(fileName));
+    YAML::Node node = YAML::LoadFile(FILEUTILITIES::FindInputFile(fileName));
 
     if (node.IsNull())
       {
