@@ -14,6 +14,8 @@
 #include <gtest/gtest.h>
   using ::testing::Test;
 
+namespace PowerSpectra
+{
 namespace Power_Spectra_Test
 {
 namespace testing
@@ -68,3 +70,4 @@ namespace testing
   
 } // namespace testing
 } // namespace Power_Spectra_Test
+} // namespace PowerSpectra

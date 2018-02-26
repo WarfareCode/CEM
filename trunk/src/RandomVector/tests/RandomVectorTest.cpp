@@ -1,4 +1,4 @@
-#include "Random.h"
+#include "RandomVector.h"
 #include <algorithm>
 
 #include <string>
@@ -8,9 +8,6 @@
   using ::testing::Eq;
 #include <gtest/gtest.h>
   using ::testing::Test;
-
-namespace RandomVector
-{
 
 namespace Random_Test
 {
@@ -49,14 +46,14 @@ double computeVariance(std::vector<double> input)
 
     virtual void SetUp()
       {
-      	random = new Random();
+      	random = new RandomVector();
 		initialSeed = 5643467;
 		eps = 5e-3;
 		nTrials = 1000000;
       }
       virtual void TearDown(){ delete random; }
 
-      Random *random;
+      RandomVector *random;
       long initialSeed;
 	  double eps;
 	  int nTrials;
@@ -284,4 +281,3 @@ double computeVariance(std::vector<double> input)
   
 } // namespace testing
 } // namespace Random_Test
-} //namespace RandomVector

@@ -1,17 +1,17 @@
 /**
-* @file Random.cpp
-* @brief Implementation of the Random class
+* @file RandomVector.cpp
+* @brief Implementation of the RandomVector class
 * @author Ben Frazier
 * @date 02/17/2018 */
 
-#include "Random.h"
+#include "RandomVector.h"
 
  /** \brief Random Constructor
  *
  *  Standard Constructor
 
  */
-  Random::Random():
+  RandomVector::RandomVector():
     seed_(5789321),
     initialized_(false)
   {
@@ -23,7 +23,7 @@
    *
    * This function sets the random seed for the generator
    * @param seed The seed to use*/
-  void Random::setSeed(long seed)
+  void RandomVector::setSeed(long seed)
   {
     seed_ = seed;
     generator_.seed(seed_);
@@ -38,7 +38,7 @@
    *
    * This function returns a single double value that is normally distributed between 0 
     * and 1*/
-  double Random::normal()
+  double RandomVector::normal()
   {
    double value =  normal_(generator_);
    
@@ -51,7 +51,7 @@
    * This function returns a single double value that is normally distributed between 0 
     * and 1
     * @param size The length of the vector to return*/
-  std::vector<double> Random::normal(int size)
+  std::vector<double> RandomVector::normal(int size)
   {
   	std::vector<double> value;
   	for (int i = 0; i < size; i++)
@@ -68,7 +68,7 @@
    * specified mean and variance 
     * @param mean The mean of the distribution
     * @param variance The variance of the distribution*/
-  double Random::normal(double mean, double stdDev)
+  double RandomVector::normal(double mean, double stdDev)
   {
   	std::normal_distribution<double> distribution(mean,stdDev);
   	double value = distribution(generator_);
@@ -85,7 +85,7 @@
     *@param size The length of the vector to return
      * @param mean The mean of the distribution
     * @param variance The variance of the distribution*/
-  std::vector<double> Random::normal(int size,double mean, double stdDev)
+  std::vector<double> RandomVector::normal(int size,double mean, double stdDev)
   {
   std::normal_distribution<double> distribution(mean,stdDev);
   std::vector<double> value;
@@ -102,7 +102,7 @@
    *
    * This function returns a single double value that is uniformly distributed between 0 
     * and 1*/
-  double Random::uniform()
+  double RandomVector::uniform()
   {
    return uniform_(generator_);
   }
@@ -115,7 +115,7 @@
    * upper and lower bound 
     *@param lowerBound The lowerBound of the distribution
      * @param mean The upperBound of the distribution*/
-  double Random::uniform(double lowerBound, double upperBound)
+  double RandomVector::uniform(double lowerBound, double upperBound)
   {
   std::uniform_real_distribution<double> distribution(lowerBound,upperBound);
    return distribution(generator_);
@@ -128,7 +128,7 @@
    *between 0 and 1
     *@param lowerBound The lowerBound of the distribution
      * @param mean The upperBound of the distribution*/
-  std::vector<double> Random::uniform(int size)
+  std::vector<double> RandomVector::uniform(int size)
   {
   std::vector<double> value;
      for (int i = 0; i < size; i++)
@@ -146,7 +146,7 @@
    *between an upper and lower bound 
     *@param lowerBound The lowerBound of the distribution
      * @param mean The upperBound of the distribution*/
-  std::vector<double> Random::uniform(int size, double lowerBound, double upperBound)
+  std::vector<double> RandomVector::uniform(int size, double lowerBound, double upperBound)
   {
   std::uniform_real_distribution<double> distribution(lowerBound,upperBound);
   std::vector<double> value;
@@ -166,7 +166,7 @@
    * This function returns a single double value that follows a chi-square distribution
    * with the specified degree
     * @param degree The degree of the distribution*/
-  double Random::chisquare(double degree)
+  double RandomVector::chisquare(double degree)
   {
   	std::chi_squared_distribution<double> distribution (degree);
   	return distribution(generator_);
@@ -179,7 +179,7 @@
    * with the specified degree
    @param size The length of the vector to return
      * @param degree The degree of the distribution*/
-  std::vector<double> Random::chisquare(int size, double degree)
+  std::vector<double> RandomVector::chisquare(int size, double degree)
   {
   std::vector<double> value(0);
   	std::chi_squared_distribution<double> distribution (degree);

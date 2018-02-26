@@ -7,5 +7,7 @@
 #include <vector>
 #include <math.h>
 
-
-std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, double phi);
+namespace PowerSpectra
+{
+ std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, double phi);
+ }

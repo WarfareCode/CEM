@@ -1,4 +1,4 @@
-#include "Random.h"
+#include "RandomVector.h"
 #include <algorithm>
 
 #include "DataLogger_HDF5.h"
@@ -23,14 +23,14 @@ namespace testing
 
     virtual void SetUp()
       {
-      	random = new Random();
+      	random = new RandomVector();
 		initialSeed = 5643467;
 	    eps = 1e-10;
 		N = 50000;
       }
       virtual void TearDown(){ delete random; }
 
-      Random *random;
+      RandomVector *random;
       long initialSeed;
 	  int N;
 	  double eps;

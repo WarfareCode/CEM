@@ -1,17 +1,17 @@
 /**
-* @file RandomNumberInterface.h
-* @brief Virtual class definition for Random, defines the interface
+* @file RandomVectorInterface.h
+* @brief Virtual class definition for RandomVector, defines the interface
 * @author Ben Frazier
 * @date 02/17/2018 */
 
-#ifndef RANDOM_NUMBER_INTERFACE_H
-#define RANDOM_NUMBER_INTERFACE_H
+#ifndef RANDOM_VECTOR_INTERFACE_H
+#define RANDOM_VECTOR_INTERFACE_H
 
 #include <vector>
 #include <complex>
 
-  class RandomNumberInterface
-  {
+  class RandomVectorInterface
+  { 
   public:
     virtual double normal()=0;
     virtual double normal(double mean, double stdDev) = 0;

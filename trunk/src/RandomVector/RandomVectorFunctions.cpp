@@ -1,10 +1,10 @@
 /**
 * @file RandomVectorUtilities.cpp
-* @brief Implementation of the Random Vector functions for the Random class
+* @brief Implementation of the Random Vector functions for the RandomVector class
 * @author Ben Frazier
 * @date 02/17/2018 */
 
-#include "Random.h"
+#include "RandomVector.h"
 #include "PowerSpectraFunctions.h"
 
 /**
@@ -15,7 +15,7 @@
     * @param N The size of the vector, must be an even integer
     * @param S The input Spectrum to use (must be one sided and of size N/2 + 1 to contain both the 0 and N/2 elements in k-space
     * @param dk The incremental spacing in k-space (used to normalize the spectrum)*/
-std::vector<std::complex<double> >  Random::computeRandomSpectrum(int N, std::vector<double> S, double dk)
+std::vector<std::complex<double> >  RandomVector::computeRandomSpectrum(int N, std::vector<double> S, double dk)
 {
 		//need a complex 
 		std::vector<std::complex<double> > V;
@@ -52,7 +52,7 @@ std::vector<std::complex<double> >  Random::computeRandomSpectrum(int N, std::ve
     * @param age The inverse age parameter to use
     * @param phi The angle relative to the downwind direction
     * @param x A reference to a standard vector containing the spatial points*/
-std::vector<double> Random::computeSeaSurface(int L, int N, double U10, double age, double phi, std::vector<double> &x)
+std::vector<double> RandomVector::computeSeaSurface(int L, int N, double U10, double age, double phi, std::vector<double> &x)
 {
 
     std::vector<double> output(N,0);
@@ -67,7 +67,7 @@ std::vector<double> Random::computeSeaSurface(int L, int N, double U10, double a
 	}
 	
 	
-	std::vector<double> S = Elfouhaily(k,U10,age,phi);
+	std::vector<double> S = PowerSpectra::Elfouhaily(k,U10,age,phi);
 	std::vector<std::complex<double> > V = computeRandomSpectrum(N,S,dk);
 
 	fftw_plan p = fftw_plan_dft_c2r_1d(N, reinterpret_cast<fftw_complex*>(&V[0]),

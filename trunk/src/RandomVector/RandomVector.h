@@ -1,23 +1,23 @@
 /**
-* @file Random.h
-* @brief Header File for the Random Class
-* @details Handles generation of Random numbers
+* @file RandomVector.h
+* @brief Header File for the RandomVector Class
+* @details Handles generation of Random Vectors
 * @author Ben Frazier
 * @date 02/17/2018 */
 
-#ifndef RANDOM_H
-#define RANDOM_H
+#ifndef RANDOM_VECTOR_H
+#define RANDOM_VECTOR_H
 
-#include "RandomNumberInterface.h"
+#include "RandomVectorInterface.h"
 #include <Eigen/Dense>
 #include <fftw3.h>
 
 #include <random>
 
-class Random: public RandomNumberInterface
+class RandomVector: public RandomVectorInterface
 {
 public:
-	Random();
+	RandomVector();
     virtual double normal();
     virtual double normal(double mean, double stdDev);
     virtual std::vector<double> normal(int size);

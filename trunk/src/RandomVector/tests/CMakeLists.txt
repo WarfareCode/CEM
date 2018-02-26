@@ -8,69 +8,9 @@ elseif (APPLE)
     add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
 endif()
 
-#create the Random test suite
+#create the RandomVector test suite
 
-#********************************** Random Test Suite **********************
-#first need to configure the executable test
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-  set(EXE_NAME dRandomTest)
-else()
-  set(EXE_NAME RandomTest)
-endif()
-
-include_directories( ${SOURCE_DIRECTORY}/Random
-                     ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_executable (${EXE_NAME} Random_Test.cpp)
-target_link_libraries (${EXE_NAME} Random gmock_main ${GPERFTOOLS_LIBRARIES})
-
-#make sure to include math defines for Windows Visual Studio
-target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
-
-		   
-#Now add the tests
-#First is the Build Test
-add_test(NAME Build_RandomTest
-         COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --config $<CONFIGURATION> --target ${EXE_NAME})
-         
-#Next is the Run Tests
-add_test(NAME Run_Random_Test
-         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
-	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
-
-#Next is the Memory Test if gperftools were found
-if(RUN_MEMCHECK)
-if(${GPERFTOOLS_FOUND})
-add_test(NAME MemCheck_Random_Test
-         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
-
-set_property(
-             TEST
-	      MemCheck_Random_Test
-	      PROPERTY
-	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_test)
-set_property(
-             TEST
-	      MemCheck_Random_Test
-	      APPEND PROPERTY
-	      ENVIRONMENT HEAPCHECK=1)
-set_property(
-             TEST
-	      MemCheck_Random_Test
-	      APPEND PROPERTY
-	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_test)
-set_property(
-             TEST
-	      MemCheck_Random_Test
-	      APPEND PROPERTY
-	      ENVIRONMENT MALLOCSTATS=4)
-
-endif()
-endif()
-
-#********************************** Random Vector Test Suite **********************
+#********************************** RandomVector Test Suite **********************
 #first need to configure the executable test
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   set(EXE_NAME dRandomVectorTest)
@@ -78,11 +18,11 @@ else()
   set(EXE_NAME RandomVectorTest)
 endif()
 
-include_directories( ${SOURCE_DIRECTORY}/Random
+include_directories( ${SOURCE_DIRECTORY}/RandomVector
                      ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable (${EXE_NAME} Random_Vector_Test.cpp)
-target_link_libraries (${EXE_NAME} Random DataLogger gmock_main ${HDF5_LIBRARIES}  ${GPERFTOOLS_LIBRARIES})
+add_executable (${EXE_NAME} RandomVectorTest.cpp)
+target_link_libraries (${EXE_NAME} RandomVector gmock_main ${GPERFTOOLS_LIBRARIES})
 
 #make sure to include math defines for Windows Visual Studio
 target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
@@ -94,7 +34,7 @@ add_test(NAME Build_RandomVectorTest
          COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --config $<CONFIGURATION> --target ${EXE_NAME})
          
 #Next is the Run Tests
-add_test(NAME Run_Random_Vector_Test
+add_test(NAME Run_RandomVector_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
 	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
@@ -102,33 +42,93 @@ add_test(NAME Run_Random_Vector_Test
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
-add_test(NAME MemCheck_Random_Vector_Test
+add_test(NAME MemCheck_RandomVector_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
 
-#set_property(
- #            TEST
-#	      MemCheck_Random_Vector_Test
-#	      PROPERTY
-#	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_vector_test)
 set_property(
              TEST
-	      MemCheck_Random_Vector_Test
+	      MemCheck_RandomVector_Test
 	      PROPERTY
-	      ENVIRONMENT HEAPCHECK=normal)
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_randomvector_test)
 set_property(
              TEST
-	      MemCheck_Random_Vector_Test
+	      MemCheck_RandomVector_Test
 	      APPEND PROPERTY
 	      ENVIRONMENT HEAPCHECK=1)
 set_property(
              TEST
-	      MemCheck_Random_Vector_Test
+	      MemCheck_RandomVector_Test
 	      APPEND PROPERTY
-	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_vector_test)
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_randomvector_test)
 set_property(
              TEST
-	      MemCheck_Random_Vector_Test
+	      MemCheck_RandomVector_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT MALLOCSTATS=4)
+
+endif()
+endif()
+
+#********************************** Random Vector Functions Test Suite **********************
+#first need to configure the executable test
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+  set(EXE_NAME dRandomVectorFunctionsTest)
+else()
+  set(EXE_NAME RandomVectorFunctionsTest)
+endif()
+
+include_directories( ${SOURCE_DIRECTORY}/RandomVectorFunctions
+                     ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable (${EXE_NAME} RandomVectorFunctionsTest.cpp)
+target_link_libraries (${EXE_NAME} RandomVector DataLogger gmock_main ${HDF5_LIBRARIES}  ${GPERFTOOLS_LIBRARIES})
+
+#make sure to include math defines for Windows Visual Studio
+target_compile_definitions(${EXE_NAME} PRIVATE "-D_USE_MATH_DEFINES")
+
+		   
+#Now add the tests
+#First is the Build Test
+add_test(NAME Build_RandomVectorFunctionsTest
+         COMMAND "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --config $<CONFIGURATION> --target ${EXE_NAME})
+         
+#Next is the Run Tests
+add_test(NAME Run_RandomVectorFunctions_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
+
+#Next is the Memory Test if gperftools were found
+if(RUN_MEMCHECK)
+if(${GPERFTOOLS_FOUND})
+add_test(NAME MemCheck_RandomVectorFunctions_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
+
+set_property(
+             TEST
+	      MemCheck_RandomVectorFunctions_Test
+	      PROPERTY
+	      ENVIRONMENT HEAPPROFILE=${GPERF_TMP_DIRECTORY}/heapprof_random_vector_functions_test)
+set_property(
+             TEST
+	      MemCheck_RandomVectorFunctions_Test
+	      PROPERTY
+	      ENVIRONMENT HEAPCHECK=normal)
+set_property(
+             TEST
+	      MemCheck_RandomVectorFunctions_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT HEAPCHECK=1)
+set_property(
+             TEST
+	      MemCheck_RandomVectorFunctions_Test
+	      APPEND PROPERTY
+	      ENVIRONMENT CPUPROFILE=${GPERF_TMP_DIRECTORY}/cpuprof_random_vector_functions_test)
+set_property(
+             TEST
+	      MemCheck_RandomVectorFunctions_Test
 	      APPEND PROPERTY
 	      ENVIRONMENT MALLOCSTATS=4)
 
