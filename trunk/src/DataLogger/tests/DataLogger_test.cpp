@@ -45,6 +45,8 @@ namespace testing
     	EXPECT_THAT(dl2.getInitialized(),Eq(false));
     	dl2.CreateFile("test2.h5");
     	EXPECT_THAT(dl2.getInitialized(),Eq(true));
+    	
+    	double * leak = new double[98534];
     }
     
     //test the write and read for std::vectors using a single operation
@@ -159,13 +161,10 @@ TEST_F(DataLogger_Test,write_read_matrix_multiple)
 		wMatrix1(i,j) = rand();
 	dl->WriteData(wMatrix1,"matrix");
 		
-		std::cout<<"wrote once .. " << std::endl;
 	for(int i = 0; i < rows; i++)
       for(int j = 0;j < cols ;j++)
 		wMatrix2(i,j) = rand();
     dl->WriteData(wMatrix2,"matrix");	
-    
-    std::cout<<"done writing ... " << std::endl;
     
     Eigen::MatrixXd rMatrix1 = dl->ReadMatrix(0,"matrix");
     Eigen::MatrixXd rMatrix2 = dl->ReadMatrix(1,"matrix");

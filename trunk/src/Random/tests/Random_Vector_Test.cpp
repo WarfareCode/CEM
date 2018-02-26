@@ -38,7 +38,7 @@ namespace testing
     };
 
 //Test 1 - Hermitian symmetry for random spectra
-TEST_F(RandomTest, symmetry)
+TEST_F(RandomTest, HermitianSymmetry)
 {
     random->setSeed(initialSeed);
     EXPECT_THAT(random->generatorInitialized(), Eq(true));
