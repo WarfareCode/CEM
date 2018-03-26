@@ -34,6 +34,7 @@ BUILD_MODE=Release
 CLEAN_BUILD_DIRECTORY=0
 CMAKE_ARGS=
 RUN_MEMCHECK=1
+RUN_VALGRIND=1
 TOOLCHAIN=clang-64
 
 #loop over input to set flags
@@ -58,7 +59,11 @@ case $i in
 	    shift
 	;;
 	
-
+	--disable-valgrind)
+		RUN_VALGRIND=0
+		shift
+		;;
+		
 	--disable-memcheck)
 	    RUN_MEMCHECK=0
 	    shift
@@ -103,7 +108,10 @@ if [ ${RUN_MEMCHECK} -eq 1 ]; then
     CMAKE_ARGS="${CMAKE_ARGS} -DRUN_MEMCHECK=ON"
 fi
    
-   
+if [ ${RUN_VALGRIND} -eq 1 ]; then
+    CMAKE_ARGS="${CMAKE_ARGS} -DRUN_VALGRIND=ON"
+fi
+      
 #output the toolchain info
 echo "Configuring ${BUILD_MODE} mode"
 if [ "$CMAKE_ARGS" != "" ]; then
