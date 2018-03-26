@@ -99,13 +99,20 @@ add_test(NAME Run_RandomVectorFunctions_Test
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
 	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
 
+if(RUN_VALGRIND)
+add_test(NAME Valgrind_RandomVectorFunctions_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND valgrind ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+         --leak-check=full --track-origins=yes)
+endif()
+
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
 if(${GPERFTOOLS_FOUND})
 add_test(NAME MemCheck_RandomVectorFunctions_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME})
-
+         
 set_property(
              TEST
 	      MemCheck_RandomVectorFunctions_Test
@@ -163,6 +170,13 @@ add_test(NAME Run_PowerSpectra_Test
          WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
 	  --gtest_output=xml:${GPERF_TMP_DIRECTORY}/${EXE_NAME}_results.xml)
+
+if(RUN_VALGRIND)
+add_test(NAME Valgrind_PowerSpectra_Test
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+         COMMAND valgrind ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${EXE_NAME}
+         --leak-check=full --track-origins=yes)
+endif()
 
 #Next is the Memory Test if gperftools were found
 if(RUN_MEMCHECK)
