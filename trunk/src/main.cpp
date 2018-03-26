@@ -20,7 +20,6 @@
 
 int main (int argc, char *argv[])
 {
-
   std::string inputFileName;
   std::string outputFileName;
 
