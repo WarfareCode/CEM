@@ -53,7 +53,6 @@ std::vector<double> Elfouhaily(std::vector<double> k, double U10, double age, do
 	double c, Lpm, Gam, Jp, Fp, Fm, Bl, Bh, Delk, a0, am;
 	double ap = 4.0;
 
-	
     //now compute values that depend on k
     for (int i = 0; i < k.size(); i++)
     {
